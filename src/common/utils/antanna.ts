@@ -40,7 +40,7 @@ export class AntennaUtils {
     }
     if (utils.env.isIoPayMobile()) {
       const antenna = new Antenna(publicConfig.IOTEX_CORE_ENDPOPINT, {
-        signer: new JsBridgeSignerMobile(),
+        signer: new JsBridgeSigner(),
       });
       //@ts-ignore
       this.antenna = antenna;
