@@ -51,17 +51,16 @@ export class WalletStore {
 
   @action.bound
   async initWS() {
-    AntennaUtils.getAntenna();
-    const [err, accounts] = await utils.helper.promise.runAsync(AntennaUtils.getAccounts());
-    if (err || accounts?.length == 0) {
-      if (this.enableConnect) {
-        setTimeout(() => {
-          this.initWS();
-        }, 5000);
-      }
+    const accounts = await AntennaUtils.getAntenna().iotx.accounts;
+    if (accounts?.length == 0) {
+      setTimeout(() => {
+        this.initWS();
+      }, 10000);
       return;
     }
+    console.log(accounts[0]);
     this.account.address = accounts[0].address;
+    this.loadAccount();
   }
 
   @action.bound
