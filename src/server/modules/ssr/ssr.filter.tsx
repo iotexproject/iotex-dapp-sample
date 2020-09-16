@@ -9,6 +9,24 @@ import { publicConfig } from "../../../../configs/public";
 
 let assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 
+const scripts = Object.keys(assets)
+  .reduce((files, key) => {
+    const js = assets[key].js;
+    if (Array.isArray(js)) {
+      files = [...files, ...js];
+    }
+    if (typeof js == "string") {
+      files.push(js);
+    }
+    return files;
+  }, [])
+  .reduce((script, file) => {
+    return script + `<script src="${file}" defer crossorigin></script>`;
+  }, "");
+const css = Object.keys(assets).reduce((script, key) => {
+  if (!assets[key].css) return script;
+  return script + `<link rel="stylesheet" href="${assets[key].css}"></link>`;
+}, "");
 @Catch(NotFoundException)
 export class SSRFilter implements ExceptionFilter {
   async catch(exception: NotFoundException, host: ArgumentsHost): Promise<void> {
@@ -39,8 +57,8 @@ export class SSRFilter implements ExceptionFilter {
         window.__ROOT__STORE__ = ${JSON.stringify(rootStore)};
       </script>
       <link rel="stylesheet" href="/tailwind.css">
-      ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ""}
-      ${process.env.NODE_ENV === "production" ? `<script src="${assets.client.js}" defer></script>` : `<script src="${assets.client.js}" defer crossorigin></script>`}
+      ${css}
+      ${scripts}
     </head>
     <body>
       <div id="root">${markup}</div>

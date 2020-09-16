@@ -23,6 +23,18 @@ module.exports = {
       const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
       config.plugins.push(new BundleAnalyzerPlugin());
     }
+    if (!dev && target === "web") {
+      config.output.filename = dev ? "static/js/[name].js" : "static/js/[name].[hash:8].js";
+
+      config.entry.vendor = [require.resolve("react"), require.resolve("react-dom"), require.resolve("iotex-antenna")];
+
+      config.optimization = {
+        splitChunks: {
+          chunks: "all",
+          name: false,
+        },
+      };
+    }
 
     return config;
   },
