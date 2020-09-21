@@ -11,7 +11,7 @@ let assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 
 const scripts = Object.keys(assets)
   .reduce((files, key) => {
-    const js = assets[key].js;
+    const js = assets[key]?.js;
     if (Array.isArray(js)) {
       files = [...files, ...js];
     }
@@ -24,7 +24,7 @@ const scripts = Object.keys(assets)
     return script + `<script src="${file}" defer crossorigin></script>`;
   }, "");
 const css = Object.keys(assets).reduce((script, key) => {
-  if (!assets[key].css) return script;
+  if (!assets[key]?.css) return script;
   return script + `<link rel="stylesheet" href="${assets[key].css}"></link>`;
 }, "");
 @Catch(NotFoundException)

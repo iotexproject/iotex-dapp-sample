@@ -24,6 +24,9 @@
     "@nestjs/platform-express": "^7.3.2",
     "@nestjs/testing": "^7.3.2",
     "@prisma/client": "^2.2.2",
+    "@stitches/react": "^0.0.2",
+    "@types/supertest": "^2.0.10",
+    "@types/use-dark-mode": "^2.3.1",
     "@wildcard-api/client": "^0.3.2",
     "@wildcard-api/server": "^0.3.1",
     "antd": "^4.5.2",
@@ -60,6 +63,7 @@
     "react-tradingview-widget": "^1.3.2",
     "reflect-metadata": "^0.1.13",
     "sleep-promise": "^8.0.1",
+    "supertest": "^4.0.2",
     "typed-emitter": "^1.2.0",
     "websocket-as-promised": "^1.0.1"
   },
@@ -86,7 +90,6 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "razzle": "^3.1.5",
-    "razzle-plugin-scss": "^3.1.5",
     "razzle-plugin-typescript": "^3.0.0",
     "tailwindcss": "^1.4.6",
     "ts-jest": "^26.1.1",
@@ -124,6 +127,6 @@
     }
   },
   "engines": {
-    "node": "11.x"
+    "node": ">=11.x"
   }
 }

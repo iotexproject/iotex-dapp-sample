@@ -6,6 +6,7 @@ import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
 import { CLAIM_ABI } from "../constants/abi";
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import BigNumber from "bignumber.js";
+import { eventBus } from "../utils/eventBus";
 
 @remotedev({ name: "wallet" })
 export class WalletStore {
@@ -13,29 +14,16 @@ export class WalletStore {
     address: "",
     balance: "",
   };
-  @observable autoConnect = false;
   @observable actionHash = "";
-  @observable enableConnect = false;
 
   @action.bound
   async init() {
     this.initEvent();
     await this.initWS();
-    await this.loadAccount();
   }
-
-  // async reset() {
-  //   utils.eventBus.removeAllListeners("client.iopay.close").removeAllListeners("client.iopay.connected");
-  // }
-
   @action.bound
   connectWallet() {
-    this.enableConnect = true;
-    this.initWS().then(() => this.loadAccount());
-    window.location.replace("iopay://");
-    setTimeout(() => {
-      window.location.replace(location.href);
-    }, 5000);
+    this.initWS();
   }
 
   initEvent() {
@@ -51,16 +39,18 @@ export class WalletStore {
 
   @action.bound
   async initWS() {
-    const accounts = await AntennaUtils.getAntenna().iotx.accounts;
-    if (accounts?.length == 0) {
-      setTimeout(() => {
+    const [err, address] = await utils.helper.promise.runAsync(AntennaUtils.getIoPayAddress());
+    if (err || !address) {
+      return setTimeout(() => {
         this.initWS();
-      }, 10000);
-      return;
+      }, 2000);
     }
-    console.log(accounts[0]);
-    this.account.address = accounts[0].address;
+
+    this.account.address = address;
     this.loadAccount();
+    setTimeout(() => {
+      eventBus.emit("client.wallet.onAccount");
+    }, 500);
   }
 
   @action.bound

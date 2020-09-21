@@ -1,5 +1,8 @@
+//@flow
 import { Buffer } from "buffer";
+// @ts-ignore
 import document from "global/document";
+// @ts-ignore
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import { Envelop } from "iotex-antenna/lib/action/envelop";
@@ -12,15 +15,14 @@ let reqId = Math.round(Math.random() * 10000);
 interface IRequest {
   reqId: number;
   type: "SIGN_AND_SEND" | "GET_ACCOUNTS" | "SIGN";
-
   envelop?: string; // serialized proto string
   message?: string | Buffer | Uint8Array; // serialized proto string
 }
 
-export class JsBridgeSigner implements SignerPlugin {
-  ioPayAddress: string;
+export class JsBridgeSignerMobile implements SignerPlugin {
   constructor() {
     this.init();
+    this.getAccounts();
   }
 
   setupWebViewJavascriptBridge(callback: Function): void {
@@ -83,7 +85,7 @@ export class JsBridgeSigner implements SignerPlugin {
       type: "SIGN_AND_SEND",
     };
 
-    return new Promise<any>((resolve) =>
+    return new Promise<string>((resolve) =>
       window.WebViewJavascriptBridge.callHandler("sign_and_send", JSON.stringify(req), (responseData: string) => {
         let resp = { reqId: -1, actionHash: "" };
         try {
@@ -92,7 +94,7 @@ export class JsBridgeSigner implements SignerPlugin {
           return;
         }
         if (resp.reqId === id) {
-          resolve(resp);
+          resolve(resp.actionHash);
         }
       })
     );
@@ -107,43 +109,31 @@ export class JsBridgeSigner implements SignerPlugin {
   }
 
   async getAccounts(): Promise<Array<Account>> {
-    if (this.ioPayAddress) {
-      const account = new Account();
-      account.address = this.ioPayAddress;
-      return [account];
-    }
-    window.console.log("getIoAddressFromIoPay start");
     const id = reqId++;
-    const req: IRequest = {
+    const req = {
       reqId: id,
       type: "GET_ACCOUNTS",
     };
-    let sec = 1;
-    while (!window.WebViewJavascriptBridge) {
-      window.console.log("getIoAddressFromIoPay get_account sleepPromise sec: ", sec);
-      await sleepPromise(sec * 200);
-      sec = sec * 1.6;
-      if (sec >= 48) {
-        sec = 48;
-      }
-    }
-    return new Promise<Array<Account>>((resolve) =>
-      window.WebViewJavascriptBridge.callHandler("get_account", JSON.stringify(req), (responseData: string) => {
-        window.console.log("getIoAddressFromIoPay get_account responseData: ", responseData);
-        let resp = { reqId: -1, address: "" };
+
+    window.console.log(JSON.stringify(req));
+
+    // tslint:disable-next-line:promise-must-complete
+    return new Promise<Array<Account>>(async (resolve) => {
+      // tslint:disable-next-line:no-any
+      window.document.addEventListener("message", async (e: any) => {
+        let resp = { reqId: -1, accounts: [] };
         try {
-          resp = JSON.parse(responseData);
-        } catch (_) {
+          resp = JSON.parse(e.data);
+        } catch (err) {
           return;
         }
+        window.console.log(resp);
+
         if (resp.reqId === id) {
-          this.ioPayAddress = resp.address;
-          const account = new Account();
-          account.address = this.ioPayAddress;
-          resolve([account]);
+          resolve(resp.accounts);
         }
-      })
-    );
+      });
+    });
   }
 
   signMessage(message: string | Buffer | Uint8Array): Promise<Buffer> {
@@ -166,6 +156,40 @@ export class JsBridgeSigner implements SignerPlugin {
         }
         if (resp.reqId === id) {
           resolve(resp.signature);
+        }
+      })
+    );
+  }
+
+  async getIoAddressFromIoPay(): Promise<string> {
+    window.console.log("getIoAddressFromIoPay start");
+    const id = reqId++;
+    const req: IRequest = {
+      reqId: id,
+      type: "GET_ACCOUNTS",
+    };
+    let sec = 1;
+    // @ts-ignore
+    while (!window.WebViewJavascriptBridge) {
+      window.console.log("getIoAddressFromIoPay get_account sleepPromise sec: ", sec);
+      await sleepPromise(sec * 200);
+      sec = sec * 1.6;
+      if (sec >= 48) {
+        sec = 48;
+      }
+    }
+    return new Promise<string>((resolve) =>
+      // @ts-ignore
+      window.WebViewJavascriptBridge.callHandler("get_account", JSON.stringify(req), (responseData: string) => {
+        window.console.log("getIoAddressFromIoPay get_account responseData: ", responseData);
+        let resp = { reqId: -1, address: "" };
+        try {
+          resp = JSON.parse(responseData);
+        } catch (_) {
+          return;
+        }
+        if (resp.reqId === id) {
+          resolve(resp.address);
         }
       })
     );

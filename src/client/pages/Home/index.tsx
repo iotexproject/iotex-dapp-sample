@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useObserver, useLocalStore } from "mobx-react-lite";
-import "./index.scss";
 import { useStore } from "../../../common/store/index";
-import { ClientOnly } from "../../components/ClientOnly/clientOnly";
 import { rpcClient } from "../../utils/rpc";
 import { Button } from "antd";
 import { publicConfig } from "../../../../configs/public";
+import { css } from "../../modules/stitches";
 
 export const Home = () => {
   const { lang, wallet } = useStore();
@@ -15,7 +14,6 @@ export const Home = () => {
       this.count = count;
     },
     onConnectWallet() {
-      wallet.autoConnect = true;
       wallet.initWS();
       window.location.replace("iopay://");
       setTimeout(() => {
@@ -34,7 +32,7 @@ export const Home = () => {
     });
   }, []);
   return useObserver(() => (
-    <div className="home w-full">
+    <div className={styles.home}>
       {!wallet.account.address ? (
         <button onClick={store.onConnectWallet}>Connect to wallet...</button>
       ) : (
@@ -57,4 +55,13 @@ export const Home = () => {
       )}
     </div>
   ));
+};
+
+const styles = {
+  home: css({
+    textAlign: "center",
+    pt: "5rem",
+    margin: "0 auto",
+    width: "100%",
+  }),
 };

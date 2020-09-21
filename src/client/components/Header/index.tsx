@@ -1,14 +1,18 @@
 import React from "react";
-import "./index.scss";
 import { useStore } from "../../../common/store";
 import { Button } from "antd";
 import { useLocalStore, useObserver } from "mobx-react-lite";
 import { utils } from "../../../common/utils/index";
+import { css } from "../../modules/stitches";
 
 export const Header = () => {
   const { lang, wallet } = useStore();
 
   const store = useLocalStore(() => ({
+    isDarkMode: false,
+    setTheme() {
+      store.isDarkMode = !store.isDarkMode;
+    },
     onMore() {},
     onSettings() {},
     onConnectWallet() {
@@ -16,10 +20,10 @@ export const Header = () => {
     },
   }));
   return useObserver(() => (
-    <div className="component__header h-10 sm:h-10 md:h-12 lg:h-16">
-      <div className="component__header__content flex justify-between items-center m-auto py-2 sm:py-2 md:py-3 lg:py-3">
-        <img alt="logo" className="component__header__content__logo" src={"/image/logo.png"} />
-        <div className="component__header__content__right c-gray flex justify-between items-center text-lg">
+    <div className={styles.header}>
+      <div className={styles.content}>
+        <img alt="logo" className={styles.logo} src={"/image/logo.png"} />
+        <div className={styles.contentRight}>
           {wallet.account.address ? (
             <>
               <span>{parseFloat(wallet.account.balance).toFixed(2)} IOTX</span>&nbsp;
@@ -28,11 +32,11 @@ export const Header = () => {
               <img src="/image/iotx.png" className="w-8" />
             </>
           ) : (
-            <button className="component__header__content__right__wallet_connect" onClick={store.onConnectWallet}>
+            <button className={styles.contentRightConnect} onClick={store.onConnectWallet}>
               {lang.t("header.connect_to_wallet")}
             </button>
           )}
-          &nbsp;&nbsp;
+          <div className="ml-2"></div>
           <Button
             className="component__header__content__right__icon_button"
             onClick={store.onMore}
@@ -44,4 +48,56 @@ export const Header = () => {
       </div>
     </div>
   ));
+};
+
+const styles = {
+  header: css({
+    backgroundColor: "$bg",
+    position: "fixed",
+    left: 0,
+    right: 0,
+    top: 0,
+    zIndex: 999,
+    height: "2.5rem",
+    sm: {
+      height: "2.5rem",
+    },
+    md: {
+      height: "3rem",
+    },
+    lg: {
+      height: "4rem",
+    },
+  }),
+  content: css({
+    flexBetweenCenter: 1,
+    margin: "0 auto",
+    width: "90%",
+    height: "100%",
+    py: "0.5rem",
+    sm: {
+      py: "0.5rem",
+    },
+    md: {
+      py: "0.75rem",
+    },
+    lg: {
+      py: "0.75rem",
+    },
+  }),
+  contentRight: css({
+    flexBetweenCenter: 1,
+    fontSize: "$lg",
+    color: "$gray500",
+  }),
+  contentRightConnect: css({
+    outline: "none !important",
+  }),
+  contentRightButton: css({
+    padding: 0,
+    flexBetweenCenter: 1,
+  }),
+  logo: css({
+    height: "100%",
+  }),
 };

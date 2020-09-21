@@ -4,15 +4,13 @@ const razzleHeroku = require("razzle-heroku");
 
 module.exports = {
   plugins: [{
-      name: "typescript",
-      options: {
-        forkTsChecker: {
-          typescript: false,
-        },
+    name: "typescript",
+    options: {
+      forkTsChecker: {
+        typescript: false,
       },
     },
-    "scss",
-  ],
+  }, ],
   modify: (config, {
     target,
     dev
