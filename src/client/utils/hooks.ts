@@ -14,7 +14,7 @@ export const hooks = {
       }
     });
   },
-  async waiIotxBalance() {
+  async waitIotxBalance() {
     return new Promise((res, rej) => {
       if (rootStore.wallet.account.balance) {
         res();

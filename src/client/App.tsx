@@ -21,7 +21,7 @@ const App = () => {
     hooks.waitAccount().then(() => {
       console.log("load account success", wallet.account.address);
     });
-    hooks.waiIotxBalance().then(() => {
+    hooks.waitIotxBalance().then(() => {
       console.log("load iotx balance success", wallet.account.balance);
     });
   }, []);
