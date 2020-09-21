@@ -9,10 +9,6 @@ export const Header = () => {
   const { lang, wallet } = useStore();
 
   const store = useLocalStore(() => ({
-    isDarkMode: false,
-    setTheme() {
-      store.isDarkMode = !store.isDarkMode;
-    },
     onMore() {},
     onSettings() {},
     onConnectWallet() {
@@ -70,7 +66,7 @@ const styles = {
     },
   }),
   content: css({
-    flexBetweenCenter: 1,
+    flexBetweenCenter: "row",
     margin: "0 auto",
     width: "90%",
     height: "100%",
@@ -86,7 +82,7 @@ const styles = {
     },
   }),
   contentRight: css({
-    flexBetweenCenter: 1,
+    flexBetweenCenter: "row",
     fontSize: "$lg",
     color: "$gray500",
   }),
@@ -95,7 +91,7 @@ const styles = {
   }),
   contentRightButton: css({
     padding: 0,
-    flexBetweenCenter: 1,
+    flexBetweenCenter: "row",
   }),
   logo: css({
     height: "100%",

@@ -7,6 +7,8 @@ import { CLAIM_ABI } from "../constants/abi";
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import BigNumber from "bignumber.js";
 import { eventBus } from "../utils/eventBus";
+import { rootStore } from "./index";
+import { Modal } from "antd";
 
 @remotedev({ name: "wallet" })
 export class WalletStore {
@@ -16,6 +18,9 @@ export class WalletStore {
   };
   @observable actionHash = "";
 
+  @observable
+  private isConnectWsError = false;
+
   @action.bound
   async init() {
     this.initEvent();
@@ -24,16 +29,30 @@ export class WalletStore {
   @action.bound
   connectWallet() {
     this.initWS();
+    if (!this.account.address || this.isConnectWsError) {
+      const title = rootStore.lang.t(utils.env.isIoPayMobile() ? "tips.connect_fail.mobile" : "tips.connect_fail");
+      const modal = Modal.warning({
+        onOk: () => modal.destroy(),
+        title,
+      });
+      setTimeout(() => {
+        modal.destroy();
+      }, 5000);
+    }
   }
 
   initEvent() {
     utils.eventBus
       .on("client.iopay.connected", () => {
         console.log("iopay-desktop connected.");
+        this.isConnectWsError = false;
       })
       .on("client.iopay.close", () => {
-        console.log("iopay-desktop disconnected.");
         this.account = { address: "", balance: "" };
+      })
+      .on("client.iopay.connectError", () => {
+        this.account = { address: "", balance: "" };
+        this.isConnectWsError = true;
       });
   }
 
@@ -60,6 +79,7 @@ export class WalletStore {
     if (data?.accountMeta) {
       const { balance } = data?.accountMeta;
       this.account.balance = fromRau(balance, "iotx");
+      eventBus.emit("client.wallet.iotx.onBalance");
     }
   }
 

@@ -45,6 +45,9 @@ export class WsSignerPlugin implements SignerPlugin {
       console.log("close");
       utils.eventBus.emit("client.iopay.close");
     };
+    this.ws.onError.addListener = () => {
+      utils.eventBus.emit("client.iopay.connectError");
+    };
     await this.ws.open();
     return this;
   }
