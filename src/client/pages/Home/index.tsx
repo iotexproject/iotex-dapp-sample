@@ -4,7 +4,6 @@ import { useStore } from "../../../common/store/index";
 import { Button } from "antd";
 import { publicConfig } from "../../../../configs/public";
 import { css } from "../../modules/stitches";
-import { Template } from "../../components/Template";
 
 export const Home = () => {
   const { wallet } = useStore();
@@ -15,7 +14,6 @@ export const Home = () => {
   }));
   return useObserver(() => (
     <div className={styles.home}>
-      <Template></Template>
       {!wallet.account.address ? (
         <button onClick={store.onConnectWallet}>Connect to wallet...</button>
       ) : (
