@@ -178,9 +178,13 @@ export class JsBridgeSignerMobile implements SignerPlugin {
         sec = 48;
       }
     }
+    const timer = setTimeout(() => {
+      location.reload();
+    }, 5000);
     return new Promise<string>((resolve) =>
       // @ts-ignore
       window.WebViewJavascriptBridge.callHandler("get_account", JSON.stringify(req), (responseData: string) => {
+        clearTimeout(timer);
         window.console.log("getIoAddressFromIoPay get_account responseData: ", responseData);
         let resp = { reqId: -1, address: "" };
         try {
