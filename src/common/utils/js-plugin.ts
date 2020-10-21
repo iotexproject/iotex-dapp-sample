@@ -22,7 +22,7 @@ interface IRequest {
 export class JsBridgeSignerMobile implements SignerPlugin {
   constructor() {
     this.init();
-    this.getAccounts();
+    // this.getAccounts();
   }
 
   setupWebViewJavascriptBridge(callback: Function): void {
@@ -109,30 +109,43 @@ export class JsBridgeSignerMobile implements SignerPlugin {
   }
 
   async getAccounts(): Promise<Array<Account>> {
+    window.console.log("getAccounts start");
     const id = reqId++;
     const req = {
       reqId: id,
       type: "GET_ACCOUNTS",
     };
-
-    window.console.log(JSON.stringify(req));
-
     // tslint:disable-next-line:promise-must-complete
     return new Promise<Array<Account>>(async (resolve) => {
-      // tslint:disable-next-line:no-any
-      window.document.addEventListener("message", async (e: any) => {
-        let resp = { reqId: -1, accounts: [] };
+      window.WebViewJavascriptBridge.callHandler("get_account", JSON.stringify(req), (responseData: string) => {
+        // clearTimeout(timer);
+        window.console.log("getAccounts get_account responseData: ", responseData);
+        let resp = { reqId: -1, address: "" };
         try {
-          resp = JSON.parse(e.data);
-        } catch (err) {
+          resp = JSON.parse(responseData);
+        } catch (_) {
           return;
         }
-        window.console.log(resp);
-
         if (resp.reqId === id) {
-          resolve(resp.accounts);
+          const account = new Account();
+          account.address = resp.address;
+          resolve(new Array(account));
         }
       });
+      // // tslint:disable-next-line:no-any
+      // window.document.addEventListener("message", async (e: any) => {
+      //   let resp = { reqId: -1, accounts: [] };
+      //   try {
+      //     resp = JSON.parse(e.data);
+      //   } catch (err) {
+      //     return;
+      //   }
+      //   window.console.log(resp);
+      //
+      //   if (resp.reqId === id) {
+      //     resolve(resp.accounts);
+      //   }
+      // });
     });
   }
 
@@ -178,13 +191,13 @@ export class JsBridgeSignerMobile implements SignerPlugin {
         sec = 48;
       }
     }
-    const timer = setTimeout(() => {
-      location.reload();
-    }, 5000);
+    // const timer = setTimeout(() => {
+    //   location.reload();
+    // }, 5000);
     return new Promise<string>((resolve) =>
       // @ts-ignore
       window.WebViewJavascriptBridge.callHandler("get_account", JSON.stringify(req), (responseData: string) => {
-        clearTimeout(timer);
+        // clearTimeout(timer);
         window.console.log("getIoAddressFromIoPay get_account responseData: ", responseData);
         let resp = { reqId: -1, address: "" };
         try {
