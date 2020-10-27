@@ -23,10 +23,20 @@ const scripts = Object.keys(assets)
   .reduce((script, file) => {
     return script + `<script src="${file}" defer crossorigin></script>`;
   }, "");
-const css = Object.keys(assets).reduce((script, key) => {
-  if (!assets[key]?.css) return script;
-  return script + `<link rel="stylesheet" href="${assets[key].css}"></link>`;
-}, "");
+const css = Object.keys(assets)
+  .reduce((files, key) => {
+    const css = assets[key]?.css;
+    if (Array.isArray(css)) {
+      files = [...files, ...css];
+    }
+    if (typeof css == "string") {
+      files.push(css);
+    }
+    return files;
+  }, [])
+  .reduce((script, file) => {
+    return script + `<link rel="stylesheet" href="${file}"></link>`;
+  }, "");
 @Catch(NotFoundException)
 export class SSRFilter implements ExceptionFilter {
   async catch(exception: NotFoundException, host: ArgumentsHost): Promise<void> {
