@@ -27,7 +27,7 @@ const css = Object.keys(assets)
   .reduce((files, key) => {
     const css = assets[key]?.css;
     if (Array.isArray(css)) {
-      files = [...files, ...css];
+      files = [...files, ...css.filter((i) => i !== "/tailwind.css")];
     }
     if (typeof css == "string") {
       files.push(css);
