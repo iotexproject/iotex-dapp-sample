@@ -19,6 +19,15 @@ interface IRequest {
   message?: string | Buffer | Uint8Array; // serialized proto string
 }
 
+interface IResponse {
+  reqId: number;
+  status: "success" | "reject" | "error" | "";
+  actionHash?: string;
+  address?: string;
+  signature?: Buffer;
+  error_msg?: string;
+}
+
 export class JsBridgeSignerMobile implements SignerPlugin {
   constructor() {
     this.init();
@@ -77,7 +86,8 @@ export class JsBridgeSignerMobile implements SignerPlugin {
     });
   }
 
-  async signAndSend(envelop: Envelop): Promise<string> {
+  //@ts-ignore
+  async signAndSend(envelop: Envelop): Promise<Partial<IResponse>> {
     const id = reqId++;
     const req: IRequest = {
       reqId: id,
@@ -85,16 +95,17 @@ export class JsBridgeSignerMobile implements SignerPlugin {
       type: "SIGN_AND_SEND",
     };
 
-    return new Promise<string>((resolve) =>
+    return new Promise<Partial<IResponse>>((resolve) =>
       window.WebViewJavascriptBridge.callHandler("sign_and_send", JSON.stringify(req), (responseData: string) => {
-        let resp = { reqId: -1, actionHash: "" };
+        let resp = { reqId: -1, actionHash: "" } as Partial<IResponse>;
         try {
+          console.log(resp);
           resp = JSON.parse(responseData);
         } catch (_) {
           return;
         }
         if (resp.reqId === id) {
-          resolve(resp.actionHash);
+          resolve(resp);
         }
       })
     );
@@ -136,7 +147,7 @@ export class JsBridgeSignerMobile implements SignerPlugin {
     });
   }
 
-  signMessage(message: string | Buffer | Uint8Array): Promise<Buffer> {
+  signMessage(message: string | Buffer | Uint8Array): Promise<any> {
     window.console.log(`signMessage start`);
     const id = reqId++;
     const req: IRequest = {
@@ -144,7 +155,7 @@ export class JsBridgeSignerMobile implements SignerPlugin {
       type: "SIGN",
       message,
     };
-    return new Promise<Buffer>((resolve) =>
+    return new Promise((resolve) =>
       window.WebViewJavascriptBridge.callHandler("sign", JSON.stringify(req), (responseData: string) => {
         window.console.log("signMessage sign responseData: ", responseData);
         let resp = { reqId: -1, signature: new Buffer("") };
@@ -155,7 +166,7 @@ export class JsBridgeSignerMobile implements SignerPlugin {
           return;
         }
         if (resp.reqId === id) {
-          resolve(resp.signature);
+          resolve(resp);
         }
       })
     );

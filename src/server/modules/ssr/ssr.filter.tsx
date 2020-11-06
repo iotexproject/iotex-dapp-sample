@@ -43,6 +43,7 @@ export class SSRFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
+    const { dev } = req.query;
 
     const rootStore = {
       base: {
@@ -50,6 +51,7 @@ export class SSRFilter implements ExceptionFilter {
       } as Partial<BaseStore>,
     };
     const context = {};
+    const devTool = !publicConfig.IS_PROD || dev ? `<script src="//cdn.jsdelivr.net/npm/eruda"></script><script>eruda.init();</script>` : "";
 
     const markup = renderToString(
       <StaticRouter context={context} location={req.url}>
@@ -67,6 +69,7 @@ export class SSRFilter implements ExceptionFilter {
         window.__ROOT__STORE__ = ${JSON.stringify(rootStore)};
       </script>
       <link rel="stylesheet" href="/tailwind.css">
+      ${devTool}
       ${css}
       ${scripts}
     </head>

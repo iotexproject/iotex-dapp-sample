@@ -1,14 +1,14 @@
 import { observable, action, computed } from "mobx";
 import remotedev from "mobx-remotedev";
-import { AntennaUtils } from "../utils/antanna";
+import { AntennaUtils } from "../utils/antenna";
 import { utils } from "../utils/index";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
 import { CLAIM_ABI } from "../constants/abi";
-import { Contract } from "iotex-antenna/lib/contract/contract";
 import BigNumber from "bignumber.js";
 import { eventBus } from "../utils/eventBus";
 import { rootStore } from "./index";
 import { Modal } from "antd";
+import { IContract } from "../contracts/IContract";
 
 @remotedev({ name: "wallet" })
 export class WalletStore {
@@ -86,17 +86,28 @@ export class WalletStore {
   @action.bound
   async claimVita() {
     try {
-      const contract = new Contract(CLAIM_ABI, "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", {
+      const contract = new IContract(CLAIM_ABI, "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", {
         provider: AntennaUtils.antenna.iotx,
         signer: AntennaUtils.antenna.iotx.signer,
       });
-      const actionData = await contract.methods.claim({
-        // @ts-ignore
-        account: AntennaUtils.antenna.iotx.accounts[0],
-        ...AntennaUtils.defaultContractOptions,
-      });
-
-      this.actionHash = actionData.actionHash;
+      contract
+        .writeContract({
+          method: "claim",
+          args: [],
+          options: { account: AntennaUtils.antenna.iotx.accounts[0], ...AntennaUtils.defaultContractOptions },
+        })
+        .once("success", (res) => {
+          console.log("signMessage sign responseData: ", res);
+        })
+        .once("error", (res) => {
+          console.log("signMessage err:", res.error_msg);
+        })
+        .once("reject", () => {
+          console.log("signMessage: action canceled by user!");
+        })
+        .then((actionHash) => {
+          this.actionHash = actionHash;
+        });
     } catch (e) {
       window.console.log(`failed to claim vita: ${e}`);
     }
@@ -105,7 +116,7 @@ export class WalletStore {
   @action.bound
   async transferVita() {
     try {
-      const contract = new Contract(CLAIM_ABI, "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", {
+      const contract = new IContract(CLAIM_ABI, "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", {
         provider: AntennaUtils.antenna.iotx,
         signer: AntennaUtils.antenna.iotx.signer,
       });
@@ -116,15 +127,26 @@ export class WalletStore {
         ...AntennaUtils.defaultContractOptions,
       });
 
-      const tokenAmount = new BigNumber(1).multipliedBy(new BigNumber(`1e${decimals.toNumber()}`));
+      const tokenAmount = new BigNumber(1).multipliedBy(10 ** decimals.toNumber());
 
-      const actionData = await contract.methods.transfer(this.account.address, tokenAmount.toString(), {
-        // @ts-ignore
-        account: AntennaUtils.antenna.iotx.accounts[0],
-        ...AntennaUtils.defaultContractOptions,
-      });
-
-      this.actionHash = actionData.actionHash;
+      contract
+        .writeContract({
+          method: "transfer",
+          args: [this.account.address, tokenAmount.toString()],
+          options: { account: AntennaUtils.antenna.iotx.accounts[0], ...AntennaUtils.defaultContractOptions },
+        })
+        .once("success", (res) => {
+          console.log("signMessage sign responseData: ", res);
+        })
+        .once("error", (res) => {
+          console.log("signMessage err:", res.error_msg);
+        })
+        .once("reject", () => {
+          console.log("signMessage: action canceled by user!");
+        })
+        .then((actionHash) => {
+          this.actionHash = actionHash;
+        });
     } catch (e) {
       window.console.log(`failed to transfer vita: ${e}`);
     }

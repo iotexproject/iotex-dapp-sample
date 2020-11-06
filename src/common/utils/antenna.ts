@@ -3,9 +3,7 @@ import { WsSignerPlugin } from "./ws-plugin";
 import { utils } from "./index";
 import { publicConfig } from "../../../configs/public";
 import { IAccount } from "iotex-antenna/lib/account/account";
-import { privateConfig } from "../../../configs/private";
 import { JsBridgeSignerMobile } from "./js-plugin";
-import { eventBus } from "./eventBus";
 
 export class AntennaUtils {
   public static defaultContractOptions = {

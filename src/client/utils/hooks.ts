@@ -1,4 +1,4 @@
-import { AntennaUtils } from "../../common/utils/antanna";
+import { AntennaUtils } from "../../common/utils/antenna";
 import { eventBus } from "../../common/utils/eventBus";
 import { rootStore } from "../../common/store/index";
 

@@ -69,8 +69,7 @@ export class WsSignerPlugin implements SignerPlugin {
       type: "SIGN_AND_SEND",
       origin: this.getOrigin(),
     };
-    const res = await this.ws.sendRequest(req);
-    return res.actionHash ? res.actionHash : res;
+    return this.ws.sendRequest(req);
   }
 
   public async getAccount(address: string): Promise<Account> {
