@@ -43,20 +43,26 @@ export class SSRFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
+    const { html } = renderApp({ req, res });
+    res.send(html);
+  }
+}
 
-    const rootStore = {
-      base: {
-        ...publicConfig,
-      } as Partial<BaseStore>,
-    };
-    const context = {};
+export const renderApp = ({ req, res }) => {
+  const rootStore = {
+    base: {
+      ...publicConfig,
+    } as Partial<BaseStore>,
+  };
+  const context = {};
 
-    const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
-    );
-    res.send(`<!doctype html>
+  const markup = renderToString(
+    <StaticRouter context={context} location={req.url}>
+      <App />
+    </StaticRouter>
+  );
+  return {
+    html: `<!doctype html>
     <html lang="">
     <head>
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -73,6 +79,6 @@ export class SSRFilter implements ExceptionFilter {
     <body>
       <div id="root">${markup}</div>
     </body>
-  </html>`);
-  }
-}
+  </html>`,
+  };
+};
