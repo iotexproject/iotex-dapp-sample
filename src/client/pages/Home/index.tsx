@@ -6,7 +6,7 @@ import { publicConfig } from "../../../../configs/public";
 import { css } from "../../modules/stitches";
 
 export const Home = () => {
-  const { wallet } = useStore();
+  const { wallet, lang } = useStore();
   const store = useLocalStore(() => ({
     onConnectWallet() {
       wallet.connectWallet();
@@ -15,7 +15,7 @@ export const Home = () => {
   return useObserver(() => (
     <div className={styles.home}>
       {!wallet.account.address ? (
-        <button onClick={store.onConnectWallet}>Connect to wallet...</button>
+        <button onClick={store.onConnectWallet}>{lang.t("home.connect_wallet")}</button>
       ) : (
         <div>
           <Button className="px-2 mx-2" onClick={() => wallet.claimVita()}>

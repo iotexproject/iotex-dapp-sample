@@ -1,7 +1,6 @@
 {
-  "HELLO_MESSAGE": "Hello ${message}",
-  "count": "count",
-  "home.connect_wallet": "Connect Wallet",
+  "hello_message": "Hello ${message}",
+  "home.connect_wallet": "Connect to Wallet...",
   "header.connect_to_wallet": "Connect to a wallet",
   "tips.connect_fail": "Please open ioPay desktop and unlock wallet first.",
   "tips.connect_fail.mobile": "Please allow mimo access your wallet."

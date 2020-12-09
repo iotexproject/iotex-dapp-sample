@@ -1,0 +1,5 @@
+{
+  "hello_message": "你好 ${message}",
+  "home.connect_wallet": "连接钱包...",
+  "header.connect_to_wallet": "连接钱包"
+}
