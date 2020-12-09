@@ -2,11 +2,10 @@ import React from "react";
 import { useStore } from "../../../common/store";
 import { Button } from "antd";
 import { useLocalStore, useObserver } from "mobx-react-lite";
-import { utils } from "../../../common/utils/index";
 import { css } from "../../modules/stitches";
 
 export const Header = () => {
-  const { lang, wallet } = useStore();
+  const { wallet } = useStore();
 
   const store = useLocalStore(() => ({
     onMore() {},
@@ -20,18 +19,6 @@ export const Header = () => {
       <div className={styles.content}>
         <img alt="logo" className={styles.logo} src={"/image/logo.png"} />
         <div className={styles.contentRight}>
-          {wallet.account.address ? (
-            <>
-              <span>{parseFloat(wallet.account.balance).toFixed(2)} IOTX</span>&nbsp;
-              <div className="cursor-pointer">{utils.helper.string.truncate(wallet.account.address, 12)}</div>
-              &nbsp;&nbsp;
-              <img src="/image/iotx.png" className="w-8" />
-            </>
-          ) : (
-            <button className={styles.contentRightConnect} onClick={store.onConnectWallet}>
-              {lang.t("header.connect_to_wallet")}
-            </button>
-          )}
           <div className="ml-2"></div>
           <Button
             className="component__header__content__right__icon_button"

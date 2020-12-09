@@ -18,11 +18,11 @@ const App = () => {
       const logoutMe = await rpcClient.me();
       console.log("logout success", logoutMe);
     });
-    hooks.waitAccount().then(() => {
-      console.log("load account success", wallet.account.address);
+    hooks.waitAccount().then((account) => {
+      console.log("load account success:", account.address);
     });
-    hooks.waitIotxBalance().then(() => {
-      console.log("load iotx balance success", wallet.account.balance);
+    hooks.waitIotxBalance().then((balance) => {
+      console.log("load iotx balance success:", balance);
     });
   }, []);
   return (
