@@ -3,15 +3,15 @@ import remotedev from "mobx-remotedev";
 import en from "../../../public/translations/en.json";
 import { Dict } from "../../type";
 import axios from "axios";
-import { publicConfig } from '../../../configs/public';
-import { _ } from '../utils/lodash';
+import { publicConfig } from "../../../configs/public";
+import { _ } from "../utils/lodash";
 
 type Translation = typeof en;
 
 const fileNameMapping = {
   "en-US": "en",
   "zh-CN": "zh_CN",
-}
+};
 
 @remotedev({ name: "lang" })
 export class LangStore {
@@ -28,15 +28,14 @@ export class LangStore {
   @action.bound
   async init() {
     const urlParams = new URLSearchParams(window.location.search);
-    const langFromQuery = urlParams.get('lang');
-    const broswerLang = _.get(navigator.languages, "0", navigator.language)
-    let lang = langFromQuery ||  localStorage.getItem("lang") || broswerLang;
-    if(fileNameMapping[lang]){
-      lang=fileNameMapping[lang]
+    const langFromQuery = urlParams.get("lang");
+    const broswerLang = navigator.languages ? navigator.languages[0] : navigator.language;
+    let lang = langFromQuery || localStorage.getItem("lang") || broswerLang;
+    if (fileNameMapping[lang]) {
+      lang = fileNameMapping[lang];
     }
     await this.loadTranslation(lang);
     this.lang = lang;
-
   }
 
   @action.bound
