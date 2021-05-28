@@ -1,10 +1,19 @@
-# Vite + React + Typescript + Chakra + Cypress
+# IoTeX dApp Sample V2
+
+This is a boilerplate template for making your awesome dApp on IoTeX and ETH, BSC, and other possible chains ([request here](https://github.com/iotexproject/iotex-dapp-sample-v2/issues/new))
+
+
+Technology used in this template are
+
+- [Vite](https://github.com/vitejs/vite)
+- [React](https://reactjs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Chakra](https://chakra-ui.com/)
+- [Cypress](https://www.cypress.io/)
+
+## Intro
 
 A starter for React with Typescript with the fast Vite and the beautiful Chakra, tested with the powerful Cypress.
-
-![Vite + React + Typescript + Chakra + Cypress Starter](/src/resources/images/screenshot.png)
-
-I found out about Vite and I wanted to have a boilerplate for the technologies that I use. You can find more about these in the following links: [Vite](https://github.com/vitejs/vite), [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/), [Chakra](https://chakra-ui.com/), [Cypress](https://www.cypress.io/).
 
 ## Features
 
