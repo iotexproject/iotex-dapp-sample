@@ -1,0 +1,30 @@
+{
+  "name": "Iotex Testnet Default List",
+  "timestamp": "2021-03-17T09:56:23Z",
+  "version": {
+    "major": 2,
+    "minor": 0,
+    "patch": 1
+  },
+  "tags": {},
+  "logoURI": "https://exchange.pancakeswap.finance/images/pancakeswap.png",
+  "keywords": ["pancake", "default"],
+  "tokens": [
+    {
+      "name": "Wrapped ETH",
+      "symbol": "ioETH",
+      "chainId": 4690,
+      "decimals": 18,
+      "address": "0x93b59C5b2EF3bB6F525E608Df6b69bE9cf3284d6",
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
+    },
+    {
+      "symbol": "ioBUSD",
+      "name": "Binance USD",
+      "chainId": 4690,
+      "decimals": 18,
+      "address": "0x9AEf5ADa7FcdcD49CFa7C89A1cE654C7e7255068",
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/4687.png"
+    }
+  ]
+}
