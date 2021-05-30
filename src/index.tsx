@@ -14,7 +14,6 @@ import { Box, Text } from '@chakra-ui/layout';
 import { Toaster } from 'react-hot-toast';
 import { ToolConfig } from './config/ToolConfig';
 import { WalletSelecter } from './components/WalletSelecter/index';
-import { IotexProvider } from './components/IotexProvider';
 
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
   return (
