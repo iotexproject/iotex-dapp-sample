@@ -14,6 +14,14 @@ export default defineConfig({
     'process.env': process.env
   },
   build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          core: ['react', 'react-dom', 'react-router-dom', 'mobx', 'mobx-react-lite', 'axios', 'bignumber.js'],
+          ethers: ['ethers', 'ethers-multicall', '@ethersproject/providers', '@web3-react/core', '@web3-react/injected-connector']
+        }
+      }
+    },
     chunkSizeWarningLimit: 2000
   }
 });
