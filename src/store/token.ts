@@ -35,7 +35,6 @@ export class TokenStore {
   }
 
   get currentTokens() {
-    console.log(123);
     return this.tokens[this.rootStore.god.currentChain.chainId];
   }
   set currentTokens(val) {

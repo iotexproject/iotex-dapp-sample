@@ -50,8 +50,6 @@ export const ETHProvider = observer(({ children }) => {
       god.eth.multiCall._multicallAddress = god.currentChain.info.multicallAddr;
     }
 
-    //@ts-ignore
-    console.log(god.eth.multiCall._multicallAddress);
     if (account) {
       god.setShowConnecter(false);
       god.currentNetwork.loadBalance();

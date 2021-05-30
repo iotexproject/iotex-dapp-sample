@@ -2,6 +2,14 @@ import numeral from 'numeral';
 import BN from 'bignumber.js';
 
 export const helper = {
+  promise: {
+    async sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
+    async runAsync<T, U = Error>(promise: Promise<T>): Promise<[U | null, T | null]> {
+      return promise.then<[null, T]>((data: T) => [null, data]).catch<[U, null]>((err) => [err, null]);
+    }
+  },
   env: {
     isIopayMobile: navigator.userAgent && (navigator.userAgent.includes('IoPayAndroid') || navigator.userAgent.includes('IoPayiOs'))
   },

@@ -5,7 +5,7 @@ export const IotexMainnetConfig = new ChainState({
   name: 'IoteX',
   chainId: 4689,
   networkKey: 'iotex',
-  rpcUrl: 'https://api.iotex.one:443',
+  rpcUrl: 'https://babel-api.mainnet.iotex.io/',
   logoUrl: '/images/iotex.svg',
   explorerURL: 'https://iotexscan.com',
   explorerName: 'IotexScan',

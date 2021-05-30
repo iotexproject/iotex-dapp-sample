@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { Center, Text } from '@chakra-ui/layout';
 import toast from 'react-hot-toast';
 import { eventBus } from '../../lib/event';
+import { helper } from '../../lib/helper';
 
 export const ERC20 = observer(() => {
   const { god, token, lang } = useStore();
@@ -24,6 +25,9 @@ export const ERC20 = observer(() => {
     isOpenTokenList: new BooleanState(),
     loading: new BooleanState(),
     get state() {
+      if (!god.isConnect) {
+        return { valid: true, msg: lang.t('connect.wallet'), connectWallet: true };
+      }
       const valid = store.curToken && store.amount.value && store.receiverAdderss.value;
       return {
         valid,
@@ -38,18 +42,23 @@ export const ERC20 = observer(() => {
     },
 
     async onSubmit() {
-      try {
-        store.loading.setValue(true);
-        const res = await store.curToken.transfer({ params: [store.receiverAdderss.value, store.amount.value.toFixed(0, 1)] });
+      if (store.state.connectWallet) {
+        return god.setShowConnecter(true);
+      }
+
+      store.loading.setValue(true);
+      const [err, res] = await helper.promise.runAsync(store.curToken.transfer({ params: [store.receiverAdderss.value, store.amount.value.toFixed(0, 1)] }));
+
+      if (err) {
+        toast.error(err.message);
+      } else {
         const receipt = await res.wait();
         if (receipt.status) {
           toast.success('Transfer Succeeded');
         }
-        store.loading.setValue(false);
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message);
       }
+
+      store.loading.setValue(false);
     }
   }));
 

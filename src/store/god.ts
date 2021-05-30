@@ -1,14 +1,12 @@
 import { NetworkState } from './lib/NetworkState';
 import { makeAutoObservable } from 'mobx';
-import { MappingState, MappingStorageState } from './standard/MappingState';
-import { EthNetworkConfig, IotexNetworkConfig } from '../config/NetworkConfig';
+import { MappingState } from './standard/MappingState';
+import { EthNetworkConfig } from '../config/NetworkConfig';
 import { ChainState } from './lib/ChainState';
 import { EthNetworkState } from './lib/EthNetworkState';
-import { IotexNetworkState } from './lib/IotexNetworkState';
 import { RootStore } from './root';
 import { NumberState } from './standard/base';
-import { metamaskUtils } from '../lib/metaskUtils';
-import toast from 'react-hot-toast';
+
 import { eventBus } from '../lib/event';
 
 export type Network = 'eth' | 'bsc' | 'iotex';
@@ -30,7 +28,6 @@ export class GodStore {
       rootStore: false
     });
     EthNetworkConfig.god = this;
-    IotexNetworkConfig.god = this;
   }
   get isIotxNetork() {
     return this.network.currentId.value == 'iotex';
@@ -42,10 +39,6 @@ export class GodStore {
 
   get eth(): EthNetworkState {
     return this.network.map.eth as EthNetworkState;
-  }
-
-  get iotex(): IotexNetworkState {
-    return this.network.map.iotex as IotexNetworkState;
   }
 
   get isConnect() {
