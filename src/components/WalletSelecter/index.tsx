@@ -14,12 +14,13 @@ import { BSCTestnetConfig } from '../../config/BSCTestnetConfig';
 import { ETHKovanConfig } from '../../config/ETHKovanConfig';
 import { IotexTestnetConfig } from '../../config/IotexTestnetConfig';
 import { metamaskUtils } from '../../lib/metaskUtils';
+import { useEffect } from 'react';
 
 const toast = createStandaloneToast();
 
 export const WalletSelecter = observer(() => {
   const { god } = useStore();
-  const { activate } = useWeb3React();
+  const { active, error, activate } = useWeb3React();
 
   const store = useLocalStore(() => ({
     get visible() {
@@ -57,6 +58,31 @@ export const WalletSelecter = observer(() => {
       god.eth.connector.latestProvider.save('inject');
     }
   }));
+
+  useEffect(() => {
+    //@ts-ignore
+    const { ethereum } = window;
+    if (ethereum && ethereum.on && !active && !error) {
+      const handleChainChanged = () => {
+        store.connectInejct();
+      };
+      const handleAccountsChanged = (accounts: string[]) => {
+        if (accounts.length > 0) {
+          store.connectInejct();
+        }
+      };
+      ethereum.on('networkChanged', handleChainChanged);
+      ethereum.on('close', handleChainChanged);
+      ethereum.on('chainChanged', handleChainChanged);
+      ethereum.on('accountsChanged', handleAccountsChanged);
+      return () => {
+        if (ethereum.removeListener) {
+          ethereum.removeListener('chainChanged', handleChainChanged);
+          ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        }
+      };
+    }
+  }, [active, error, activate]);
 
   return (
     <Modal isOpen={store.visible} onClose={store.close} isCentered>

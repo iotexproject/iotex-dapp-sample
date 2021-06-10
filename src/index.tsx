@@ -37,7 +37,6 @@ export const App = observer(() => {
 
   return (
     <ChakraProvider theme={theme}>
-      <CSSReset />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Web3ReactProvider getLibrary={getLibrary}>
           <WalletSelecter />

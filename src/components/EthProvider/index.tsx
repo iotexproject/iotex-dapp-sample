@@ -13,7 +13,7 @@ import { _ } from '@/lib/lodash';
 
 export const ETHProvider = observer(({ children }) => {
   const { god, base, lang } = useStore();
-  const { chainId, account, activate, active, library, deactivate, error } = useWeb3React<Web3Provider>();
+  const { chainId, account, activate, active, library, deactivate, error, connector } = useWeb3React<Web3Provider>();
 
   const store = useLocalStore(() => ({
     get defaultChain() {
