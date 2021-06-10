@@ -77,6 +77,8 @@ export const WalletSelecter = observer(() => {
       ethereum.on('accountsChanged', handleAccountsChanged);
       return () => {
         if (ethereum.removeListener) {
+          ethereum.removeListener('networkChanged', handleChainChanged);
+          ethereum.removeListener('close', handleChainChanged);
           ethereum.removeListener('chainChanged', handleChainChanged);
           ethereum.removeListener('accountsChanged', handleAccountsChanged);
         }
