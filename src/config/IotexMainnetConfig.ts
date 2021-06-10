@@ -11,7 +11,7 @@ export const IotexMainnetConfig = new ChainState({
   explorerName: 'IotexScan',
   info: {
     blockPerSeconds: 5,
-    multicallAddr: ''
+    multicallAddr: '0xACCE294bf7D25Fe8C5C64Ae45197d3878F68403b'
   },
   Coin: new TokenState({
     symbol: 'IOTX',
