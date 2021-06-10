@@ -39,7 +39,7 @@ export const ETHProvider = observer(({ children }) => {
       // store.wrongNetwork();
     }
 
-    god.currentNetwork.account = account;
+    god.currentNetwork.setAccount(account);
     //@ts-ignore
     god.eth.ethers = library ? library : god.eth.defaultEthers;
     god.eth.signer = library ? library.getSigner() : null;

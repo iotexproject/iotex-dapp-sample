@@ -52,6 +52,10 @@ export class EthNetworkState implements NetworkState {
     this.currentChain.Coin.balance.setValue(new BigNumber(balance.toString()));
   }
 
+  setAccount(account: string) {
+    this.account = account;
+  }
+
   readMultiContract({ address, abi, method, params = [] }: CallParams) {
     const contract = new MuticallContract(address, abi);
     return contract[method](...params);

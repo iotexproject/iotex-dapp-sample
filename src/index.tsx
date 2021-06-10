@@ -45,7 +45,7 @@ export const App = observer(() => {
           <Router>
             <Header />
             <Switch>
-              <Route path="/" exact>
+              <Route path="/" exact key="/">
                 <Home key={god.network.currentId.value} />
               </Route>
               {ToolConfig.map((item) => (

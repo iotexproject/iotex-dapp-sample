@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import { helper } from '../../lib/helper';
 export class BigNumberInputState {
   value = new BigNumber(0);
-  format = null;
+  format = '';
   loading = false;
   decimals = 18;
   formatter?: Function;

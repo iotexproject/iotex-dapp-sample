@@ -97,7 +97,7 @@ export const WalletSelecter = observer(() => {
         </Center>
         <HStack justify="space-between" mb={6} px={4}>
           {store.netowkrs.map((i) => (
-            <Box display="flex" flexDirection="column" alignItems="center">
+            <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
               <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
                 {god.currentChain.networkKey == i.networkKey && <AvatarBadge boxSize="1em" bg="green.500" />}
               </Avatar>
