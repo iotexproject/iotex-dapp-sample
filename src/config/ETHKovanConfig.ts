@@ -16,6 +16,9 @@ export const ETHKovanConfig = new ChainState({
   }),
   info: {
     blockPerSeconds: 13,
-    multicallAddr: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a'
+    multicallAddr: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
+    theme: {
+      bgGradient: 'linear(to-r, #84ABF5, #CFC6F9)'
+    }
   }
 });

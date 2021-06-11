@@ -32,7 +32,16 @@ export const DesktopNav = observer((props: BoxProps) => {
           <chakra.span mr={1}>{god.currentChain.Coin.balance.format}</chakra.span>
           <chakra.span>{god.currentChain.Coin.symbol}</chakra.span>
         </Text>
-        <Button px={4} onClick={store.showWalletInfo} bg={useColorModeValue('white', 'dark.100')} border="1px solid" borderColor={useColorModeValue('gray.100', 'dark.100')}>
+        <Button
+          px={4}
+          onClick={store.showWalletInfo}
+          sx={{
+            color: 'white',
+            bgGradient: god.currentChain.info.theme?.bgGradient,
+            _hover: { bgGradient: god.currentChain.info.theme?.bgGradient },
+            _active: { bgGradient: god.currentChain.info.theme?.bgGradient }
+          }}
+        >
           <Text mr={2}>{helper.string.truncate(god.currentNetwork.account, 12, '...')}</Text>
           <Img w={5} src="/images/account.svg" />
         </Button>

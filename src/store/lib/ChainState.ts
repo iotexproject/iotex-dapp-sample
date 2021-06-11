@@ -15,6 +15,9 @@ export class ChainState {
   info: {
     blockPerSeconds: number;
     multicallAddr?: string;
+    theme?: {
+      bgGradient: string;
+    };
   };
   constructor(args: Partial<ChainState>) {
     Object.assign(this, args);

@@ -15,6 +15,9 @@ export const BSCMainnetConfig = new ChainState({
   }),
   info: {
     blockPerSeconds: 3,
-    multicallAddr: '0x1Ee38d535d541c55C9dae27B12edf090C608E6Fb'
+    multicallAddr: '0x1Ee38d535d541c55C9dae27B12edf090C608E6Fb',
+    theme: {
+      bgGradient: 'linear(to-r, #F6851B, #F5B638)'
+    }
   }
 });
