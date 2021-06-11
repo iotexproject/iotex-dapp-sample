@@ -6,7 +6,11 @@ export const theme = extendTheme({
     heading: 'Work Sans, system-ui, sans-serif'
   },
   colors: {
-    discord: '#7289da'
+    discord: '#7289da',
+    dark: {
+      100: 'rgba(255, 255, 255, 0.08)',
+      200: 'rgba(255, 255, 255, 0.16)'
+    }
   },
   shadows: {
     largeSoft: 'rgba(60, 64, 67, 0.15) 0px 2px 10px 6px;'

@@ -84,7 +84,7 @@ export const ERC20 = observer(() => {
               <InputRightElement onClick={store.openTokenList} width="4rem" cursor="pointer" flexDir="column">
                 {/* {store.curToken && <Text fontSize="sm">Balance: {store.curToken.balance.format}</Text>} */}
                 <Flex alignItems="center" pr={2} w="100%">
-                  <Image borderRadius="full" boxSize="24px" src={store.curToken?.logoURI} fallbackSrc="https://via.placeholder.com/150" />
+                  <Image borderRadius="full" boxSize="24px" src={store.curToken?.logoURI} fallbackSrc="/images/token.svg" />
                   <Icon as={ChevronDownIcon} ml={1} />
                 </Flex>
               </InputRightElement>

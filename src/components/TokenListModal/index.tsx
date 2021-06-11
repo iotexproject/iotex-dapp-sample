@@ -50,7 +50,7 @@ export const TokenListModal = observer((props: PropsType) => {
               return (
                 <ListItem my={2} key={index} {...style} cursor="pointer" display="flex" alignItems="center" justifyContent="space-between" onClick={() => store.onSelect(i)}>
                   <Box display="flex" alignItems="center">
-                    <Image borderRadius="full" boxSize="24px" src={i.logoURI} mr="4" fallbackSrc="https://via.placeholder.com/150" />
+                    <Image borderRadius="full" boxSize="24px" src={i.logoURI} mr="4" fallbackSrc="/images/token.svg" />
                     {i.symbol}
                   </Box>
                   <Box>
