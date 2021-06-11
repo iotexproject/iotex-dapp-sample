@@ -8,16 +8,10 @@ import { IotexMainnetConfig } from './IotexMainnetConfig';
 import { IotexTestnetConfig } from './IotexTestnetConfig';
 import { PolygonMainnetConfig } from './PolygonMainnetConfig';
 
+const EthChains = [BSCMainnetConfig, BSCTestnetConfig, ETHMainnetConfig, ETHKovanConfig, IotexTestnetConfig, IotexMainnetConfig, PolygonMainnetConfig];
+
 export const EthNetworkConfig = new EthNetworkState({
-  allowChains: [
-    BSCMainnetConfig.chainId,
-    BSCTestnetConfig.chainId,
-    ETHMainnetConfig.chainId,
-    ETHKovanConfig.chainId,
-    IotexTestnetConfig.chainId,
-    IotexMainnetConfig.chainId,
-    PolygonMainnetConfig.chainId
-  ],
+  allowChains: EthChains.map((i) => i.chainId),
   info: {
     token: {
       tokenExample: '0x000000000000000000000000000000000000000'
@@ -25,14 +19,9 @@ export const EthNetworkConfig = new EthNetworkState({
   },
   chain: new MappingState({
     currentId: BSCMainnetConfig.chainId,
-    map: {
-      [ETHMainnetConfig.chainId]: ETHMainnetConfig,
-      [ETHKovanConfig.chainId]: ETHKovanConfig,
-      [BSCMainnetConfig.chainId]: BSCMainnetConfig,
-      [BSCTestnetConfig.chainId]: BSCTestnetConfig,
-      [IotexMainnetConfig.chainId]: IotexMainnetConfig,
-      [IotexTestnetConfig.chainId]: IotexTestnetConfig,
-      [PolygonMainnetConfig.chainId]: PolygonMainnetConfig
-    }
+    map: EthChains.reduce((p, c) => {
+      p[c.chainId] = c;
+      return p;
+    }, {})
   })
 });
