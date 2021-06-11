@@ -6,10 +6,15 @@ import { ChainState } from './lib/ChainState';
 import { EthNetworkState } from './lib/EthNetworkState';
 import { RootStore } from './root';
 import { NumberState } from './standard/base';
-
+import { ValueOf } from 'type-fest';
 import { eventBus } from '../lib/event';
 
-export type Network = 'eth' | 'bsc' | 'iotex';
+export enum Network {
+  ETH = 'eth',
+  BSC = 'bsc',
+  IOTEX = 'iotex',
+  POLYGON = 'polygon'
+}
 
 export class GodStore {
   rootStore: RootStore;

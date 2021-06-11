@@ -7,7 +7,7 @@ export const ETHKovanConfig = new ChainState({
   chainId: 42,
   networkKey: 'eth',
   rpcUrl: `https://kovan.infura.io/v3/${publicCOnfig.infuraId}`,
-  logoUrl: '/images/eth_logo.svg',
+  logoUrl: '/images/eth.svg',
   explorerURL: 'https://kovan.etherscan.io',
   explorerName: 'EtherScan',
   Coin: new TokenState({

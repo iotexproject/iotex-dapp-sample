@@ -1,5 +1,7 @@
 import { RootStore } from './root';
 import React from 'react';
+import { Buffer } from 'buffer';
+(globalThis as any).Buffer = Buffer;
 
 export const rootStore = new RootStore();
 

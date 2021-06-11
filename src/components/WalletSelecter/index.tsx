@@ -8,13 +8,12 @@ import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/layout';
 import { Image, Button, Img, Avatar, AvatarBadge, createStandaloneToast, Center } from '@chakra-ui/react';
 import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
 import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
-import { IotexMainnetConfig } from '../../config/IotexMainnetConfig';
-import { publicCOnfig } from '../../config/public';
-import { BSCTestnetConfig } from '../../config/BSCTestnetConfig';
-import { ETHKovanConfig } from '../../config/ETHKovanConfig';
 import { IotexTestnetConfig } from '../../config/IotexTestnetConfig';
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
+import { Network } from '@/store/god';
+import { IotexMainnetConfig } from '../../config/IotexMainnetConfig';
+import { PolygonMainnetConfig } from '../../config/PolygonMainnetConfig';
 
 const toast = createStandaloneToast();
 
@@ -26,8 +25,8 @@ export const WalletSelecter = observer(() => {
     get visible() {
       return god.eth.connector.showConnector;
     },
-    get netowkrs() {
-      return [BSCMainnetConfig, ETHMainnetConfig, IotexTestnetConfig];
+    get networks() {
+      return [ETHMainnetConfig, BSCMainnetConfig, IotexMainnetConfig, PolygonMainnetConfig];
     },
     close() {
       god.eth.connector.showConnector = false;
@@ -53,7 +52,7 @@ export const WalletSelecter = observer(() => {
       }
     },
     connectInejct() {
-      god.setNetwork('eth');
+      god.setNetwork(Network.ETH);
       activate(injected);
       god.eth.connector.latestProvider.save('inject');
     }
@@ -96,7 +95,7 @@ export const WalletSelecter = observer(() => {
           </Text>
         </Center>
         <HStack justify="space-between" mb={6} px={4}>
-          {store.netowkrs.map((i) => (
+          {store.networks.map((i) => (
             <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
               <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
                 {god.currentChain.networkKey == i.networkKey && <AvatarBadge boxSize="1em" bg="green.500" />}
