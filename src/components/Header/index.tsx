@@ -38,14 +38,16 @@ export const Header = observer(() => {
               <Stack as={'a'} direction={'row'} alignItems={'center'} spacing={{ base: 2, sm: 4 }}>
                 <Icon as={Logo} w={{ base: 8 }} h={{ base: 8 }} />
                 <Heading as={'h1'} fontSize={'xl'} display={{ base: 'none', md: 'block' }}>
-                  {/* <TextUnderline>Chakra</TextUnderline> Templates */}
+                  Dapp Sample V2
                 </Heading>
               </Stack>
             </Link>
           </Flex>
 
           <Stack direction={'row'} align={'center'} spacing={8} flex={{ base: 1, md: 'auto' }} justify={'flex-end'}>
-            <DesktopNav />
+            <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+              <DesktopNav />
+            </Flex>
             <IconButton size={'sm'} variant={'ghost'} aria-label={'Toggle Color Mode'} onClick={toggleColorMode} icon={colorMode == 'light' ? <IoMoon size={18} /> : <IoSunny size={18} />} />
           </Stack>
         </Container>
