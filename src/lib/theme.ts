@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, IconButton } from '@chakra-ui/react';
 
 export const theme = extendTheme({
   fonts: {
@@ -10,6 +10,13 @@ export const theme = extendTheme({
   },
   shadows: {
     largeSoft: 'rgba(60, 64, 67, 0.15) 0px 2px 10px 6px;'
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        borderRadius: 12
+      }
+    }
   },
   styles: {
     global: {

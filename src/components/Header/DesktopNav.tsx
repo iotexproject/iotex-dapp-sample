@@ -1,9 +1,9 @@
 import React from 'react';
-import { Stack, BoxProps, Text, Button, Box, Img, Tag } from '@chakra-ui/react';
+import { Stack, BoxProps, Text, Button, Box, Img, Tag, ButtonGroup, chakra, useColorModeValue } from '@chakra-ui/react';
 import { observer, useObserver, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { helper } from '../../lib/helper';
-import { Badge } from '@chakra-ui/layout';
+import { HStack } from '@chakra-ui/layout';
 
 export const DesktopNav = observer((props: BoxProps) => {
   const { god, lang } = useStore();
@@ -20,17 +20,23 @@ export const DesktopNav = observer((props: BoxProps) => {
 
   const accountView = useObserver(() => {
     if (!god.currentNetwork.account) {
-      return <Button onClick={store.showConnecter}>{lang.t('connect.wallet')}</Button>;
+      return (
+        <Button colorScheme="pink" onClick={store.showConnecter}>
+          {lang.t('connect.wallet')}
+        </Button>
+      );
     }
     return (
-      <Box>
-        <Button mr="2">
-          {god.currentChain.Coin.balance.format} {god.currentChain.Coin.symbol}
+      <Button pr="0" pl="4" bg={useColorModeValue('gray.100', 'gray.600')}>
+        <Text mr="2" fontSize="sm">
+          <chakra.span mr={1}>{god.currentChain.Coin.balance.format}</chakra.span>
+          <chakra.span>{god.currentChain.Coin.symbol}</chakra.span>
+        </Text>
+        <Button px={4} onClick={store.showWalletInfo} bg={useColorModeValue('white', 'gray.700')} border="1px solid" borderColor={useColorModeValue('gray.100', 'transparent')}>
+          <Text mr={2}>{helper.string.truncate(god.currentNetwork.account, 12, '...')}</Text>
+          <Img w={5} src="/images/account.svg" />
         </Button>
-        <Button onClick={store.showWalletInfo}>
-          <Text>{helper.string.truncate(god.currentNetwork.account, 12, '...')}</Text>
-        </Button>
-      </Box>
+      </Button>
     );
   });
   return (
