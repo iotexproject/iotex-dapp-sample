@@ -8,7 +8,6 @@ import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/layout';
 import { Image, Button, Img, Avatar, AvatarBadge, createStandaloneToast, Center } from '@chakra-ui/react';
 import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
 import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
-import { IotexTestnetConfig } from '../../config/IotexTestnetConfig';
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
 import { Network } from '@/store/god';

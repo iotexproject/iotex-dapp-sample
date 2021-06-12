@@ -7,12 +7,12 @@ import { BooleanState } from '../standard/base';
 
 export class TokenState {
   abi = erc20Abi;
-  name: string;
-  symbol: string;
-  address: string;
+  name: string = '';
+  symbol: string = '';
+  address: string = '';
   logoURI: string;
   chainId: number;
-  decimals: number;
+  decimals: number = 18;
 
   network: NetworkState;
   balance: BigNumberState;
@@ -22,6 +22,9 @@ export class TokenState {
   } = {
     loading: new BooleanState()
   };
+  isNew = false;
+  saved = false;
+
   constructor(args: Partial<TokenState>) {
     Object.assign(this, args);
     this.balance = new BigNumberState({ decimals: this.decimals, loading: true });
