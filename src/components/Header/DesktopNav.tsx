@@ -3,7 +3,6 @@ import { Stack, BoxProps, Text, Button, Box, Img, Tag, ButtonGroup, chakra, useC
 import { observer, useObserver, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { helper } from '../../lib/helper';
-import { HStack } from '@chakra-ui/layout';
 
 export const DesktopNav = observer((props: BoxProps) => {
   const { god, lang } = useStore();

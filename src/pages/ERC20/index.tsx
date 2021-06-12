@@ -66,10 +66,12 @@ export const ERC20 = observer(() => {
     if (god.currentNetwork.account) {
       token.loadPrivateData();
     }
+  }, [god.updateTicker.value]);
+  useEffect(() => {
     eventBus.on('chain.switch', () => {
       store.curToken = null;
     });
-  }, [god.updateTicker.value]);
+  }, []);
   return (
     <Container maxW="md">
       <form>

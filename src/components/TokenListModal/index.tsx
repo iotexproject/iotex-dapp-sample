@@ -8,7 +8,6 @@ import { Text } from '@chakra-ui/layout';
 import VirtualList from 'react-tiny-virtual-list';
 import { useEffect } from 'react';
 import { reaction } from 'mobx';
-import erc20Abi from '@/constants/abi/erc20.json';
 
 interface PropsType {
   isOpen: boolean;
