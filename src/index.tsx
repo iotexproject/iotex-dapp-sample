@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useStore } from '@/store/index';
 import { Header } from '@/components/Header/index';
-import { ChakraProvider, Button, Container, Center, CSSReset } from '@chakra-ui/react';
+import { ChakraProvider, Button, Container, Center, CSSReset, Flex } from '@chakra-ui/react';
 import { theme } from '@/lib/theme';
 import { ETHProvider } from './components/EthProvider';
 import { Home } from './pages/Home/index';
@@ -14,6 +14,7 @@ import { Box, Text } from '@chakra-ui/layout';
 import { Toaster } from 'react-hot-toast';
 import { ToolConfig } from './config/ToolConfig';
 import { WalletSelecter } from './components/WalletSelecter/index';
+import { SideBar } from '@/components/SideBar/index';
 
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
   return (
@@ -44,6 +45,8 @@ export const App = observer(() => {
           <Toaster />
           <Router>
             <Header />
+            <Flex>
+            <SideBar w="180px"/>
             <Switch>
               <Route path="/" exact key="/">
                 <Home key={god.network.currentId.value} />
@@ -52,6 +55,7 @@ export const App = observer(() => {
                 <Route exact path={item.path} key={item.path} component={item.component} />
               ))}
             </Switch>
+            </Flex>
           </Router>
         </Web3ReactProvider>
       </ErrorBoundary>
