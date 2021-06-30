@@ -134,7 +134,7 @@ export const WalletSelecter = observer(() => {
           {!god.currentNetwork.account && (
             <Box>
               <Divider />
-              <Box borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
+              <Box mb='24px' style={{'cursor': 'pointer'}} borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
                 <Flex>
                   <Flex direction='column'>
                       <Text color='#00E100' fontSize='20' lineHeight='26.38px' fontStyle='normal' fontWeight='500'>Broswer Wallet</Text>
@@ -151,10 +151,6 @@ export const WalletSelecter = observer(() => {
                   </Flex>
                 </Flex>
               </Box>
-              <Flex justify='center' mt='38px' mb='24px'>
-                <Image src='/images/learn connect.svg'/>
-                <Text ml='12px' color='#00E100' fontSize='28' lineHeight='23.38px' fontStyle='normal' fontWeight='400'>Learn how to connect</Text>
-              </Flex>
             </Box>
           )}
         </ModalBody>
