@@ -134,14 +134,14 @@ export const WalletSelecter = observer(() => {
           {!god.currentNetwork.account && (
             <Box>
               <Divider />
-              <Box mb='24px' style={{'cursor': 'pointer'}} borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
+              <Box  onClick={store.connectInejct} mb='24px' style={{'cursor': 'pointer'}} borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
                 <Flex>
                   <Flex direction='column'>
                       <Text color='#00E100' fontSize='20' lineHeight='26.38px' fontStyle='normal' fontWeight='500'>Broswer Wallet</Text>
                       <Text mt='3px' color='#999999' fontSize='12' lineHeight='16.38px' fontStyle='normal' fontWeight='500'>({names})</Text>
                   </Flex>
                   <Flex ml='2px'>
-                    <AvatarGroup size='sm' border='none' onClick={store.connectInejct}>
+                    <AvatarGroup size='sm' border='none'>
                         {
                           config.map((item, index) => {
                             return <Avatar name={item.title} key={item.title} src={item.icon} />
