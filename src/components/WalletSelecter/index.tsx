@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { injected } from '../../lib/web3-react';
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/modal';
 import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/layout';
-import { Image, Button, Img, Avatar, AvatarBadge, createStandaloneToast, Center } from '@chakra-ui/react';
+import { Image, Button, Img, Avatar, AvatarBadge, createStandaloneToast, Center, Divider, AvatarGroup, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
 import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
 import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
 import { metamaskUtils } from '../../lib/metaskUtils';
@@ -84,47 +84,80 @@ export const WalletSelecter = observer(() => {
     }
   }, [active, error, activate]);
 
+  const config = [
+    {
+      title: "Metamask",
+      icon: '/images/metamask.svg',
+    },
+    {
+      title: "ioPay",
+      icon: '/images/iopay.svg',
+    },
+    {
+      title: "Trust",
+      icon: '/images/trustwallet.svg',
+    },
+    {
+      title: "Math",
+      icon: '/images/mathwallet.svg',
+    },
+    {
+      title: "imToken",
+      icon: '/images/imtoken.svg',
+    },
+  ]
+  const names = config.map(item => item.title).join(', ')
+
   return (
     <Modal isOpen={store.visible} onClose={store.close} isCentered>
       <ModalOverlay />
-      <ModalContent padding="10">
-        <Center mb={4}>
+      <ModalContent padding="10px">
+        <ModalHeader>
           <Text fontSize="xl" fontWeight="bold" color="gray.600">
-            Switch Network
+            Connect to a wallet
           </Text>
-        </Center>
-        <HStack justify="space-between" mb={6} px={4}>
-          {store.networks.map((i) => (
-            <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
-              <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
-                {god.currentChain.networkKey == i.networkKey && <AvatarBadge boxSize="1em" bg="green.500" />}
-              </Avatar>
-              <Text fontSize="xs" mt={1}>
-                {i.name}
-              </Text>
+        </ModalHeader>
+				<ModalCloseButton />
+        <ModalBody>
+          <HStack justify="space-between" mb={6} px={4}>
+            {store.networks.map((i) => (
+              <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
+                <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
+                  {god.currentChain.networkKey == i.networkKey && <AvatarBadge boxSize="1em" bg="green.500" />}
+                </Avatar>
+                <Text fontSize="xs" mt={1}>
+                  {i.name}
+                </Text>
+              </Box>
+            ))}
+          </HStack>
+          {!god.currentNetwork.account && (
+            <Box>
+              <Divider />
+              <Box borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
+                <Flex>
+                  <Flex direction='column'>
+                      <Text color='#00E100' fontSize='20' lineHeight='26.38px' fontStyle='normal' fontWeight='500'>Broswer Wallet</Text>
+                      <Text mt='3px' color='#999999' fontSize='12' lineHeight='16.38px' fontStyle='normal' fontWeight='500'>({names})</Text>
+                  </Flex>
+                  <Flex ml='2px'>
+                    <AvatarGroup size='sm' border='none' onClick={store.connectInejct}>
+                        {
+                          config.map((item, index) => {
+                            return <Avatar name={item.title} key={item.title} src={item.icon} />
+                          })
+                        }
+                    </AvatarGroup>
+                  </Flex>
+                </Flex>
+              </Box>
+              <Flex justify='center' mt='38px' mb='24px'>
+                <Image src='/images/learn connect.svg'/>
+                <Text ml='12px' color='#00E100' fontSize='28' lineHeight='23.38px' fontStyle='normal' fontWeight='400'>Learn how to connect</Text>
+              </Flex>
             </Box>
-          ))}
-        </HStack>
-        {!god.currentNetwork.account && (
-          <VStack align="stretch">
-            <Button onClick={store.connectInejct} size="lg" justifyContent="space-between" alignItems="center">
-              <Text>Metamask</Text>
-              <Image src="/images/metamask.svg" />
-            </Button>
-            <Button onClick={store.connectInejct} size="lg" justifyContent="space-between" alignItems="center" mt="2">
-              <Text>TrustWallet</Text>
-              <Image src="/images/trustwallet.svg" />
-            </Button>
-            <Button onClick={store.connectInejct} size="lg" justifyContent="space-between" alignItems="center" mt="2">
-              <Text>MathWallet</Text>
-              <Image src="/images/mathwallet.svg" />
-            </Button>
-            <Button onClick={store.connectInejct} size="lg" justifyContent="space-between" alignItems="center" mt="2">
-              <Text>TokenPocket</Text>
-              <Image src="/images/tokenpocket.svg" />
-            </Button>
-          </VStack>
-        )}
+          )}
+        </ModalBody>
       </ModalContent>
     </Modal>
   );
