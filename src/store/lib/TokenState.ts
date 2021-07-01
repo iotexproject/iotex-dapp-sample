@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, makeAutoObservable } from 'mobx';
 import { NetworkState } from './NetworkState';
 import { BigNumberState } from '../standard/BigNumberState';
 import { CallParams } from '../../../type';
@@ -28,9 +28,7 @@ export class TokenState {
   constructor(args: Partial<TokenState>) {
     Object.assign(this, args);
     this.balance = new BigNumberState({ decimals: this.decimals, loading: true });
-    makeObservable(this, {
-      info: observable
-    });
+    makeAutoObservable(this);
   }
 
   transfer(args: Partial<CallParams>) {
