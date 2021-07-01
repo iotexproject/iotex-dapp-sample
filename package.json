@@ -24,6 +24,7 @@
     "@emotion/styled": "^11",
     "@ethersproject/providers": "5.0.23",
     "@iotexproject/iotex-address-ts": "^1.0.2",
+    "@uniwrap/uniwrap-core": "0.1.2",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "axios": "^0.21.1",

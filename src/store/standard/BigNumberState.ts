@@ -4,7 +4,7 @@ import { helper } from '@/lib/helper';
 
 export class BigNumberState {
   value = new BigNumber(0);
-  loading: boolean;
+  loading = false;
   decimals = 18;
   fixed = 6;
   formatter?: Function;
