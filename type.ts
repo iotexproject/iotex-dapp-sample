@@ -1,9 +1,13 @@
-export interface CallParams {
+export interface CallParams<P = any[]> {
   address: string;
   abi: any;
   method: string;
-  params?: any[];
-  options?: any;
+  params?: P;
+  options?: Partial<{
+    value: string;
+    gasLimit: string;
+    gasPrice: string;
+  }>;
   handler?: any;
   read?: boolean;
 }
