@@ -29,6 +29,7 @@
     "@web3-react/injected-connector": "^6.0.7",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
+    "clipboard-polyfill": "^3.0.3",
     "copy-to-clipboard": "^3.3.1",
     "erc-20-abi": "^1.0.0",
     "ethers": "^5.1.3",
