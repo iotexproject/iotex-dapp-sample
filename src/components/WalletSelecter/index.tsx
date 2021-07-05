@@ -105,6 +105,10 @@ export const WalletSelecter = observer(() => {
       title: "imToken",
       icon: '/images/imtoken.svg',
     },
+    {
+      title: "walletConnect",
+      icon: '/images/walletConnect.svg',
+    },
   ]
   const names = config.map(item => item.title).join(', ')
 
@@ -137,7 +141,7 @@ export const WalletSelecter = observer(() => {
               <Box  onClick={store.connectInejct} mb='24px' style={{'cursor': 'pointer'}} borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
                 <Flex>
                   <Flex direction='column'>
-                      <Text color='#00E100' fontSize='20' lineHeight='26.38px' fontStyle='normal' fontWeight='500'>Broswer Wallet</Text>
+                      <Text fontSize='20' lineHeight='26.38px' fontStyle='normal' fontWeight='500'>Broswer Wallet</Text>
                       <Text mt='3px' color='#999999' fontSize='12' lineHeight='16.38px' fontStyle='normal' fontWeight='500'>({names})</Text>
                   </Flex>
                   <Flex ml='2px'>

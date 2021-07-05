@@ -3767,6 +3767,11 @@ cli-truncate@^0.2.1:
     slice-ansi "0.0.4"
     string-width "^1.0.1"
 
+clipboard-polyfill@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/clipboard-polyfill/download/clipboard-polyfill-3.0.3.tgz#159ea0768e20edc7ffda404bd13c54c73de4ff40"
+  integrity sha1-FZ6gdo4g7cf/2kBL0TxUxz3k/0A=
+
 cliui@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-6.0.0.tgz#511d702c0c4e41ca156d7d0e96021f23e13225b1"
