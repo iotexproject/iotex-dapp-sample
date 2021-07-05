@@ -8,7 +8,7 @@ export const IotexMainnetConfig = new ChainState({
   networkKey: 'iotex',
   rpcUrl: RPC_URLS[4689],
   logoUrl: '/images/iotex.svg',
-  explorerURL: 'https://iotexscan.com',
+  explorerURL: 'https://iotexscan.io',
   explorerName: 'IoTeXScan',
   Coin: new TokenState({
     symbol: 'IOTX',
