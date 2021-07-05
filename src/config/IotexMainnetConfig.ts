@@ -8,7 +8,7 @@ export const IotexMainnetConfig = new ChainState({
   rpcUrl: 'https://babel-api.mainnet.iotex.io/',
   logoUrl: '/images/iotex.svg',
   explorerURL: 'https://iotexscan.com',
-  explorerName: 'IotexScan',
+  explorerName: 'IoTeXScan',
   Coin: new TokenState({
     symbol: 'IOTX',
     decimals: 18

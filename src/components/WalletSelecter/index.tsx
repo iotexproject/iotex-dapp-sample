@@ -54,6 +54,9 @@ export const WalletSelecter = observer(() => {
       god.setNetwork(Network.ETH);
       activate(injected);
       god.eth.connector.latestProvider.save('inject');
+    },
+    onWalletConnect() {
+      god.setNetwork(Network.ETH);
     }
   }));
 
@@ -86,27 +89,27 @@ export const WalletSelecter = observer(() => {
 
   const config = [
     {
-      title: "Metamask",
-      icon: '/images/metamask.svg',
+      title: 'Metamask',
+      icon: '/images/metamask.svg'
     },
     {
-      title: "ioPay",
-      icon: '/images/iopay.svg',
+      title: 'ioPay',
+      icon: '/images/iopay.svg'
     },
     {
-      title: "Trust",
-      icon: '/images/trustwallet.svg',
+      title: 'Trust',
+      icon: '/images/trustwallet.svg'
     },
     {
-      title: "Math",
-      icon: '/images/mathwallet.svg',
+      title: 'Math',
+      icon: '/images/mathwallet.svg'
     },
     {
-      title: "imToken",
-      icon: '/images/imtoken.svg',
-    },
-  ]
-  const names = config.map(item => item.title).join(', ')
+      title: 'imToken',
+      icon: '/images/imtoken.svg'
+    }
+  ];
+  const names = config.map((item) => item.title).join(', ');
 
   return (
     <Modal isOpen={store.visible} onClose={store.close} isCentered>
@@ -117,7 +120,7 @@ export const WalletSelecter = observer(() => {
             Connect to a wallet
           </Text>
         </ModalHeader>
-				<ModalCloseButton />
+        <ModalCloseButton />
         <ModalBody>
           <HStack justify="space-between" mb={6} px={4}>
             {store.networks.map((i) => (
@@ -134,35 +137,38 @@ export const WalletSelecter = observer(() => {
           {!god.currentNetwork.account && (
             <Box>
               <Divider />
-              <Box  onClick={store.connectInejct} mb='24px' style={{'cursor': 'pointer'}} borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
+              <Box onClick={store.connectInejct} my="12px" style={{ cursor: 'pointer' }} borderRadius="8px" padding="14px" mt="24px" bg="rgba(0,0,0,0.1)">
                 <Flex>
-                  <Flex direction='column'>
-                      <Text fontSize='20' lineHeight='26.38px' fontStyle='normal' fontWeight='500'>Broswer Wallet</Text>
-                      <Text mt='3px' color='#999999' fontSize='12' lineHeight='16.38px' fontStyle='normal' fontWeight='500'>({names})</Text>
+                  <Flex direction="column">
+                    <Text fontSize="20" lineHeight="26.38px" fontStyle="normal" fontWeight="500">
+                      Broswer Wallet
+                    </Text>
+                    <Text mt="3px" color="gray.500" variant="blue" fontSize="12" lineHeight="16.38px" fontStyle="normal" fontWeight="500">
+                      ({names})
+                    </Text>
                   </Flex>
-                  <Flex ml='2px'>
-                    <AvatarGroup size='sm' border='none'>
-                        {
-                          config.map((item, index) => {
-                            return <Avatar name={item.title} key={item.title} src={item.icon} />
-                          })
-                        }
+                  <Flex ml="2px">
+                    <AvatarGroup size="sm" border="none">
+                      {config.map((item, index) => {
+                        return <Avatar name={item.title} key={item.title} src={item.icon} />;
+                      })}
                     </AvatarGroup>
                   </Flex>
                 </Flex>
               </Box>
-              <Box  onClick={() => {}} mb='24px' style={{'cursor': 'pointer'}} borderRadius='2px' padding='14px' mt='24px' background='#F7F8FA'>
-                <Flex justifyContent="space-between">
-                  <Flex direction='column'>
-                      <Text fontSize='20' lineHeight='26.38px' fontStyle='normal' fontWeight='500'>Wallet Connect</Text>
+              <Box onClick={() => {}} my="12px" style={{ cursor: 'pointer' }} borderRadius="8px" padding="14px" background="rgba(0,0,0,0.1)">
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Flex direction="column">
+                    <Text fontSize="20" lineHeight="26.38px" fontStyle="normal" fontWeight="500">
+                      Wallet Connect
+                    </Text>
                   </Flex>
-                  <Flex ml='2px'>
-                    <AvatarGroup size='sm' border='none'>
-                        <Avatar src={'/images/walletConnect.svg'} />
+                  <Flex ml="2px">
+                    <AvatarGroup size="sm" border="none">
+                      <Avatar src={'/images/walletConnect.svg'} />
                     </AvatarGroup>
                   </Flex>
                 </Flex>
-         
               </Box>
             </Box>
           )}
