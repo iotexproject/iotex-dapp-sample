@@ -2,7 +2,7 @@ import React from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { useWeb3React } from '@web3-react/core';
-import { injected } from '../../lib/web3-react';
+import { injected, walletconnect } from '../../lib/web3-react';
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/modal';
 import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/layout';
 import { Image, Button, Img, Avatar, AvatarBadge, createStandaloneToast, Center, Divider, AvatarGroup, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
@@ -57,6 +57,7 @@ export const WalletSelecter = observer(() => {
     },
     onWalletConnect() {
       god.setNetwork(Network.ETH);
+      activate(walletconnect);
     }
   }));
 
@@ -156,10 +157,10 @@ export const WalletSelecter = observer(() => {
                   </Flex>
                 </Flex>
               </Box>
-              <Box onClick={() => {}} my="12px" style={{ cursor: 'pointer' }} borderRadius="8px" padding="14px" background="rgba(0,0,0,0.1)">
+              <Box onClick={() => store.onWalletConnect()} my="12px" style={{ cursor: 'pointer' }} borderRadius="8px" padding="14px" background="rgba(0,0,0,0.1)">
                 <Flex justifyContent="space-between" alignItems="center">
                   <Flex direction="column">
-                    <Text fontSize="20" lineHeight="26.38px" fontStyle="normal" fontWeight="500">
+                    <Text fontSize="18" lineHeight="26.38px" fontStyle="normal" fontWeight="500">
                       Wallet Connect
                     </Text>
                   </Flex>

@@ -1,12 +1,13 @@
 import { publicCOnfig } from './public';
 import { ChainState } from '@/store/lib/ChainState';
 import { TokenState } from '@/store/lib/TokenState';
+import { RPC_URLS } from '../lib/web3-react';
 
 export const ETHKovanConfig = new ChainState({
   name: 'ETH Kovan',
   chainId: 42,
   networkKey: 'eth',
-  rpcUrl: `https://kovan.infura.io/v3/${publicCOnfig.infuraId}`,
+  rpcUrl: RPC_URLS[42],
   logoUrl: '/images/eth.svg',
   explorerURL: 'https://kovan.etherscan.io',
   explorerName: 'EtherScan',

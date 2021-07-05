@@ -1,11 +1,12 @@
 import { TokenState } from '@/store/lib/TokenState';
 import { ChainState } from '../store/lib/ChainState';
+import { RPC_URLS } from '../lib/web3-react';
 
 export const IotexMainnetConfig = new ChainState({
   name: 'IoTeX',
   chainId: 4689,
   networkKey: 'iotex',
-  rpcUrl: 'https://babel-api.mainnet.iotex.io/',
+  rpcUrl: RPC_URLS[4689],
   logoUrl: '/images/iotex.svg',
   explorerURL: 'https://iotexscan.com',
   explorerName: 'IoTeXScan',

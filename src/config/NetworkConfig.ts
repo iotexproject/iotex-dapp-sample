@@ -7,11 +7,12 @@ import { BSCTestnetConfig } from './BSCTestnetConfig';
 import { IotexMainnetConfig } from './IotexMainnetConfig';
 import { IotexTestnetConfig } from './IotexTestnetConfig';
 import { PolygonMainnetConfig } from './PolygonMainnetConfig';
+import { allowChains } from '../lib/web3-react';
 
 const EthChains = [BSCMainnetConfig, BSCTestnetConfig, ETHMainnetConfig, ETHKovanConfig, IotexTestnetConfig, IotexMainnetConfig, PolygonMainnetConfig];
 
 export const EthNetworkConfig = new EthNetworkState({
-  allowChains: EthChains.map((i) => i.chainId),
+  allowChains,
   info: {
     token: {
       tokenExample: '0x000000000000000000000000000000000000000'

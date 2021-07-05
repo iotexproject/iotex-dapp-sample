@@ -1,12 +1,13 @@
 import { publicCOnfig } from './public';
 import { ChainState } from '@/store/lib/ChainState';
 import { TokenState } from '@/store/lib/TokenState';
+import { RPC_URLS } from '../lib/web3-react';
 
 export const ETHMainnetConfig = new ChainState({
   name: 'ETH',
   chainId: 1,
   networkKey: 'eth',
-  rpcUrl: `https://mainnet.infura.io/v3/${publicCOnfig.infuraId}`,
+  rpcUrl: RPC_URLS[1],
   logoUrl: '/images/eth.svg',
   explorerURL: 'https://etherscan.io',
   explorerName: 'EtherScan',

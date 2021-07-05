@@ -7,9 +7,14 @@
     <title>IoTeX dApp Sample V2</title>
     <script>
       window.process = {};
+      var exports = {};
       if (global === undefined) {
         var global = window;
       }
+    </script>
+    <script type="module">
+      import { Buffer } from 'buffer';
+      window.Buffer = Buffer;
     </script>
   </head>
   <body>

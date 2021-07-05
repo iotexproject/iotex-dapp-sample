@@ -1,11 +1,12 @@
 import { ChainState } from '@/store/lib/ChainState';
 import { TokenState } from '@/store/lib/TokenState';
+import { RPC_URLS } from '../lib/web3-react';
 
 export const BSCTestnetConfig = new ChainState({
   name: 'BSC Testnet',
   chainId: 97,
   networkKey: 'bsc',
-  rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+  rpcUrl: RPC_URLS[97],
   logoUrl: '/images/bsc.svg',
   explorerURL: 'https://testnet.bscscan.com',
   explorerName: 'BscScan',

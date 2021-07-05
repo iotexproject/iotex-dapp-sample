@@ -7,7 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './'), // 根路径
-      '@': path.resolve(__dirname, 'src')
+      '@': path.resolve(__dirname, 'src'),
+      stream: 'stream-browserify'
     }
   },
   define: {

@@ -1,12 +1,13 @@
 import { ChainState } from '@/store/lib/ChainState';
 import { TokenState } from '@/store/lib/TokenState';
+import { RPC_URLS } from '../lib/web3-react';
 
 export const PolygonMainnetConfig = new ChainState({
   name: 'Polygon',
   chainId: 137,
   networkKey: 'polygon',
   logoUrl: '/images/polygon.svg',
-  rpcUrl: 'https://rpc-mainnet.maticvigil.com/',
+  rpcUrl: RPC_URLS[137],
   explorerURL: 'https://explorer-mainnet.maticvigil.com/',
   explorerName: 'PolygonScan',
   Coin: new TokenState({

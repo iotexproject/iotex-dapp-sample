@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Container, Stack, useDisclosure, IconButton, useColorModeValue, Icon, useColorMode, Heading, Alert, AlertIcon, Text } from '@chakra-ui/react';
+import { Box, Flex, Container, Stack, useDisclosure, IconButton, useColorModeValue, Icon, useColorMode, Heading, Alert, AlertIcon, Text, AlertDescription, CloseButton } from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
@@ -7,10 +7,13 @@ import { Logo } from '../Logo';
 import { DesktopNav } from '@/components/Header/DesktopNav';
 import { observer } from 'mobx-react-lite';
 import { WalletInfo } from '../WalletInfo';
+import { useWeb3React } from '@web3-react/core';
+import { getErrorMessage } from '../../lib/web3-react';
 
 export const Header = observer(() => {
   const { isOpen: isMobileNavOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { error } = useWeb3React();
 
   return (
     <Box>
@@ -52,6 +55,15 @@ export const Header = observer(() => {
           </Stack>
         </Container>
       </Flex>
+      <Container maxW={'7xl'} size="">
+        {error && (
+          <Alert status="error" align={'center'}>
+            <AlertIcon />
+            <AlertDescription>{getErrorMessage(error)}</AlertDescription>
+            <CloseButton position="absolute" right="8px" top="8px" />
+          </Alert>
+        )}
+      </Container>
       <WalletInfo />
     </Box>
   );

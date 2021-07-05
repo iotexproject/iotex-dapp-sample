@@ -7,7 +7,7 @@ import { ChakraProvider, Button, Container, Center, CSSReset } from '@chakra-ui/
 import { theme } from '@/lib/theme';
 import { ETHProvider } from './components/EthProvider';
 import { Home } from './pages/Home/index';
-import { Web3ReactProvider } from '@web3-react/core';
+import { Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { getLibrary } from './lib/web3-react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Box, Text } from '@chakra-ui/layout';
@@ -30,10 +30,12 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
 };
 
 export const App = observer(() => {
+  const { error } = useWeb3React();
   const { lang, god } = useStore();
   useEffect(() => {
     lang.init();
   }, []);
+  console.log(error);
 
   return (
     <ChakraProvider theme={theme}>
@@ -42,6 +44,7 @@ export const App = observer(() => {
           <WalletSelecter />
           <ETHProvider />
           <Toaster />
+
           <Router>
             <Header />
             <Switch>
