@@ -1,16 +1,18 @@
 import React from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
-import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/modal';
+import { Modal, ModalContent, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/modal';
 import { useStore } from '../../store/index';
 import { eventBus } from '../../lib/event';
 import copy from 'copy-to-clipboard';
 import toast from 'react-hot-toast';
-import { Button, Text, Flex, Center, Link, Tooltip } from '@chakra-ui/react';
+import { Button, Text, Flex, Center, Link, Tooltip, Box, Icon, chakra } from '@chakra-ui/react';
 import { ExternalLinkIcon, CopyIcon } from '@chakra-ui/icons';
 import * as clipboard from 'clipboard-polyfill/text';
 import { helper } from '@/lib/helper';
-import { IotexMainnetConfig } from '../../config/IotexMainnetConfig'
-import { from } from "@iotexproject/iotex-address-ts"
+import { IotexMainnetConfig } from '../../config/IotexMainnetConfig';
+import { from } from '@iotexproject/iotex-address-ts';
+import { NetworkState } from '@/store/lib/NetworkState';
+import EnterSvg from '../../../public/images/enter.svg';
 
 export const WalletInfo = observer(() => {
   const { god, lang } = useStore();
@@ -39,65 +41,73 @@ export const WalletInfo = observer(() => {
       this.isTipOpen = val;
     }
   }));
+  console.log(`god.isIotxNetork`, god.isIotxNetork);
   return (
     <Modal isOpen={store.visible} size="lg" onClose={store.close} isCentered>
       <ModalOverlay />
-      <ModalContent padding="10">
-        <Center>
-          <Tooltip label="Copied" placement="bottom" isOpen={store.isTipOpen}>
-            <Text
-              display="flex"
-              alignItems="center"
-              color="blue.400"
-              cursor="pointer"
-              onClick={async () => {
-                const [error] = await helper.promise.runAsync(clipboard.writeText(god.currentNetwork.account));
-                if (!error) {
-                  store.toggleTipOpen(true);
-                  setTimeout(() => {
-                    store.toggleTipOpen(false);
-                  }, 500);
-                }
-              }}
-            >
-              {god.currentNetwork?.account}
-              <CopyIcon ml="4px" w="1.4rem" h="1.4rem" />
-            </Text>
-          </Tooltip>
-        </Center>
-        {  god.isIotxNetork && 
-          <Center mt="8px">
-          <Tooltip label="Copied" placement="bottom" isOpen={store.isIOTipOpen}>
-            <Text
-              display="flex"
-              alignItems="center"
-              color="blue.400"
-              cursor="pointer"
-              onClick={async () => {
-                const [error] = await helper.promise.runAsync(clipboard.writeText(from(god.currentNetwork.account)?.string()));
-                if (!error) {
-                  store.toggleIOTipOpen(true);
-                  setTimeout(() => {
-                    store.toggleIOTipOpen(false);
-                  }, 500);
-                }
-              }}
-            >
-              {god.currentNetwork?.account && from(god.currentNetwork.account)?.string()}
-              <CopyIcon ml="4px" w="1.4rem" h="1.4rem" />
-            </Text>
-          </Tooltip>
-        </Center>
-        }
-        <Center mt="16px">
-          <Link target="_blank" display="flex" alignItems="center" color="blue.400" href={`${god.currentChain.explorerURL}/adress/${god.currentChain.explorerName}`}>
-            View On BscScan
-            <ExternalLinkIcon ml="4px" w="1.4rem" h="1.4rem" />
-          </Link>
-        </Center>
-        <Button mt="24px" onClick={store.logout} size="md">
-          <Text>Logout</Text>
-        </Button>
+      <ModalContent>
+        <ModalHeader>Your wallet</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody padding="10">
+          <Box>
+            <Tooltip label="Copied" placement="bottom" isOpen={store.isTipOpen}>
+              <Text
+                display="flex"
+                alignItems="center"
+                cursor="pointer"
+                onClick={async () => {
+                  const [error] = await helper.promise.runAsync(clipboard.writeText(god.currentNetwork.account));
+                  if (!error) {
+                    store.toggleTipOpen(true);
+                    setTimeout(() => {
+                      store.toggleTipOpen(false);
+                    }, 500);
+                  }
+                }}
+              >
+                {god.currentNetwork?.account}
+                <CopyIcon ml="4px" w="1.4rem" h="1.4rem" />
+              </Text>
+            </Tooltip>
+          </Box>
+          {god.currentChain.networkKey === 'iotex' && (
+            <>
+              <Flex mt="8px">
+                <chakra.img w="1.2rem" h="1.2rem" src={EnterSvg} />
+                <Tooltip label="Copied" placement="bottom" isOpen={store.isIOTipOpen}>
+                  <Text
+                    display="flex"
+                    alignItems="center"
+                    cursor="pointer"
+                    onClick={async () => {
+                      const [error] = await helper.promise.runAsync(clipboard.writeText(from(god.currentNetwork.account)?.string()));
+                      if (!error) {
+                        store.toggleIOTipOpen(true);
+                        setTimeout(() => {
+                          store.toggleIOTipOpen(false);
+                        }, 500);
+                      }
+                    }}
+                  >
+                    {god.currentNetwork?.account && from(god.currentNetwork.account)?.string()}
+                    <CopyIcon ml="4px" w="1.4rem" h="1.4rem" />
+                  </Text>
+                </Tooltip>
+              </Flex>
+            </>
+          )}
+          <Box mt="16px">
+            <Link target="_blank" display="flex" alignItems="center" href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}>
+              View On {god.currentChain.explorerName}
+              <ExternalLinkIcon ml="4px" w="1.4rem" h="1.4rem" />
+            </Link>
+          </Box>
+          <Center>
+            <Button mt="24px" onClick={store.logout} size="md">
+              <Text>Logout</Text>
+            </Button>
+          </Center>
+        </ModalBody>
       </ModalContent>
     </Modal>
   );
