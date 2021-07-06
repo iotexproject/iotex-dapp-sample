@@ -2,15 +2,14 @@
 
 ![7121622212283_ pic](https://user-images.githubusercontent.com/448293/120024975-d2604b80-bfa4-11eb-969c-f6f581fe11bf.jpg)
 
-
 This is a boilerplate template for making your awesome dApp on IoTeX and ETH, BSC, and other possible chains ([request here](https://github.com/iotexproject/iotex-dapp-sample-v2/issues/new))
-
 
 Technology used in this template are
 
 - [Vite](https://github.com/vitejs/vite)
 - [React](https://reactjs.org/)
 - [Typescript](https://www.typescriptlang.org/)
+- [Mobx](https://mobx.js.org/README.html)
 - [Chakra](https://chakra-ui.com/)
 - [Cypress](https://www.cypress.io/)
 

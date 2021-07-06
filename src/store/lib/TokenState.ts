@@ -31,10 +31,10 @@ export class TokenState {
     makeAutoObservable(this);
   }
 
-  transfer(args: Partial<CallParams>) {
+  transfer(args: Partial<CallParams<[string, string]>>) {
     return this.network.execContract(Object.assign({ address: this.address, abi: this.abi, method: 'transfer' }, args));
   }
-  approve(args: Partial<CallParams>) {
+  approve(args: Partial<CallParams<[string, string]>>) {
     return this.network.execContract(Object.assign({ address: this.address, abi: this.abi, method: 'approve' }, args));
   }
 
