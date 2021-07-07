@@ -5,6 +5,8 @@ import { CallParams } from '../../../type';
 import erc20Abi from '@/constants/abi/erc20.json';
 import { BooleanState } from '../standard/base';
 import { EthNetworkConfig } from '../../config/NetworkConfig';
+import { helper } from '../../lib/helper';
+import BigNumber from 'bignumber.js';
 
 export class TokenState {
   abi = erc20Abi;
@@ -16,6 +18,8 @@ export class TokenState {
   decimals: number = 18;
 
   network: NetworkState = EthNetworkConfig;
+  allowanceForRouter = new BigNumberState({});
+
   balance: BigNumberState;
   info: {
     loading: BooleanState;
@@ -32,11 +36,27 @@ export class TokenState {
     makeAutoObservable(this);
   }
 
+  setDecimals(val) {
+    this.decimals = val;
+    this.balance.setDecimals(val);
+    this.allowanceForRouter.setDecimals(val);
+  }
+
   transfer(args: Partial<CallParams<[string, string]>>) {
     return this.network.execContract(Object.assign({ address: this.address, abi: this.abi, method: 'transfer' }, args));
   }
-  approve(args: Partial<CallParams<[string, string]>>) {
-    return this.network.execContract(Object.assign({ address: this.address, abi: this.abi, method: 'approve' }, args));
+
+  async approve(args: Partial<CallParams>) {
+    this.info.loading.setValue(true);
+    const amount = args.params[1];
+    const [err, res] = await helper.promise.runAsync(this.network.execContract(Object.assign({ address: this.address, abi: this.abi, method: 'approve' }, args)));
+    if (!err) {
+      const receipt = await res.wait();
+      if (receipt.status) {
+        this.allowanceForRouter.setValue(new BigNumber(amount));
+      }
+    }
+    this.info.loading.setValue(false);
   }
 
   preMulticall(args: Partial<CallParams>) {
