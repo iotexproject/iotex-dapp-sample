@@ -4,6 +4,7 @@ import { BigNumberState } from '../standard/BigNumberState';
 import { CallParams } from '../../../type';
 import erc20Abi from '@/constants/abi/erc20.json';
 import { BooleanState } from '../standard/base';
+import { EthNetworkConfig } from '../../config/NetworkConfig';
 
 export class TokenState {
   abi = erc20Abi;
@@ -11,10 +12,10 @@ export class TokenState {
   symbol: string = '';
   address: string = '';
   logoURI: string;
-  chainId: number;
+  chainId: number = 0;
   decimals: number = 18;
 
-  network: NetworkState;
+  network: NetworkState = EthNetworkConfig;
   balance: BigNumberState;
   info: {
     loading: BooleanState;

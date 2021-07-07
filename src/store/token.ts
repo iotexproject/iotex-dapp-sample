@@ -24,24 +24,24 @@ export class TokenStore {
     this.rootStore = rootStore;
     console.log(this.localStorageToken.value);
     this.tokens = {
-      [BSCMainnetConfig.chainId]: pancakeTokenList.tokens.concat(this.localStorageToken.value[BSCMainnetConfig.chainId] || []).map((i) => new TokenState({ ...i, network: EthNetworkConfig })),
+      [BSCMainnetConfig.chainId]: pancakeTokenList.tokens.concat(this.localStorageToken.value[BSCMainnetConfig.chainId] || []).map((i) => new TokenState(i)),
       [ETHMainnetConfig.chainId]: uniswapTokenList.tokens
         .filter((i) => i.chainId == ETHMainnetConfig.chainId)
         .concat(this.localStorageToken.value[ETHMainnetConfig.chainId] || [])
-        .map((i) => new TokenState({ ...i, network: EthNetworkConfig })),
+        .map((i) => new TokenState(i)),
       [ETHKovanConfig.chainId]: uniswapTokenList.tokens
         .filter((i) => i.chainId == ETHKovanConfig.chainId)
         .concat(this.localStorageToken.value[ETHKovanConfig.chainId] || [])
-        .map((i) => new TokenState({ ...i, network: EthNetworkConfig })),
+        .map((i) => new TokenState(i)),
       [IotexTestnetConfig.chainId]: iotexTokenlist.tokens
         .filter((i) => i.chainId == IotexTestnetConfig.chainId)
         .concat(this.localStorageToken.value[IotexTestnetConfig.chainId] || [])
-        .map((i) => new TokenState({ ...i, address: from(i.address).stringEth(), network: EthNetworkConfig })),
+        .map((i) => new TokenState({ ...i, address: from(i.address).stringEth() })),
       [IotexMainnetConfig.chainId]: iotexTokenlist.tokens
         .filter((i) => i.chainId == IotexMainnetConfig.chainId)
         .concat(this.localStorageToken.value[IotexMainnetConfig.chainId] || [])
-        .map((i) => new TokenState({ ...i, address: from(i.address).stringEth(), network: EthNetworkConfig })),
-      [PolygonMainnetConfig.chainId]: polygonTokenList.tokens.concat(this.localStorageToken.value[PolygonMainnetConfig.chainId] || []).map((i) => new TokenState({ ...i, network: EthNetworkConfig }))
+        .map((i) => new TokenState({ ...i, address: from(i.address).stringEth() })),
+      [PolygonMainnetConfig.chainId]: polygonTokenList.tokens.concat(this.localStorageToken.value[PolygonMainnetConfig.chainId] || []).map((i) => new TokenState(i))
     };
 
     makeAutoObservable(this, {
