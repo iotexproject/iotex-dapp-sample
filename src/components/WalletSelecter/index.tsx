@@ -127,7 +127,7 @@ export const WalletSelecter = observer(() => {
     }
   ];
   const names = config.map((item) => item.title).join(', ');
-  const bW = useColorModeValue('4px', '1px');
+  const bW = useColorModeValue('3px', '1px');
 
   return (
     <Modal isOpen={store.visible} onClose={store.close} isCentered>

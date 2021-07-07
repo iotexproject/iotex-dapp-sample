@@ -42,7 +42,7 @@ export const WalletInfo = observer(() => {
     }
   }));
   console.log(`god.isIotxNetork`, god.isIotxNetork);
-  const bW = useColorModeValue('4px', '1px');
+  const bW = useColorModeValue('3px', '1px');
 
   return (
     <Modal isOpen={store.visible} size="lg" onClose={store.close} isCentered>
