@@ -1,5 +1,5 @@
 import { ChainState } from '@/store/lib/ChainState';
-import { TokenState } from '@/store/lib/TokenState';
+import { CoinState } from '@/store/lib/CoinState';
 import { RPC_URLS } from '../lib/web3-react';
 
 export const BSCTestnetConfig = new ChainState({
@@ -10,7 +10,7 @@ export const BSCTestnetConfig = new ChainState({
   logoUrl: '/images/bsc.svg',
   explorerURL: 'https://testnet.bscscan.com',
   explorerName: 'BscScan',
-  Coin: new TokenState({
+  Coin: new CoinState({
     symbol: 'BNB',
     decimals: 18
   }),

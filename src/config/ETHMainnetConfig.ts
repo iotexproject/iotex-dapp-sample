@@ -1,7 +1,6 @@
-import { publicCOnfig } from './public';
 import { ChainState } from '@/store/lib/ChainState';
-import { TokenState } from '@/store/lib/TokenState';
 import { RPC_URLS } from '../lib/web3-react';
+import { CoinState } from '@/store/lib/CoinState';
 
 export const ETHMainnetConfig = new ChainState({
   name: 'ETH',
@@ -11,7 +10,7 @@ export const ETHMainnetConfig = new ChainState({
   logoUrl: '/images/eth.svg',
   explorerURL: 'https://etherscan.io',
   explorerName: 'EtherScan',
-  Coin: new TokenState({
+  Coin: new CoinState({
     symbol: 'ETH',
     decimals: 18
   }),

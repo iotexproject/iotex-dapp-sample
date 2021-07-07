@@ -1,6 +1,6 @@
 import { RPC_URLS } from '@/lib/web3-react';
 import { ChainState } from '@/store/lib/ChainState';
-import { TokenState } from '@/store/lib/TokenState';
+import { CoinState } from '../store/lib/CoinState';
 
 export const BSCMainnetConfig = new ChainState({
   name: 'BSC',
@@ -10,7 +10,7 @@ export const BSCMainnetConfig = new ChainState({
   logoUrl: '/images/bsc.svg',
   explorerURL: 'https://bscscan.com',
   explorerName: 'BscScan',
-  Coin: new TokenState({
+  Coin: new CoinState({
     symbol: 'BNB',
     decimals: 18
   }),

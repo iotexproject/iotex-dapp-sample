@@ -1,5 +1,5 @@
 import { ChainState } from '@/store/lib/ChainState';
-import { TokenState } from '@/store/lib/TokenState';
+import { CoinState } from '@/store/lib/CoinState';
 import { RPC_URLS } from '../lib/web3-react';
 
 export const PolygonMainnetConfig = new ChainState({
@@ -10,7 +10,7 @@ export const PolygonMainnetConfig = new ChainState({
   rpcUrl: RPC_URLS[137],
   explorerURL: 'https://explorer-mainnet.maticvigil.com/',
   explorerName: 'PolygonScan',
-  Coin: new TokenState({
+  Coin: new CoinState({
     symbol: 'MATIC',
     decimals: 18
   }),

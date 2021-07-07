@@ -1,6 +1,6 @@
-import { TokenState } from '@/store/lib/TokenState';
 import { ChainState } from '../store/lib/ChainState';
 import { RPC_URLS } from '../lib/web3-react';
+import { CoinState } from '@/store/lib/CoinState';
 
 export const IotexMainnetConfig = new ChainState({
   name: 'IoTeX',
@@ -10,7 +10,7 @@ export const IotexMainnetConfig = new ChainState({
   logoUrl: '/images/iotex.svg',
   explorerURL: 'https://iotexscan.io',
   explorerName: 'IoTeXScan',
-  Coin: new TokenState({
+  Coin: new CoinState({
     symbol: 'IOTX',
     decimals: 18
   }),

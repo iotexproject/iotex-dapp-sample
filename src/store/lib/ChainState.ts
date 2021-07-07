@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { NetworkState } from './NetworkState';
-import { TokenState } from './TokenState';
+import { CoinState } from './CoinState';
 
 export class ChainState {
   name: string;
@@ -11,7 +11,7 @@ export class ChainState {
   rpcUrl: string;
   explorerName: string;
   explorerURL: string;
-  Coin: TokenState;
+  Coin: CoinState;
   info: {
     blockPerSeconds: number;
     multicallAddr?: string;

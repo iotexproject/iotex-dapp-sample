@@ -1,6 +1,5 @@
-import { publicCOnfig } from './public';
 import { ChainState } from '@/store/lib/ChainState';
-import { TokenState } from '@/store/lib/TokenState';
+import { CoinState } from '@/store/lib/CoinState';
 import { RPC_URLS } from '../lib/web3-react';
 
 export const ETHKovanConfig = new ChainState({
@@ -11,7 +10,7 @@ export const ETHKovanConfig = new ChainState({
   logoUrl: '/images/eth.svg',
   explorerURL: 'https://kovan.etherscan.io',
   explorerName: 'EtherScan',
-  Coin: new TokenState({
+  Coin: new CoinState({
     symbol: 'ETH',
     decimals: 18
   }),
