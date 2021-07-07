@@ -8,5 +8,6 @@
   "connector.loading": "Connecting. Please unlock ioPay and don't use global proxy or VPN.",
   "connector.loading.mobile": "Connecting.",
   "connector.success": "Connected",
-  "connector.failed": "Connect failed, Please try again later."
+  "connector.failed": "Connect failed, Please try again later.",
+  "account": "Account"
 }

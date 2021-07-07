@@ -50,7 +50,7 @@ export const WalletInfo = observer(() => {
       <ModalContent borderRadius="15px" bgGradient={god.currentChain.info.theme.bgGradient}>
         <ModalHeader bg={useColorModeValue('white', 'gray.800')} borderTopRadius="15px" margin={`${bW}  ${bW}  0 ${bW} `}>
           <chakra.span fontSize="xl" fontWeight="bold">
-            Account
+            {lang.t('account')}
           </chakra.span>
         </ModalHeader>
         <ModalCloseButton />

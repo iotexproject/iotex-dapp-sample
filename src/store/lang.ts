@@ -18,6 +18,10 @@ export class LangStore {
   translations: { [key: string]: Translation } = {
     en
   };
+  configs = [
+    { name: 'English', lang: 'en' },
+    { name: 'Chinese', lang: 'zh_CN' }
+  ];
   get translation() {
     return this.translations[this.lang];
   }

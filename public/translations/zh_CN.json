@@ -1,3 +1,4 @@
 {
-  "hello": "你好 ${msg}"
+  "hello": "你好 ${msg}",
+  "account": "账户"
 }

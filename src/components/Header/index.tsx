@@ -1,7 +1,31 @@
 import React from 'react';
-import { Box, Flex, Container, Stack, useDisclosure, IconButton, useColorModeValue, Icon, useColorMode, Heading, Alert, AlertIcon, Text, AlertDescription, CloseButton } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Container,
+  Stack,
+  useDisclosure,
+  IconButton,
+  useColorModeValue,
+  Icon,
+  useColorMode,
+  Heading,
+  Alert,
+  AlertIcon,
+  Text,
+  AlertDescription,
+  CloseButton,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton
+} from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
-import { IoMoon, IoSunny } from 'react-icons/io5';
+import { IoLanguage, IoMoon, IoSunny } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { Logo } from '../Logo';
 import { DesktopNav } from '@/components/Header/DesktopNav';
@@ -9,11 +33,14 @@ import { observer } from 'mobx-react-lite';
 import { WalletInfo } from '../WalletInfo';
 import { useWeb3React } from '@web3-react/core';
 import { getErrorMessage } from '../../lib/web3-react';
+import { Button, Avatar, Image } from '@chakra-ui/react';
+import { useStore } from '../../store/index';
 
 export const Header = observer(() => {
   const { isOpen: isMobileNavOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { error } = useWeb3React();
+  const { lang } = useStore();
 
   return (
     <Box>
@@ -51,6 +78,32 @@ export const Header = observer(() => {
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />
             </Flex>
+            <Popover variant="hover" closeOnBlur>
+              {({ onClose }) => (
+                <>
+                  <PopoverTrigger>
+                    <IconButton borderRadius="12" aria-label={'Toggle Color Mode'} icon={<IoLanguage />} />
+                  </PopoverTrigger>
+                  <PopoverContent w="40" px="2" py="2">
+                    {lang.configs.map((i) => (
+                      <Button
+                        bg="none"
+                        key={i.lang}
+                        onClick={() => {
+                          onClose();
+                          lang.setLang(i.lang);
+                        }}
+                      >
+                        <Image src={`/images/${i.lang}.png`} boxSize="15px" />
+                        <Text ml="8px" fontSize="sm">
+                          {i.name}
+                        </Text>
+                      </Button>
+                    ))}
+                  </PopoverContent>
+                </>
+              )}
+            </Popover>
             <IconButton borderRadius="12" aria-label={'Toggle Color Mode'} onClick={toggleColorMode} icon={colorMode == 'light' ? <IoMoon size={18} /> : <IoSunny size={18} />} />
           </Stack>
         </Container>
