@@ -5,7 +5,7 @@ import { useStore } from '../../store/index';
 import { eventBus } from '../../lib/event';
 import copy from 'copy-to-clipboard';
 import toast from 'react-hot-toast';
-import { Button, Text, Flex, Center, Link, Tooltip, Box, Icon, chakra } from '@chakra-ui/react';
+import { Button, Text, Flex, Center, Link, Tooltip, Box, Icon, chakra, useColorModeValue } from '@chakra-ui/react';
 import { ExternalLinkIcon, CopyIcon } from '@chakra-ui/icons';
 import * as clipboard from 'clipboard-polyfill/text';
 import { helper } from '@/lib/helper';
@@ -42,13 +42,19 @@ export const WalletInfo = observer(() => {
     }
   }));
   console.log(`god.isIotxNetork`, god.isIotxNetork);
+  const bW = useColorModeValue('4px', '1px');
+
   return (
     <Modal isOpen={store.visible} size="lg" onClose={store.close} isCentered>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Your wallet</ModalHeader>
+      <ModalContent borderRadius="15px" bgGradient={god.currentChain.info.theme.bgGradient}>
+        <ModalHeader bg={useColorModeValue('white', 'gray.800')} borderTopRadius="15px" margin={`${bW}  ${bW}  0 ${bW} `}>
+          <chakra.span fontSize="xl" fontWeight="bold">
+            Account
+          </chakra.span>
+        </ModalHeader>
         <ModalCloseButton />
-        <ModalBody padding="10">
+        <ModalBody py="6" bg={useColorModeValue('white', 'gray.800')} borderBottomRadius="15px" margin={`0 ${bW}  ${bW}   ${bW} `}>
           <Box>
             <Tooltip label="Copied" placement="bottom" isOpen={store.isTipOpen}>
               <Text
@@ -66,19 +72,20 @@ export const WalletInfo = observer(() => {
                 }}
               >
                 {god.currentNetwork?.account}
-                <CopyIcon ml="4px" w="1.4rem" h="1.4rem" />
+                <CopyIcon ml="4px" w="1rem" h="1rem" />
               </Text>
             </Tooltip>
           </Box>
           {god.currentChain.networkKey === 'iotex' && (
             <>
               <Flex mt="8px">
-                <chakra.img w="1.2rem" h="1.2rem" src={EnterSvg} />
+                <chakra.img w="1.2rem" h="1.2rem" mr="2" src={EnterSvg} />
                 <Tooltip label="Copied" placement="bottom" isOpen={store.isIOTipOpen}>
                   <Text
                     display="flex"
                     alignItems="center"
                     cursor="pointer"
+                    fontSize="sm"
                     onClick={async () => {
                       const [error] = await helper.promise.runAsync(clipboard.writeText(from(god.currentNetwork.account)?.string()));
                       if (!error) {
@@ -90,18 +97,28 @@ export const WalletInfo = observer(() => {
                     }}
                   >
                     {god.currentNetwork?.account && from(god.currentNetwork.account)?.string()}
-                    <CopyIcon ml="4px" w="1.4rem" h="1.4rem" />
+                    <CopyIcon ml="4px" w="1rem" h="1rem" />
                   </Text>
                 </Tooltip>
               </Flex>
             </>
           )}
-          <Box mt="16px">
-            <Link target="_blank" display="flex" alignItems="center" href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}>
-              View On {god.currentChain.explorerName}
-              <ExternalLinkIcon ml="4px" w="1.4rem" h="1.4rem" />
-            </Link>
-          </Box>
+          <Flex mt="20px" alignItems="center">
+            <Flex alignItems="center">
+              <Link
+                fontSize="sm"
+                backgroundClip="text"
+                bgGradient={god.currentChain.info.theme.bgGradient}
+                target="_blank"
+                display="flex"
+                alignItems="center"
+                href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}
+              >
+                View On {god.currentChain.explorerName}
+              </Link>
+              <ExternalLinkIcon ml="4px" w="1rem" h="1rem" />
+            </Flex>
+          </Flex>
           <Center>
             <Button mt="24px" onClick={store.logout} size="md">
               <Text>Logout</Text>

@@ -5,7 +5,22 @@ import { useWeb3React } from '@web3-react/core';
 import { injected, walletconnect } from '../../lib/web3-react';
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/modal';
 import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/layout';
-import { Image, Button, Img, Avatar, AvatarBadge, createStandaloneToast, Center, Divider, AvatarGroup, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
+import {
+  Image,
+  Button,
+  Img,
+  Avatar,
+  AvatarBadge,
+  createStandaloneToast,
+  Center,
+  Divider,
+  AvatarGroup,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  useColorMode,
+  useColorModeValue
+} from '@chakra-ui/react';
 import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
 import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
 import { metamaskUtils } from '../../lib/metaskUtils';
@@ -58,6 +73,7 @@ export const WalletSelecter = observer(() => {
     onWalletConnect() {
       god.setNetwork(Network.ETH);
       activate(walletconnect);
+      god.eth.connector.latestProvider.save('walletConnect');
     }
   }));
 
@@ -111,18 +127,19 @@ export const WalletSelecter = observer(() => {
     }
   ];
   const names = config.map((item) => item.title).join(', ');
+  const bW = useColorModeValue('4px', '1px');
 
   return (
     <Modal isOpen={store.visible} onClose={store.close} isCentered>
       <ModalOverlay />
-      <ModalContent padding="10px">
-        <ModalHeader>
-          <Text fontSize="xl" fontWeight="bold" color="gray.600">
-            Connect to a wallet
+      <ModalContent borderRadius="15px" bgGradient={god.currentChain.info.theme.bgGradient}>
+        <ModalHeader bg={useColorModeValue('white', 'gray.800')} borderTopRadius="15px" margin={`${bW}  ${bW}  0 ${bW} `}>
+          <Text fontSize="xl" fontWeight="bold">
+            {god.isConnect ? 'Switch Network' : 'Connect to a wallet'}
           </Text>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody py="6" bg={useColorModeValue('white', 'gray.800')} borderBottomRadius="15px" margin={`0 ${bW}  ${bW}   ${bW} `}>
           <HStack justify="space-between" mb={6} px={4}>
             {store.networks.map((i) => (
               <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>

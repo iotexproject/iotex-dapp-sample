@@ -30,7 +30,7 @@ export const helper = {
         return str;
       }
     },
-    truncate(fullStr, strLen, separator) {
+    truncate(fullStr = '', strLen, separator) {
       if (fullStr.length <= strLen) return fullStr;
 
       separator = separator || '...';
