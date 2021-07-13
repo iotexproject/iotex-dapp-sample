@@ -1,8 +1,8 @@
 import Axios from 'axios';
-import { publicCOnfig } from '../config/public';
+import { publicConfig } from '../config/public';
 
 export const api = Axios.create({
-  baseURL: publicCOnfig.APIURL
+  baseURL: publicConfig.APIURL
 });
 
 api.interceptors.request.use((req) => {

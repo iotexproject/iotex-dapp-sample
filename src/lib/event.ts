@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import TypedEmitter from 'typed-emitter';
-import { publicCOnfig } from '../config/public';
+import { publicConfig } from '../config/public';
 
 class MyEmitter extends EventEmitter {
   emit(type: any, ...args: any[]) {
@@ -18,7 +18,7 @@ interface MessageEvents {
 
 export const eventBus = new MyEmitter() as TypedEmitter<MessageEvents>;
 
-if (!publicCOnfig.isProd) {
+if (!publicConfig.isProd) {
   eventBus.on('*', ({ type, args }) => {
     console.log(type, args);
   });

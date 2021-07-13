@@ -1,4 +1,4 @@
-import { publicCOnfig } from './../config/public';
+import { publicConfig } from './../config/public';
 import { Web3Provider } from '@ethersproject/providers';
 import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
 import { providers as EthersProviders } from 'ethers';
@@ -7,8 +7,8 @@ import { UnsupportedChainIdError } from '@web3-react/core';
 
 const POLLING_INTERVAL = 12000;
 export const RPC_URLS = {
-  1: `https://mainnet.infura.io/v3/${publicCOnfig.infuraId}`,
-  42: `https://kovan.infura.io/v3/${publicCOnfig.infuraId}`,
+  1: `https://mainnet.infura.io/v3/${publicConfig.infuraId}`,
+  42: `https://kovan.infura.io/v3/${publicConfig.infuraId}`,
   56: 'https://bsc-dataseed.binance.org',
   97: 'https://data-seed-prebsc-1-s1.binance.org:8545',
   4689: 'https://babel-api.mainnet.iotex.io/',
