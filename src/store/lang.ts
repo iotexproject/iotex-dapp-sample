@@ -6,7 +6,8 @@ type Translation = typeof en;
 
 const fileNameMapping = {
   'en-US': 'en',
-  'zh-CN': 'zh_CN'
+  'zh-CN': 'zh_CN',
+  'ru': 'ru'
 };
 
 export class LangStore {
@@ -20,7 +21,8 @@ export class LangStore {
   };
   configs = [
     { name: 'English', lang: 'en' },
-    { name: 'Chinese', lang: 'zh_CN' }
+    { name: 'Chinese', lang: 'zh_CN' },
+    { name: 'Russian', lang: 'ru'}
   ];
   get translation() {
     return this.translations[this.lang];

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Stack, BoxProps, Text, Button, Box, Img, Tag, ButtonGroup, chakra, useColorModeValue } from '@chakra-ui/react';
 import { observer, useObserver, useLocalStore } from 'mobx-react-lite';
-import { useStore } from '../../store/index';
-import { helper } from '../../lib/helper';
+import { useStore } from '@/store/index';
+import { helper } from '@/lib/helper';
 
 export const DesktopNav = observer((props: BoxProps) => {
   const { god, lang } = useStore();

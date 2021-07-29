@@ -19,7 +19,7 @@ export const EthNetworkConfig = new EthNetworkState({
     }
   },
   chain: new MappingState({
-    currentId: BSCMainnetConfig.chainId,
+    currentId: IotexMainnetConfig.chainId,
     map: EthChains.reduce((p, c) => {
       p[c.chainId] = c;
       return p;
