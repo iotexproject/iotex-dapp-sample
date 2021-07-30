@@ -32,7 +32,7 @@ import { PolygonMainnetConfig } from '../../config/PolygonMainnetConfig';
 const toast = createStandaloneToast();
 
 export const WalletSelecter = observer(() => {
-  const { god } = useStore();
+  const { god,lang } = useStore();
   const { active, error, activate } = useWeb3React();
 
   const store = useLocalStore(() => ({
@@ -131,7 +131,7 @@ export const WalletSelecter = observer(() => {
       <ModalContent borderRadius="15px" bgGradient={god.currentChain.info.theme.bgGradient}>
         <ModalHeader bg={useColorModeValue('white', 'gray.800')} borderTopRadius="15px" margin={`${bW}  ${bW}  0 ${bW} `}>
           <Text fontSize="xl" fontWeight="bold">
-            {god.isConnect ? 'Switch Network' : 'Connect to a wallet'}
+            { lang.t(god.isConnect?'switch.network':'connect.to.wallet') }
           </Text>
         </ModalHeader>
         <ModalCloseButton />
@@ -155,7 +155,7 @@ export const WalletSelecter = observer(() => {
                 <Flex>
                   <Flex direction="column">
                     <Text fontSize="20" lineHeight="26.38px" fontStyle="normal" fontWeight="500">
-                      Broswer Wallet
+                      {lang.t('browser.wallet')}
                     </Text>
                     <Text mt="3px" color="gray.500" variant="blue" fontSize="12" lineHeight="16.38px" fontStyle="normal" fontWeight="500">
                       ({names})
@@ -174,7 +174,7 @@ export const WalletSelecter = observer(() => {
                 <Flex justifyContent="space-between" alignItems="center">
                   <Flex direction="column">
                     <Text fontSize="18" lineHeight="26.38px" fontStyle="normal" fontWeight="500">
-                      Wallet Connect
+                      {lang.t('wallet.connect')}
                     </Text>
                   </Flex>
                   <Flex ml="2px">

@@ -68,7 +68,7 @@ export const Header = observer(() => {
               <Stack as={'a'} direction={'row'} alignItems={'center'} spacing={{ base: 2, sm: 4 }}>
                 <Icon as={Logo} w={{ base: 8 }} h={{ base: 8 }} />
                 <Heading as={'h1'} fontSize={'xl'} display={{ base: 'none', md: 'block' }}>
-                  Dapp Sample V2
+                  Dapp {lang.t('sample')} V2
                 </Heading>
               </Stack>
             </Link>
@@ -82,12 +82,16 @@ export const Header = observer(() => {
               {({ onClose }) => (
                 <>
                   <PopoverTrigger>
-                    <IconButton borderRadius="12" aria-label={'Toggle Color Mode'} icon={<IoLanguage />} />
+                    <Button borderRadius="12">
+                        <Image src={`/images/${lang.lang}.png`} boxSize="15px"/>
+                    </Button>
+                    {/*<IconButton borderRadius="12" aria-label={'Toggle Color Mode'} icon={<IoLanguage />} />*/}
                   </PopoverTrigger>
                   <PopoverContent w="40" px="2" py="2">
                     {lang.configs.map((i) => (
                       <Button
-                        bg="none"
+                        isActive={i.lang===lang.lang}
+                        bg={'none'}
                         key={i.lang}
                         onClick={() => {
                           onClose();

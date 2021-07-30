@@ -114,7 +114,7 @@ export const WalletInfo = observer(() => {
                 alignItems="center"
                 href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}
               >
-                View On {god.currentChain.explorerName}
+                {lang.t('view.on',{explorerName:god.currentChain.explorerName})}
               </Link>
               <ExternalLinkIcon ml="4px" w="1rem" h="1rem" />
             </Flex>

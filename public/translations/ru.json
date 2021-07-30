@@ -1,4 +1,26 @@
 {
   "hello": "добры дзень ${msg}",
-  "connect.wallet": "Падключыце кашалёк"
+  "wrong.network": "Няправільная сетка",
+  "connect.wallet": "Падключыце кашалёк",
+  "connect.to.wallet": "Падключыцеся да кашалька",
+  "address.copied": "Адрас скапіруецца.",
+  "invalid.input": "Няправільны ўвод",
+  "submit": "Адправіць",
+  "connector.loading": "Падключэнне. Разблакіруйце ioPay і не выкарыстоўвайце глабальны проксі-сервер або VPN.",
+  "connector.loading.mobile": "Падключэнне.",
+  "connector.success": "Падключаны",
+  "connector.failed": "Не атрымалася падключыцца. Паўтарыце спробу пазней.",
+  "account": "Рахунак",
+  "switch.network": "Пераключыць сетку",
+  "browser.wallet": "Кашалёк браўзэра",
+  "wallet.connect": "Кашалёк Connect",
+  "token.amount": "Сума токена",
+  "receiver.address": "Адрас атрымальніка",
+  "select.token": "Выберыце маркер",
+  "select.token.placeholder": "Шукаць імя або ўставіць адрас",
+  "view.on": "Прагляд укл ${explorerName}",
+  "issues": "пытанні",
+  "use.template": "Выкарыстоўвайце шаблон",
+  "sample": "Узор",
+  "erc20.toolbox": "ERC20 набор інструментаў"
 }
