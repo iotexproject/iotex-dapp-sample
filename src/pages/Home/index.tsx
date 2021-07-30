@@ -15,7 +15,9 @@ export const Home = observer(() => {
   return (
     <Container maxW='7xl'>
       <Flex justifyContent={'center'} alignItems={'center'} mt={10} flexDirection={'column'}>
-        <Image src={'images/v2.png'} w={'100%'} />
+        <Link href='https://github.com/iotexproject/iotex-dapp-sample-v2' isExternal>
+          <Image src={'images/v2.png'} w={'100%'} />
+        </Link>
         <Text mt={5}>
           IoTeX Dapp Sample V2
         </Text>
