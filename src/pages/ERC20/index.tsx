@@ -78,7 +78,7 @@ export const ERC20 = observer(() => {
         <FormControl mt={20}>
           <Box border="1px solid" borderRadius="md" borderColor="inherit">
             <Flex justify="space-between" p={2}>
-              <Text fontSize="sm">Token Amount</Text>
+              <Text fontSize="sm">{lang.t('token.amount')}</Text>
               <Text fontSize="sm">{store.curToken ? `Balance ${store.curToken.balance.format} ` : '...'}</Text>
             </Flex>
             <InputGroup>
@@ -95,7 +95,7 @@ export const ERC20 = observer(() => {
 
           <Box border="1px solid" borderRadius="md" borderColor="inherit" mt={4}>
             <Flex justify="space-between" p={2}>
-              <Text fontSize="sm">Receiver Address</Text>
+              <Text fontSize="sm">{lang.t('receiver.address')}</Text>
             </Flex>
             <InputGroup>
               <Input border="none" placeholder={god.currentNetwork.info.token.tokenExample} value={store.receiverAdderss.value} onChange={(e) => store.receiverAdderss.setValue(e.target.value)} />

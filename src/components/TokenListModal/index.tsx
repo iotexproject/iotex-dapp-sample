@@ -16,7 +16,7 @@ interface PropsType {
 }
 
 export const TokenListModal = observer((props: PropsType) => {
-  const { god, token } = useStore();
+  const { god, token,lang } = useStore();
   const store = useLocalObservable(() => ({
     keyword: new StringState(),
     newToken: null as TokenState,
@@ -81,10 +81,10 @@ export const TokenListModal = observer((props: PropsType) => {
     <Modal isOpen={props.isOpen} onClose={store.onClose} closeOnEsc closeOnOverlayClick>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Select a token</ModalHeader>
+        <ModalHeader>{lang.t('select.token')}</ModalHeader>
         <ModalCloseButton />
         <Box px={4} pb={2}>
-          <Input placeholder="Search name or paste address" value={store.keyword.value} onChange={(e) => store.keyword.setValue(e.target.value)} />
+          <Input placeholder={lang.t('select.token.placeholder')} value={store.keyword.value} onChange={(e) => store.keyword.setValue(e.target.value)} />
         </Box>
         <Box ml={4}>
           <VirtualList

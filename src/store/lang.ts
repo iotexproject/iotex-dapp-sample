@@ -14,6 +14,7 @@ export class LangStore {
   constructor() {
     makeAutoObservable(this);
   }
+
   langPath = '/translations';
   lang: string = 'en';
   translations: { [key: string]: Translation } = {
@@ -22,8 +23,9 @@ export class LangStore {
   configs = [
     { name: 'English', lang: 'en' },
     { name: 'Chinese', lang: 'zh_CN' },
-    { name: 'Russian', lang: 'ru'}
+    { name: 'Russian', lang: 'ru' }
   ];
+
   get translation() {
     return this.translations[this.lang];
   }
@@ -56,7 +58,7 @@ export class LangStore {
     }
   }
 
-  t(str: keyof Translation, data?: any) {
+  t(str: keyof Translation | string, data?: any) {
     let processed = this.translation[str] || this.translations.en[str];
     if (!processed) {
       return str;

@@ -12,7 +12,7 @@ class Tool {
 
 export const ToolConfig = [
   new Tool({
-    name: 'ERC20 Toolbox',
+    name: 'erc20.toolbox',
     path: '/erc20',
     component: ERC20,
     tags: ['ERC20']

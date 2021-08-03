@@ -1,4 +1,26 @@
 {
   "hello": "你好 ${msg}",
-  "account": "账户"
+  "wrong.network": "网络错误",
+  "connect.wallet": "连接钱包",
+  "connect.to.wallet": "连接到一个钱包",
+  "address.copied": "The address is copied.",
+  "invalid.input": "Invalid Input",
+  "submit": "提交",
+  "connector.loading": "Connecting. Please unlock ioPay and don't use global proxy or VPN.",
+  "connector.loading.mobile": "连接中.",
+  "connector.success": "连接成功",
+  "connector.failed": "连接失败,请稍后再试.",
+  "account": "账户",
+  "switch.network": "切换网络",
+  "browser.wallet": "浏览器钱包",
+  "wallet.connect": "钱包连接",
+  "token.amount": "代币数量",
+  "receiver.address": "接收地址",
+  "select.token": "选择代币",
+  "select.token.placeholder": "按名称搜索或粘贴地址",
+  "view.on": "在${explorerName}查看",
+  "issues": "问题",
+  "use.template": "使用模板",
+  "sample": "示例",
+  "erc20.toolbox": "ERC20 工具箱"
 }
