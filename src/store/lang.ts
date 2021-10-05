@@ -33,8 +33,8 @@ export class LangStore {
   async init() {
     const urlParams = new URLSearchParams(window.location.search);
     const langFromQuery = urlParams.get('lang');
-    const broswerLang = navigator.languages ? navigator.languages[0] : navigator.language;
-    let lang = langFromQuery || localStorage.getItem('lang') || broswerLang;
+    const browserLang = navigator.languages ? navigator.languages[0] : navigator.language;
+    let lang = langFromQuery || localStorage.getItem('lang') || browserLang;
     if (fileNameMapping[lang]) {
       lang = fileNameMapping[lang];
     }
