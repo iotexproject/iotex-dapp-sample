@@ -19,15 +19,24 @@ import {
   ModalCloseButton,
   ModalBody,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from '@chakra-ui/react';
-import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
-import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
 import { Network } from '@/store/god';
 import { IotexMainnetConfig } from '../../config/IotexMainnetConfig';
 import { PolygonMainnetConfig } from '../../config/PolygonMainnetConfig';
+import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
+import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
+
+import { BSCTestnetConfig } from "../../config/BSCTestnetConfig";
+import { ETHKovanConfig } from "../../config/ETHKovanConfig";
+import { IotexTestnetConfig } from "../../config/IotexTestnetConfig";
 
 const toast = createStandaloneToast();
 
@@ -41,6 +50,9 @@ export const WalletSelecter = observer(() => {
     },
     get networks() {
       return [ETHMainnetConfig, BSCMainnetConfig, IotexMainnetConfig, PolygonMainnetConfig];
+    },
+    get testnet() {
+      return [ETHKovanConfig, BSCTestnetConfig, IotexTestnetConfig]
     },
     close() {
       god.eth.connector.showConnector = false;
@@ -136,18 +148,42 @@ export const WalletSelecter = observer(() => {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody py="6" bg={useColorModeValue('white', 'gray.800')} borderBottomRadius="15px" margin={`0 ${bW}  ${bW}   ${bW} `}>
-          <HStack justify="space-between" mb={6} px={4}>
-            {store.networks.map((i) => (
-              <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
-                <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
-                  {god.currentChain.networkKey == i.networkKey && <AvatarBadge boxSize="1em" bg="green.500" />}
-                </Avatar>
-                <Text fontSize="xs" mt={1}>
-                  {i.name}
-                </Text>
-              </Box>
-            ))}
-          </HStack>
+          <Tabs variant="soft-rounded" align="center">
+            <TabList>
+              <Tab>Mainnet</Tab>
+              <Tab>Testnet</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <HStack justify="space-between" mb={6} px={4}>
+                  {store.networks.map((i) => (
+                    <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
+                      <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
+                        {god.currentChain.chainId == i.chainId && <AvatarBadge boxSize="1em" bg="green.500" />}
+                      </Avatar>
+                      <Text fontSize="xs" mt={1}>
+                        {i.name}
+                      </Text>
+                    </Box>
+                  ))}
+                </HStack>
+              </TabPanel>
+              <TabPanel>
+              <HStack justify="space-between" mb={6} px={4}>
+                  {store.testnet.map((i) => (
+                    <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
+                      <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
+                        {god.currentChain.chainId == i.chainId && <AvatarBadge boxSize="1em" bg="green.500" />}
+                      </Avatar>
+                      <Text fontSize="xs" mt={1}>
+                        {i.name}
+                      </Text>
+                    </Box>
+                  ))}
+                </HStack>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
           {!god.currentNetwork.account && (
             <Box>
               <Divider />
