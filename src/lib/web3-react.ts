@@ -1,7 +1,6 @@
 import { publicConfig } from './../config/public';
 import { Web3Provider } from '@ethersproject/providers';
 import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
-import { providers as EthersProviders } from 'ethers';
 import { WalletConnectConnector, UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@iotexproject/walletconnect-connector';
 import { UnsupportedChainIdError } from '@web3-react/core';
 
@@ -19,7 +18,7 @@ export const RPC_URLS = {
 export const allowChains = Object.keys(RPC_URLS).map((i) => Number(i));
 
 export function getLibrary(provider: any): Web3Provider {
-  const library = new EthersProviders.Web3Provider(provider);
+  const library = new Web3Provider(provider);
   library.pollingInterval = POLLING_INTERVAL;
   return library;
 }

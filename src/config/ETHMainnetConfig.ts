@@ -17,6 +17,7 @@ export const ETHMainnetConfig = new ChainState({
   info: {
     blockPerSeconds: 13,
     multicallAddr: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+    multicall2Addr: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
     theme: {
       bgGradient: 'linear(to-r, #84ABF5, #CFC6F9)'
     }

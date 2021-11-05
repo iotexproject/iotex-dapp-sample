@@ -17,6 +17,7 @@ export const IotexMainnetConfig = new ChainState({
   info: {
     blockPerSeconds: 5,
     multicallAddr: '0xACCE294bf7D25Fe8C5C64Ae45197d3878F68403b',
+    multicall2Addr: '0xea3BE4601D50Fe2Be3Af30f83e96433bd62C48E3',
     theme: {
       bgGradient: 'linear(to-r, #0BDAD5, #44FEB2)'
     }

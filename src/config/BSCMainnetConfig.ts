@@ -17,6 +17,7 @@ export const BSCMainnetConfig = new ChainState({
   info: {
     blockPerSeconds: 3,
     multicallAddr: '0x1Ee38d535d541c55C9dae27B12edf090C608E6Fb',
+    multicall2Addr: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
     theme: {
       bgGradient: 'linear(to-r, #F6851B, #F5B638)'
     }
