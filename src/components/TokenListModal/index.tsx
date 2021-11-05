@@ -56,7 +56,7 @@ export const TokenListModal = observer((props: PropsType) => {
     reaction(
       () => store.keyword.value,
       async (val) => {
-        if (god.currentNetwork.isAddressaVailable(val)) {
+        if (god.currentNetwork.isAddress(val)) {
           if (token.currentTokens.findIndex((i) => i.address == val) > -1) return;
           const newToken = new TokenState({ isNew: true, address: val });
           await god.currentNetwork.multicall(

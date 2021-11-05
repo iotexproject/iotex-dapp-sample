@@ -17,6 +17,7 @@ export const IotexTestnetConfig = new ChainState({
   info: {
     blockPerSeconds: 5,
     multicallAddr: '0xe980c6BC4ff99e3E8431b680a58344B8e0170bE0',
+    multicall2Addr: '0x6AACfED704A1E5E57602f843ceBBfd107aE44077',
     theme: {
       bgGradient: 'linear(to-r, #0BDAD5, #44FEB2)'
     }

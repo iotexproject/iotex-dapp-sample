@@ -21,5 +21,5 @@ export interface NetworkState {
   setAccount: Function;
   loadBalance: Function;
   execContract(call: { address: string; abi: any; method: string; params?: any[]; options?: any }): Promise<Partial<TransactionResponse>>;
-  isAddressaVailable(address: string): boolean;
+  isAddress(address: string): boolean;
 }

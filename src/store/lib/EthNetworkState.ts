@@ -1,10 +1,13 @@
-import { NetworkState } from './NetworkState';
+
 import { makeAutoObservable } from 'mobx';
-import { ethers, Contract, Signer } from 'ethers';
-import { JsonRpcProvider, TransactionResponse, Web3Provider } from '@ethersproject/providers';
-import { Contract as MuticallContract, Provider as MulticallProvider } from 'ethers-multicall';
+import { Contract } from "@ethersproject/contracts"
+import { Signer } from "@ethersproject/abstract-signer"
+import { JsonRpcProvider, TransactionResponse, BaseProvider } from '@ethersproject/providers';
+import { utils } from 'ethers';
+import { Contract as MuticallContract, Provider as MulticallProvider  } from "ethcall"
 import { MappingState } from '../standard/MappingState';
 import { ChainState } from './ChainState';
+import { NetworkState } from './NetworkState';
 import { StorageState } from '../standard/StorageState';
 import BigNumber from 'bignumber.js';
 import { CallParams } from '../../../type';
@@ -16,7 +19,7 @@ export class EthNetworkState implements NetworkState {
   // contract
   chain: MappingState<ChainState>;
   signer: Signer;
-  ethers: Web3Provider;
+  provider: BaseProvider;
   account: string = '';
   multiCall: MulticallProvider;
   allowChains: number[];
@@ -47,8 +50,8 @@ export class EthNetworkState implements NetworkState {
   }
 
   async loadBalance() {
-    if (!this.ethers || !this.account) return;
-    const balance = await this.ethers.getBalance(this.account);
+    if (!this.provider || !this.account) return;
+    const balance = await this.provider.getBalance(this.account);
     this.currentChain.Coin.balance.setValue(new BigNumber(balance.toString()));
   }
 
@@ -62,7 +65,7 @@ export class EthNetworkState implements NetworkState {
   }
 
   execContract({ address, abi, method, params = [], options = {} }: CallParams): Promise<Partial<TransactionResponse>> {
-    const contract = new Contract(address, abi, this.signer || this.ethers);
+    const contract = new Contract(address, abi, this.signer || this.provider);
     return contract[method](...params, options);
   }
 
@@ -83,7 +86,7 @@ export class EthNetworkState implements NetworkState {
     return res;
   }
 
-  isAddressaVailable(address: string): boolean {
-    return ethers.utils.isAddress(address);
+  isAddress(address: string): boolean {
+    return utils.isAddress(address);
   }
 }

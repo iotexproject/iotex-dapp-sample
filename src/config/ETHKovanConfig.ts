@@ -17,6 +17,7 @@ export const ETHKovanConfig = new ChainState({
   info: {
     blockPerSeconds: 13,
     multicallAddr: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
+    multicall2Addr: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
     theme: {
       bgGradient: 'linear(to-r, #84ABF5, #CFC6F9)'
     }
