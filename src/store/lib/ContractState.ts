@@ -3,8 +3,8 @@ import { NetworkState } from './NetworkState';
 import { CallParams } from '../../../type';
 import { rootStore } from '../index';
 import { BooleanState } from '../standard/base';
-import { TransactionReceipt } from 'ethereum-abi-types-generator';
 import { helper } from '../../lib/helper';
+import { TransactionReceipt } from '@ethersproject/providers';
 
 export interface ContractState {
   address: string;
