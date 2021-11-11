@@ -6,7 +6,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
-import { Provider as MulticallProvider } from "ethcall"
+import { Provider as MulticallProvider } from 'ethcall';
 import { injected } from '@/lib/web3-react';
 import { eventBus } from '../../lib/event';
 import { _ } from '@/lib/lodash';
@@ -43,11 +43,11 @@ export const ETHProvider = observer(({ children }) => {
     //@ts-ignore
     god.eth.provider = library ? library : god.eth.defaultEthers;
     god.eth.signer = library ? library.getSigner() : null;
-    
+
     god.eth.multiCall = new MulticallProvider();
     god.eth.multiCall.provider = god.eth.provider;
-    god.eth.multiCall.multicall = { address: god.currentChain.info.multicallAddr, block: 0 }
-    god.eth.multiCall.multicall2 = { address: god.currentChain.info.multicall2Addr, block: 0 }
+    god.eth.multiCall.multicall = { address: god.currentChain.info.multicallAddr, block: 0 };
+    god.eth.multiCall.multicall2 = { address: god.currentChain.info.multicall2Addr, block: 0 };
 
     if (account) {
       god.setShowConnecter(false);

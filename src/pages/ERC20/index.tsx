@@ -23,7 +23,10 @@ export const ERC20 = observer(() => {
     curToken: null as TokenState,
 
     isOpenTokenList: new BooleanState(),
-    loading: new BooleanState(),
+    // loading: new BooleanState(),
+    get loading() {
+      return store.curToken?.transfer.loading;
+    },
     get state() {
       if (!god.isConnect) {
         return { valid: true, msg: lang.t('connect.wallet'), connectWallet: true };
@@ -46,19 +49,14 @@ export const ERC20 = observer(() => {
         return god.setShowConnecter(true);
       }
 
-      store.loading.setValue(true);
-      const [err, res] = await helper.promise.runAsync(store.curToken.transfer({ params: [store.receiverAdderss.value, store.amount.value.toFixed(0, 1)] }));
+      // store.loading.setValue(true);
+      const res = await store.curToken.transfer.call({ params: [store.receiverAdderss.value, store.amount.value.toFixed(0, 1)] });
 
-      if (err) {
-        toast.error(err.message);
-      } else {
-        const receipt = await res.wait();
-        if (receipt.status) {
-          toast.success('Transfer Succeeded');
-        }
+      const receipt = await res.wait();
+      if (receipt.status) {
+        toast.success('Transfer Succeeded');
       }
-
-      store.loading.setValue(false);
+      // store.loading.setValue(false);
     }
   }));
 
@@ -103,7 +101,7 @@ export const ERC20 = observer(() => {
           </Box>
 
           <Center>
-            <Button type="button" mt="4" disabled={!store.state.valid || store.loading.value} onClick={store.onSubmit} isLoading={store.loading.value}>
+            <Button type="button" mt="4" disabled={!store.state.valid || store.loading?.value} onClick={store.onSubmit} isLoading={store.loading?.value}>
               {store.state.msg}
             </Button>
           </Center>

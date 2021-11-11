@@ -1,7 +1,9 @@
 import numeral from 'numeral';
 import BN from 'bignumber.js';
+import { createStandaloneToast } from '@chakra-ui/react';
 
 export const helper = {
+  toast: createStandaloneToast(),
   promise: {
     async sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));

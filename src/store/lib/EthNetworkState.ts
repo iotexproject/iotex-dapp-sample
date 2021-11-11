@@ -1,10 +1,9 @@
-
 import { makeAutoObservable } from 'mobx';
-import { Contract } from "@ethersproject/contracts"
-import { Signer } from "@ethersproject/abstract-signer"
+import { Contract } from '@ethersproject/contracts';
+import { Signer } from '@ethersproject/abstract-signer';
 import { JsonRpcProvider, TransactionResponse, BaseProvider } from '@ethersproject/providers';
 import { utils } from 'ethers';
-import { Contract as MuticallContract, Provider as MulticallProvider  } from "ethcall"
+import { Contract as MuticallContract, Provider as MulticallProvider } from 'ethcall';
 import { MappingState } from '../standard/MappingState';
 import { ChainState } from './ChainState';
 import { NetworkState } from './NetworkState';
