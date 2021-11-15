@@ -1,4 +1,5 @@
 import { ERC20 } from '../pages/ERC20';
+import { Transfer } from "../pages/Transfer"
 
 class Tool {
   name: string;
@@ -16,5 +17,11 @@ export const ToolConfig = [
     path: '/erc20',
     component: ERC20,
     tags: ['ERC20']
+  }),
+  new Tool({
+    name: 'transfer.toolbox',
+    path: '/transfer',
+    component: Transfer,
+    tags: ['IOTX']
   })
 ];

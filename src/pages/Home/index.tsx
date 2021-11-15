@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Box, Container, LinkBox, SimpleGrid, Heading, LinkOverlay, Stack, Alert, Image, Link } from '@chakra-ui/react';
+import { Box, Container, LinkBox, SimpleGrid, LinkOverlay, Stack, Image, Link } from '@chakra-ui/react';
 import { ToolConfig } from '../../config/ToolConfig';
 import { Badge, Flex, Text } from '@chakra-ui/layout';
 import { useStore } from '@/store/index';
