@@ -3,6 +3,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
 import { WalletConnectConnector, UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@iotexproject/walletconnect-connector';
 import { UnsupportedChainIdError } from '@web3-react/core';
+import { LedgerConnector } from "web3-ledger-webusb-connector"
 
 const POLLING_INTERVAL = 12000;
 export const RPC_URLS = {
@@ -24,6 +25,9 @@ export function getLibrary(provider: any): Web3Provider {
 }
 
 export const injected = new InjectedConnector({ supportedChainIds: allowChains });
+
+// so far, ledger eth app not support 4689 chain
+export const ledgerconnect = new LedgerConnector({ chainId: 4689, url: "https://babel-ledger.onrender.com" })
 
 export const walletconnect = new WalletConnectConnector({
   rpc: { 4689: RPC_URLS[4689] },

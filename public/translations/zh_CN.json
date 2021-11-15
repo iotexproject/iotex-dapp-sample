@@ -22,5 +22,7 @@
   "issues": "问题",
   "use.template": "使用模板",
   "sample": "示例",
-  "erc20.toolbox": "ERC20 工具箱"
+  "erc20.toolbox": "ERC20 工具箱",
+  "ledger.connect": "Ledger",
+  "amount": "Account"
 }

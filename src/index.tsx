@@ -7,6 +7,7 @@ import { ChakraProvider, Button, Container, Center, CSSReset } from '@chakra-ui/
 import { theme } from '@/lib/theme';
 import { ETHProvider } from './components/EthProvider';
 import { Home } from './pages/Home/index';
+import { Transfer } from "./pages/Transfer"
 import { Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { getLibrary } from './lib/web3-react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -50,6 +51,9 @@ export const App = observer(() => {
             <Switch>
               <Route path="/" exact key="/">
                 <Home key={god.network.currentId.value} />
+              </Route>
+              <Route path="/transfer" exact key="/transfer">
+                <Transfer />
               </Route>
               {ToolConfig.map((item) => (
                 <Route exact path={item.path} key={item.path} component={item.component} />

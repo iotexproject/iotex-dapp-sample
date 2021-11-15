@@ -22,5 +22,7 @@
   "issues": "пытанні",
   "use.template": "Выкарыстоўвайце шаблон",
   "sample": "Узор",
-  "erc20.toolbox": "ERC20 набор інструментаў"
+  "erc20.toolbox": "ERC20 набор інструментаў",
+  "ledger.connect": "Ledger",
+  "amount": "Account"
 }

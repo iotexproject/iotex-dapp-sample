@@ -1,4 +1,5 @@
 import { ERC20 } from '../pages/ERC20';
+import { Transfer } from "../pages/Transfer"
 
 class Tool {
   name: string;
