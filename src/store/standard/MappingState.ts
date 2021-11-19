@@ -34,3 +34,17 @@ export class MappingStorageState<T> {
     this.currentId.save(val);
   }
 }
+
+export class DynamicMappingState<T> {
+  map: {
+    [key: string]: T;
+  };
+  getId: Function;
+  constructor(args: Partial<DynamicMappingState<T>>) {
+    Object.assign(this, args);
+    makeAutoObservable(this);
+  }
+  get current(): T {
+    return this.map[this.getId()];
+  }
+}

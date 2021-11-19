@@ -40,29 +40,27 @@ export const metamaskUtils = {
       try {
         await provider.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: `0x${chainId.toString(16)}` }],
+          params: [{ chainId: `0x${chainId.toString(16)}` }]
         });
       } catch (switchError) {
         // This error code indicates that the chain has not been added to MetaMask.
-        if (switchError.code === 4902) {
-          try {
-            await provider.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: `0x${chainId.toString(16)}`,
-                  chainName,
-                  nativeCurrency,
-                  rpcUrls,
-                  blockExplorerUrls
-                }
-              ]
-            });
-            return true;
-          } catch (error) {
-            console.error(error);
-            return false;
-          }
+        try {
+          await provider.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: `0x${chainId.toString(16)}`,
+                chainName,
+                nativeCurrency,
+                rpcUrls,
+                blockExplorerUrls
+              }
+            ]
+          });
+          return true;
+        } catch (error) {
+          console.error(error);
+          return false;
         }
       }
     } else {
