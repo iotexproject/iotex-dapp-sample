@@ -11,6 +11,8 @@ import { StorageState } from '../standard/StorageState';
 import BigNumber from 'bignumber.js';
 import { CallParams } from '../../../type';
 import { GodStore } from '../god';
+import { BigNumberState } from '../standard/BigNumberState';
+import { NumberState, StringState } from '../standard/base';
 
 export class EthNetworkState implements NetworkState {
   god: GodStore;
@@ -77,8 +79,14 @@ export class EthNetworkState implements NetworkState {
         //@ts-ignore
         callback(v);
       } else {
-        if (callback.setValue) {
+        if (callback instanceof BigNumberState) {
           callback.setValue(new BigNumber(v.toString()));
+        }
+        if (callback instanceof NumberState) {
+          callback.setValue(Number(v.toString()));
+        }
+        if (callback instanceof StringState) {
+          callback.setValue(v.toString());
         }
       }
     });

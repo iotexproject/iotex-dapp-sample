@@ -11,22 +11,14 @@ export interface ContractState {
   abi: any;
 }
 
-export class ReadFunction<V, T> {
+export class ReadFunction<V> {
   name: string;
   value: V;
   contract: ContractState;
-  handler?: Function;
-  constructor(args: Partial<ReadFunction<V, T>>) {
+  autoLoad: boolean = true;
+  constructor(args: Partial<ReadFunction<V>>) {
     Object.assign(this, args);
     makeAutoObservable(this);
-  }
-
-  get network() {
-    return rootStore.god.currentNetwork;
-  }
-
-  preMulticall(args: Partial<CallParams<T>>) {
-    return Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name }, args);
   }
 }
 

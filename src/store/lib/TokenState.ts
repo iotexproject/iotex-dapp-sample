@@ -22,12 +22,6 @@ export class TokenState {
   allowanceForRouter = new BigNumberState({});
 
   balance: BigNumberState;
-  info: {
-    loading: BooleanState;
-    [key: string]: any;
-  } = {
-    loading: new BooleanState()
-  };
   isNew = false;
   saved = false;
 
