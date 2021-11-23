@@ -12,7 +12,6 @@ import { useEffect } from 'react';
 import { Center, Text } from '@chakra-ui/layout';
 import toast from 'react-hot-toast';
 import { eventBus } from '../../lib/event';
-import { helper } from '../../lib/helper';
 
 export const ERC20 = observer(() => {
   const { god, token, lang } = useStore();

@@ -16,7 +16,7 @@ interface PropsType {
 }
 
 export const TokenListModal = observer((props: PropsType) => {
-  const { god, token,lang } = useStore();
+  const { god, token, lang } = useStore();
   const store = useLocalObservable(() => ({
     keyword: new StringState(),
     newToken: null as TokenState,

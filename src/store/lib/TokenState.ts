@@ -14,7 +14,7 @@ export class TokenState {
   name: string = '';
   symbol: string = '';
   address: string = '';
-  logoURI: string;
+  logoURI: string = '';
   chainId: number = 0;
   decimals: number = 18;
 
