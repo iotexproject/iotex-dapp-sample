@@ -22,7 +22,8 @@ import {
   PopoverBody,
   PopoverFooter,
   PopoverArrow,
-  PopoverCloseButton
+  PopoverCloseButton,
+  Link as LinkC
 } from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { IoLanguage, IoMoon, IoSunny } from 'react-icons/io5';
@@ -35,13 +36,32 @@ import { useWeb3React } from '@web3-react/core';
 import { getErrorMessage } from '../../lib/web3-react';
 import { Button, Avatar, Image } from '@chakra-ui/react';
 import { useStore } from '../../store/index';
+import { NoEthereumProviderError } from '@web3-react/injected-connector';
 
 export const Header = observer(() => {
   const { isOpen: isMobileNavOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { error } = useWeb3React();
   const { lang } = useStore();
-
+  function IsPC(){
+    const userAgentInfo = navigator.userAgent;
+    const Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+    let flag = true;
+    for (let v = 0; v < Agents.length; v++) {
+      if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+    }
+    return flag;
+  }
+  const isPc = IsPC();
+  // if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+  //   //alert(navigator.userAgent);
+  //   window.location.href ="iPhone.html";
+  // } else if (/(Android)/i.test(navigator.userAgent)) {
+  //   //alert(navigator.userAgent);
+  //   window.location.href ="Android.html";
+  // } else {
+  //   window.location.href ="pc.html";
+  // };
   return (
     <Box>
       <Flex
@@ -116,7 +136,12 @@ export const Header = observer(() => {
         {error && (
           <Alert status="error" align={'center'}>
             <AlertIcon />
-            <AlertDescription>{getErrorMessage(error)}</AlertDescription>
+            {error instanceof NoEthereumProviderError ?
+              <AlertDescription >
+                <LinkC href={isPc ? 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn' : 'https://iopay.me'}>{getErrorMessage(error)}</LinkC>
+              </AlertDescription> : <AlertDescription >
+                {getErrorMessage(error)}
+              </AlertDescription>}
             <CloseButton position="absolute" right="8px" top="8px" />
           </Alert>
         )}
