@@ -36,6 +36,7 @@ import { useWeb3React } from '@web3-react/core';
 import { getErrorMessage } from '../../lib/web3-react';
 import { Button, Avatar, Image } from '@chakra-ui/react';
 import { useStore } from '../../store/index';
+import { helper } from '@/lib/helper';
 import { NoEthereumProviderError } from '@web3-react/injected-connector';
 
 export const Header = observer(() => {
@@ -43,16 +44,6 @@ export const Header = observer(() => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { error } = useWeb3React();
   const { lang } = useStore();
-  function IsPC(){
-    const userAgentInfo = navigator.userAgent;
-    const Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
-    let flag = true;
-    for (let v = 0; v < Agents.length; v++) {
-      if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
-    }
-    return flag;
-  }
-  const isPc = IsPC();
   return (
     <Box>
       <Flex
@@ -129,7 +120,7 @@ export const Header = observer(() => {
             <AlertIcon />
             {error instanceof NoEthereumProviderError ?
               <AlertDescription >
-                <LinkC href={isPc ? 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn' : 'https://iopay.me'}>{getErrorMessage(error)}</LinkC>
+                <LinkC href={helper.env.isPc() ? 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn' : 'https://iopay.me'}>{getErrorMessage(error)}</LinkC>
               </AlertDescription> : <AlertDescription>
                 {getErrorMessage(error)}
               </AlertDescription>}
