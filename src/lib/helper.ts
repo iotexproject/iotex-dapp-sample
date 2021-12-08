@@ -13,7 +13,16 @@ export const helper = {
     }
   },
   env: {
-    isIopayMobile: navigator.userAgent && (navigator.userAgent.includes('IoPayAndroid') || navigator.userAgent.includes('IoPayiOs'))
+    isIopayMobile: navigator.userAgent && (navigator.userAgent.includes('IoPayAndroid') || navigator.userAgent.includes('IoPayiOs')),
+    isPc(){
+      const userAgentInfo = navigator.userAgent;
+      const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+      let flag = true;
+      for (let v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+      }
+      return flag;
+    }
   },
   json: {
     safeParse(val: any) {
@@ -88,5 +97,5 @@ export const helper = {
     getBN: (value: number | string | BN) => {
       return value instanceof BN ? value : typeof value === 'string' ? new BN(Number(value)) : new BN(value);
     }
-  }
+  },
 };

@@ -22,7 +22,8 @@ import {
   PopoverBody,
   PopoverFooter,
   PopoverArrow,
-  PopoverCloseButton
+  PopoverCloseButton,
+  Link as LinkC
 } from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { IoLanguage, IoMoon, IoSunny } from 'react-icons/io5';
@@ -35,13 +36,14 @@ import { useWeb3React } from '@web3-react/core';
 import { getErrorMessage } from '../../lib/web3-react';
 import { Button, Avatar, Image } from '@chakra-ui/react';
 import { useStore } from '../../store/index';
+import { helper } from '@/lib/helper';
+import { NoEthereumProviderError } from '@web3-react/injected-connector';
 
 export const Header = observer(() => {
   const { isOpen: isMobileNavOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { error } = useWeb3React();
   const { lang } = useStore();
-
   return (
     <Box>
       <Flex
@@ -116,7 +118,12 @@ export const Header = observer(() => {
         {error && (
           <Alert status="error" align={'center'}>
             <AlertIcon />
-            <AlertDescription>{getErrorMessage(error)}</AlertDescription>
+            {error instanceof NoEthereumProviderError ?
+              <AlertDescription >
+                <LinkC href={helper.env.isPc() ? 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn' : 'https://iopay.me'}>{getErrorMessage(error)}</LinkC>
+              </AlertDescription> : <AlertDescription>
+                {getErrorMessage(error)}
+              </AlertDescription>}
             <CloseButton position="absolute" right="8px" top="8px" />
           </Alert>
         )}
