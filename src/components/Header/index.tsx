@@ -139,7 +139,7 @@ export const Header = observer(() => {
             {error instanceof NoEthereumProviderError ?
               <AlertDescription >
                 <LinkC href={isPc ? 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn' : 'https://iopay.me'}>{getErrorMessage(error)}</LinkC>
-              </AlertDescription> : <AlertDescription >
+              </AlertDescription> : <AlertDescription>
                 {getErrorMessage(error)}
               </AlertDescription>}
             <CloseButton position="absolute" right="8px" top="8px" />
