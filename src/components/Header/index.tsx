@@ -26,8 +26,8 @@ import {
   Link as LinkC
 } from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
-import { IoLanguage, IoMoon, IoSunny } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { IoMoon, IoSunny } from 'react-icons/io5';
+import Link from 'next/link'
 import { Logo } from '../Logo';
 import { DesktopNav } from '@/components/Header/DesktopNav';
 import { observer } from 'mobx-react-lite';
@@ -48,9 +48,6 @@ export const Header = observer(() => {
     <Box>
       <Flex
         as={'header'}
-        // pos="fixed"
-        // top="0"
-        // w={'full'}
         minH={'60px'}
         boxShadow={'sm'}
         zIndex="999"
@@ -66,7 +63,7 @@ export const Header = observer(() => {
           </Flex>
 
           <Flex flex={{ base: 1, md: 'auto' }} justify={{ base: 'center', md: 'start' }}>
-            <Link to={'/'}>
+            <Link href="/">
               <Stack as={'a'} direction={'row'} alignItems={'center'} spacing={{ base: 2, sm: 4 }}>
                 <Icon as={Logo} w={{ base: 8 }} h={{ base: 8 }} />
                 <Heading as={'h1'} fontSize={'xl'} display={{ base: 'none', md: 'block' }}>
@@ -87,7 +84,6 @@ export const Header = observer(() => {
                     <Button borderRadius="12">
                         <Image src={`/images/${lang.lang}.png`} boxSize="15px"/>
                     </Button>
-                    {/*<IconButton borderRadius="12" aria-label={'Toggle Color Mode'} icon={<IoLanguage />} />*/}
                   </PopoverTrigger>
                   <PopoverContent w="40" px="2" py="2">
                     {lang.configs.map((i) => (

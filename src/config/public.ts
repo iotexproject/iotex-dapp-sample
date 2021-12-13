@@ -1,5 +1,5 @@
 export const publicConfig = {
-  isProd: import.meta.env.PROD,
-  infuraId: import.meta.env.VITE_INFURA_ID,
-  APIURL: import.meta['APIURL']
+  isProd: process.env.PROD,
+  infuraId: process.env.INFURA_ID,
+  APIURL: process.env.APIURL
 };

@@ -3,17 +3,19 @@ import pancakeTokenList from '@/constants/token/pancake-token-list.json';
 import uniswapTokenList from '@/constants/token/uniswap-token-list.json';
 import polygonTokenList from '@/constants/token/polygon-token-list.json';
 import iotexTokenlist from '@/constants/token/iotex-token-list.json';
-import { TokenState } from './lib/TokenState';
-import { RootStore } from './root';
+import { from } from '@iotexproject/iotex-address-ts';
+
 import { BSCMainnetConfig } from '../config/BSCMainnetConfig';
 import { ETHMainnetConfig } from '../config/ETHMainnetConfig';
 import { ETHKovanConfig } from '../config/ETHKovanConfig';
 import { EthNetworkConfig } from '../config/NetworkConfig';
 import { IotexTestnetConfig } from '../config/IotexTestnetConfig';
 import { IotexMainnetConfig } from '../config/IotexMainnetConfig';
-import { from } from '@iotexproject/iotex-address-ts';
+
 import { PolygonMainnetConfig } from '../config/PolygonMainnetConfig';
 import { StorageState } from './standard/StorageState';
+import TokenState from './lib/TokenState';
+import RootStore from './root';
 import { _ } from '@/lib/lodash';
 
 export class TokenStore {

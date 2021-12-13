@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { RootStore } from '@/store/root';
+import RootStore from '@/store/root';
 import { rootStore } from '../index';
 
 export class TodoStore {

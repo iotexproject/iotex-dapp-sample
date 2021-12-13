@@ -13,9 +13,9 @@ export const helper = {
     }
   },
   env: {
-    isIopayMobile: navigator.userAgent && (navigator.userAgent.includes('IoPayAndroid') || navigator.userAgent.includes('IoPayiOs')),
+    isIopayMobile: global?.navigator?.userAgent && (global?.navigator?.userAgent.includes('IoPayAndroid') || global?.navigator?.userAgent.includes('IoPayiOs')),
     isPc(){
-      const userAgentInfo = navigator.userAgent;
+      const userAgentInfo = global?.navigator?.userAgent;
       const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
       let flag = true;
       for (let v = 0; v < Agents.length; v++) {

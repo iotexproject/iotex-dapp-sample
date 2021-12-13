@@ -9,7 +9,7 @@ This is a boilerplate template for making your awesome dApp on IoTeX and ETH, BS
 
 Technology used in this template are
 
-- [Vite](https://github.com/vitejs/vite)
+- [Next](https://github.com/vercel/next.js)
 - [React](https://reactjs.org/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Mobx](https://mobx.js.org/README.html)

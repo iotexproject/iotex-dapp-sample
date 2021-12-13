@@ -13,7 +13,7 @@ export class StorageState<T> {
   }
 
   load() {
-    const value = localStorage.getItem(this.key);
+    const value = global?.localStorage?.getItem(this.key);
     this.value = helper.json.safeParse(value);
     if (this.value == null) {
       this.value = this.default;
@@ -22,7 +22,7 @@ export class StorageState<T> {
 
   save(value: any) {
     this.value = value;
-    localStorage.setItem(this.key, JSON.stringify(value));
+    global?.localStorage.setItem(this.key, JSON.stringify(value));
   }
 
   clear() {

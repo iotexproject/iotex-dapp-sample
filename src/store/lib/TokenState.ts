@@ -9,7 +9,7 @@ import { helper } from '../../lib/helper';
 import BigNumber from 'bignumber.js';
 import { WriteFunction } from './ContractState';
 
-export class TokenState {
+class TokenState {
   abi = erc20Abi;
   name: string = '';
   symbol: string = '';
@@ -72,3 +72,5 @@ export class TokenState {
     return Object.assign({ address: this.address, abi: this.abi }, args);
   }
 }
+
+export default TokenState

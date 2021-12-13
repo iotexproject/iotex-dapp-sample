@@ -2,7 +2,7 @@ import React from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { Modal, ModalContent, ModalHeader, ModalOverlay, ModalCloseButton, ListItem, Image, Button, Box, Input, Img, Flex, useColorModeValue } from '@chakra-ui/react';
 import { useStore } from '../../store/index';
-import { TokenState } from '../../store/lib/TokenState';
+import TokenState from '../../store/lib/TokenState';
 import { StringState } from '../../store/standard/base';
 import { Text } from '@chakra-ui/layout';
 import VirtualList from 'react-tiny-virtual-list';

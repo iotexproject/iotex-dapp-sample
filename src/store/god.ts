@@ -4,7 +4,7 @@ import { MappingState } from './standard/MappingState';
 import { EthNetworkConfig } from '../config/NetworkConfig';
 import { ChainState } from './lib/ChainState';
 import { EthNetworkState } from './lib/EthNetworkState';
-import { RootStore } from './root';
+import RootStore from './root';
 import { NumberState } from './standard/base';
 import { ValueOf } from 'type-fest';
 import { eventBus } from '../lib/event';
