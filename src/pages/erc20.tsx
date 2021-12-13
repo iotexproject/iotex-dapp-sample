@@ -1,28 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
-import { Container, FormControl, Input, Button, Image, InputGroup, InputRightElement, Flex, Box } from '@chakra-ui/react';
-import { useStore } from '../../store/index';
-import { StringState, BooleanState } from '../../store/standard/base';
-import { TokenListModal } from '../../components/TokenListModal/index';
-import { TokenState } from '../../store/lib/TokenState';
 import { Icon } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { BigNumberInputState } from '../../store/standard/BigNumberInputState';
-import { useEffect } from 'react';
 import { Center, Text } from '@chakra-ui/layout';
 import toast from 'react-hot-toast';
-import { eventBus } from '../../lib/event';
 
-export const ERC20 = observer(() => {
+import { Container, FormControl, Input, Button, Image, InputGroup, InputRightElement, Flex, Box } from '@chakra-ui/react';
+import { useStore } from '../store/index';
+import { StringState, BooleanState } from '../store/standard/base';
+import { TokenListModal } from '../components/TokenListModal/index';
+import TokenState from '../store/lib/TokenState';
+import { BigNumberInputState } from '../store/standard/BigNumberInputState';
+import { eventBus } from '../lib/event';
+
+const ERC20 = observer(() => {
   const { god, token, lang } = useStore();
 
   const store = useLocalStore(() => ({
     amount: new BigNumberInputState({}),
     receiverAdderss: new StringState(),
     curToken: null as TokenState,
-
     isOpenTokenList: new BooleanState(),
-    // loading: new BooleanState(),
     get loading() {
       return store.curToken?.transfer.loading;
     },
@@ -48,14 +46,12 @@ export const ERC20 = observer(() => {
         return god.setShowConnecter(true);
       }
 
-      // store.loading.setValue(true);
       const res = await store.curToken.transfer.call({ params: [store.receiverAdderss.value, store.amount.value.toFixed(0, 1)] });
 
       const receipt = await res.wait();
       if (receipt.status) {
         toast.success('Transfer Succeeded');
       }
-      // store.loading.setValue(false);
     }
   }));
 
@@ -81,7 +77,6 @@ export const ERC20 = observer(() => {
             <InputGroup>
               <Input border="none" placeholder="0.0" type="number" value={store.amount.format} onChange={(e) => store.amount.setFormat(e.target.value)} />
               <InputRightElement onClick={store.openTokenList} width="4rem" cursor="pointer" flexDir="column">
-                {/* {store.curToken && <Text fontSize="sm">Balance: {store.curToken.balance.format}</Text>} */}
                 <Flex alignItems="center" pr={2} w="100%">
                   <Image borderRadius="full" boxSize="24px" src={store.curToken?.logoURI} fallbackSrc="/images/token.svg" />
                   <Icon as={ChevronDownIcon} ml={1} />
@@ -110,3 +105,5 @@ export const ERC20 = observer(() => {
     </Container>
   );
 });
+
+export default ERC20

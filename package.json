@@ -1,19 +1,19 @@
 {
-  "name": "viteapp",
+  "name": "iotex-dapp-sample",
   "version": "0.1.0",
   "license": "MIT",
-  "description": "Starter pack using Vite, React, Typescript, Chakra and Cypress",
+  "description": "Starter pack using Nextjs, React, Typescript, Chakra and Cypress",
   "keywords": [
-    "vite",
+    "next",
     "react",
     "typescript",
     "chakra"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "start": "tsc && yarn dev",
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next build && next export",
+    "start": "next start",
     "test": "concurrently \"yarn start \" \"cypress open\"",
     "test:ci": "cypress run --headless"
   },
@@ -40,6 +40,7 @@
     "lodash": "^4.17.21",
     "mobx": "^6.2.0",
     "mobx-react-lite": "^3.2.0",
+    "next": "^12.0.7",
     "numeral": "^2.0.6",
     "promise-retry": "^2.0.1",
     "query-string": "^7.0.1",
@@ -48,7 +49,6 @@
     "react-error-boundary": "^3.1.1",
     "react-hot-toast": "^1.0.2",
     "react-icons": "^4.2.0",
-    "react-router-dom": "^5.2.0",
     "react-tiny-virtual-list": "^2.2.0",
     "rollup-plugin-polyfill-node": "^0.6.2",
     "sleep-promise": "^9.1.0",
@@ -62,12 +62,8 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
-    "@vitejs/plugin-react-refresh": "^1.1.0",
     "concurrently": "^6.0.0",
     "cypress": "^6.5.0",
-    "typescript": "^4.1.2",
-    "vite": "^2.0.1",
-    "vite-aliases": "^0.5.0",
-    "vite-plugin-imp": "^2.0.5"
+    "typescript": "^4.1.2"
   }
 }

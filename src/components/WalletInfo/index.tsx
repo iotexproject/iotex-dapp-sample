@@ -12,7 +12,6 @@ import { helper } from '@/lib/helper';
 import { IotexMainnetConfig } from '../../config/IotexMainnetConfig';
 import { from } from '@iotexproject/iotex-address-ts';
 import { NetworkState } from '@/store/lib/NetworkState';
-import EnterSvg from '../../../public/images/enter.svg';
 
 export const WalletInfo = observer(() => {
   const { god, lang } = useStore();
@@ -79,7 +78,7 @@ export const WalletInfo = observer(() => {
           {god.currentChain.networkKey === 'iotex' && (
             <>
               <Flex mt="8px">
-                <chakra.img w="1.2rem" h="1.2rem" mr="2" src={EnterSvg} />
+                <chakra.img w="1.2rem" h="1.2rem" mr="2" src="/images/enter.svg" />
                 <Tooltip label="Copied" placement="bottom" isOpen={store.isIOTipOpen}>
                   <Text
                     display="flex"
