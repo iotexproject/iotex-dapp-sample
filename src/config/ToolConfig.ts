@@ -14,5 +14,10 @@ export const ToolConfig = [
     name: 'erc20.toolbox',
     path: '/erc20',
     tags: ['ERC20']
+  }),
+  new Tool({
+    name: 'transfer.toolbox',
+    path: '/transfer',
+    tags: ['TRANSFER']
   })
 ];

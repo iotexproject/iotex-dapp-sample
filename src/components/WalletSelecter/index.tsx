@@ -2,7 +2,7 @@ import React from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { useWeb3React } from '@web3-react/core';
-import { injected, walletconnect } from '../../lib/web3-react';
+import { injected, walletconnect, ledgerconnect } from '../../lib/web3-react';
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/modal';
 import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/layout';
 import {
@@ -82,6 +82,11 @@ export const WalletSelecter = observer(() => {
       god.setNetwork(Network.ETH);
       activate(walletconnect);
       god.eth.connector.latestProvider.save('walletConnect');
+    },
+    onLedgerConnect() {
+      god.setNetwork(Network.ETH);
+      activate(ledgerconnect);
+      god.eth.connector.latestProvider.save('ledgerConnect');
     }
   }));
 
@@ -216,6 +221,20 @@ export const WalletSelecter = observer(() => {
                   <Flex ml="2px">
                     <AvatarGroup size="sm" border="none">
                       <Avatar src={'/images/walletConnect.svg'} />
+                    </AvatarGroup>
+                  </Flex>
+                </Flex>
+              </Box>
+              <Box onClick={() => store.onLedgerConnect()} my="12px" style={{ cursor: 'pointer' }} borderRadius="8px" padding="14px" background="rgba(0,0,0,0.1)">
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Flex direction="column">
+                    <Text fontSize="18" lineHeight="26.38px" fontStyle="normal" fontWeight="500">
+                      {lang.t('ledger.connect')}
+                    </Text>
+                  </Flex>
+                  <Flex ml="2px">
+                    <AvatarGroup size="sm" border="none">
+                      <Avatar src={'/images/ledger.svg'} />
                     </AvatarGroup>
                   </Flex>
                 </Flex>
