@@ -73,4 +73,4 @@ class TokenState {
   }
 }
 
-export default TokenState
+export default TokenState;
