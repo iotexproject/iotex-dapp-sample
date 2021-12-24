@@ -33,7 +33,7 @@ const ERC20 = observer(() => {
     curToken: null as TokenState,
     isOpenTokenList: new BooleanState(),
     get loading() {
-      return store.curToken?.transfer.loading || store.curToken?.approve.loading;
+      return store.curToken?.transfer.loading;
     },
     get state() {
       if (!god.isConnect) {
