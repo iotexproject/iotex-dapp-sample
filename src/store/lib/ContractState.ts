@@ -38,6 +38,7 @@ export class WriteFunction<T> {
 
   async call(args: Partial<CallParams<T>>) {
     try {
+      console.log('开始try', this);
       this.loading.setValue(true);
       //@ts-ignore
       const res = await this.network.execContract(Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name }, args));

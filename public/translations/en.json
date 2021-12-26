@@ -6,6 +6,7 @@
   "address.copied": "The address is copied.",
   "invalid.input": "Invalid Input",
   "submit": "Submit",
+  "transfer": "Transfer",
   "approve": "Approve",
   "connector.loading": "Connecting. Please unlock ioPay and don't use global proxy or VPN.",
   "connector.loading.mobile": "Connecting.",

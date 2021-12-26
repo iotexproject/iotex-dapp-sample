@@ -32,8 +32,11 @@ const ERC20 = observer(() => {
     receiverAdderss: new StringState(),
     curToken: null as TokenState,
     isOpenTokenList: new BooleanState(),
-    get loading() {
+    get loadingT() {
       return store.curToken?.transfer.loading;
+    },
+    get loadingP() {
+      return store.curToken?.approve.loading;
     },
     get state() {
       if (!god.isConnect) {
@@ -42,7 +45,7 @@ const ERC20 = observer(() => {
       const valid = store.curToken && store.amount.value && store.receiverAdderss.value;
       return {
         valid,
-        msg: valid ? lang.t('submit') : lang.t('invalid.input'),
+        msg: valid ? lang.t('transfer') : lang.t('invalid.input'),
         msgApprove: valid ? lang.t('approve') : lang.t('invalid.input')
       };
     },
@@ -72,7 +75,6 @@ const ERC20 = observer(() => {
         return god.setShowConnecter(true);
       }
       const res = await store.curToken.transfer.call({ params: [store.receiverAdderss.value, store.amount.value.toFixed(0, 1)] });
-
       const receipt = await res.wait();
       if (receipt.status) {
         toast.success('Transfer Succeeded');
@@ -139,13 +141,13 @@ const ERC20 = observer(() => {
           </Box>
 
           <Flex justify='space-around' p={2}>
-            <Button type='button' mt='4' disabled={!store.state.valid || store.loading?.value} onClick={store.onSubmit}
-                    isLoading={store.loading?.value}>
+            <Button type='button' mt='4' disabled={!store.state.valid || store.loadingT?.value} onClick={store.onSubmit}
+                    isLoading={store.loadingT?.value || store.loadingP?.value}>
               {store.state.msg}
             </Button>
             {store.state.valid && god.isConnect && (
-              <Button type='button' mt='4' disabled={!store.state.valid || store.loading?.value}
-                      onClick={store.onApprove} isLoading={store.loading?.value}>
+              <Button type='button' mt='4' disabled={!store.state.valid || store.loadingP?.value}
+                      onClick={store.onApprove} isLoading={store.loadingP?.value || store.loadingT?.value}>
                 {/*{lang.t('approve')}*/}
                 {store.state.msgApprove}
               </Button>

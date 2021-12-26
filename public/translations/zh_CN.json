@@ -6,6 +6,7 @@
   "address.copied": "The address is copied.",
   "invalid.input": "Invalid Input",
   "submit": "提交",
+  "transfer": "转账",
   "approve": "授权",
   "connector.loading": "Connecting. Please unlock ioPay and don't use global proxy or VPN.",
   "connector.loading.mobile": "连接中.",
