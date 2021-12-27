@@ -6,6 +6,8 @@
   "address.copied": "Адрас скапіруецца.",
   "invalid.input": "Няправільны ўвод",
   "submit": "Адправіць",
+  "transfer": "Перечислить",
+  "approve": "Одобрить",
   "connector.loading": "Падключэнне. Разблакіруйце ioPay і не выкарыстоўвайце глабальны проксі-сервер або VPN.",
   "connector.loading.mobile": "Падключэнне.",
   "connector.success": "Падключаны",
