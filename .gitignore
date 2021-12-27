@@ -8,3 +8,4 @@ out
 .next
 yarn-error.log
 .env*
+package-lock.json

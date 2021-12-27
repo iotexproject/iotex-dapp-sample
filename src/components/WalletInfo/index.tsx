@@ -40,7 +40,6 @@ export const WalletInfo = observer(() => {
       this.isTipOpen = val;
     }
   }));
-  console.log(`god.isIotxNetork`, god.isIotxNetork);
   const bW = useColorModeValue('3px', '1px');
 
   return (
@@ -113,7 +112,7 @@ export const WalletInfo = observer(() => {
                 alignItems="center"
                 href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}
               >
-                {lang.t('view.on',{explorerName:god.currentChain.explorerName})}
+                {lang.t('view.on', { explorerName: god.currentChain.explorerName })}
               </Link>
               <ExternalLinkIcon ml="4px" w="1rem" h="1rem" />
             </Flex>

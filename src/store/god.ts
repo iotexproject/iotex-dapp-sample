@@ -69,4 +69,8 @@ export class GodStore {
   setShowConnecter(value: boolean) {
     this.eth.connector.showConnector = value;
   }
+
+  pollingData() {
+    this.updateTicker.setValue(this.updateTicker.value + 1);
+  }
 }

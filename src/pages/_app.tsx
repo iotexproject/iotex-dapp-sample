@@ -12,11 +12,13 @@ import { ETHProvider } from '../components/EthProvider';
 import { getLibrary } from '../lib/web3-react';
 import { WalletSelecter } from '../components/WalletSelecter/index';
 
-
 function MyApp({ Component, pageProps }: AppProps) {
-  const { lang } = useStore();
+  const { lang, god } = useStore();
   useEffect(() => {
     lang.init();
+    setInterval(() => {
+      god.pollingData();
+    }, 15000);
   }, []);
   return (
     <ChakraProvider theme={theme}>
@@ -31,4 +33,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp
+export default MyApp;

@@ -64,7 +64,7 @@ export const TokenListModal = observer((props: PropsType) => {
               newToken.preMulticall({ method: 'symbol', handler: (v: any) => (newToken.symbol = v.toString()) }),
               newToken.preMulticall({ method: 'name', handler: (v: any) => (newToken.name = v.toString()) }),
               newToken.preMulticall({ method: 'decimals', handler: (v: any) => (newToken.decimals = Number(v.toString())) }),
-              god.currentNetwork.account ? newToken.preMulticall({ method: 'balanceOf', params: [god.currentNetwork.account], handler: newToken.balance }) : null
+              god.currentNetwork.account ? newToken.preMulticall({ method: 'balanceOf', params: [god.currentNetwork.account], handler: newToken._balance }) : null
             ].filter((i) => !!i)
           );
           store.newToken = newToken;
@@ -109,7 +109,7 @@ export const TokenListModal = observer((props: PropsType) => {
                     </Box>
                   </Box>
                   <Box display="flex" alignItems="center">
-                    <Text>{i.balance.format}</Text>
+                    <Text>{i._balance.format}</Text>
                     {i.isNew && (
                       <Button
                         ml="4"

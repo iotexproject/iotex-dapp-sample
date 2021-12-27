@@ -5,24 +5,14 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Center, Text } from '@chakra-ui/layout';
 import toast from 'react-hot-toast';
 
-import {
-  Container,
-  FormControl,
-  Input,
-  Button,
-  Image,
-  InputGroup,
-  InputRightElement,
-  Flex,
-  Box
-} from '@chakra-ui/react';
+import { Container, FormControl, Input, Button, Image, InputGroup, InputRightElement, Flex, Box } from '@chakra-ui/react';
 import { useStore } from '../store/index';
 import { StringState, BooleanState } from '../store/standard/base';
-import { TokenListModal } from '../components/TokenListModal/index';
 import TokenState from '../store/lib/TokenState';
 import { BigNumberInputState } from '../store/standard/BigNumberInputState';
 import { eventBus } from '../lib/event';
 import { BigNumberState } from '../store/standard/BigNumberState';
+import { TokenInput } from '@/components/TokenInput';
 
 const ERC20 = observer(() => {
   const { god, token, lang } = useStore();
@@ -32,12 +22,6 @@ const ERC20 = observer(() => {
     receiverAdderss: new StringState(),
     curToken: null as TokenState,
     isOpenTokenList: new BooleanState(),
-    get loadingT() {
-      return store.curToken?.transfer.loading;
-    },
-    get loadingP() {
-      return store.curToken?.approve.loading;
-    },
     get state() {
       if (!god.isConnect) {
         return { valid: true, msg: lang.t('connect.wallet'), msgApprove: '', connectWallet: true };
@@ -60,12 +44,13 @@ const ERC20 = observer(() => {
     loadAllowance() {
       // TODO: check params
       if (store.receiverAdderss.value && store.curToken && store.amount) {
-        god.currentNetwork.multicall([store.curToken.preMulticall(
-          {
+        god.currentNetwork.multicall([
+          store.curToken.preMulticall({
             method: 'allowance',
             params: [god.currentNetwork.account, store.receiverAdderss.value],
             handler: store.allowance
-          })]);
+          })
+        ]);
       } else {
         store.allowance = new BigNumberState({});
       }
@@ -102,61 +87,41 @@ const ERC20 = observer(() => {
     });
   }, []);
   return (
-    <Container maxW='md'>
+    <Container maxW="md">
       <form>
         <FormControl mt={20}>
-          <Box border='1px solid' borderRadius='md' borderColor='inherit'>
-            <Flex justify='space-between' p={2}>
-              <Text fontSize='sm'>{lang.t('token.amount')}</Text>
-              <Text fontSize='sm'>{store.curToken ? `Balance ${store.curToken.balance.format} ` : '...'}</Text>
-            </Flex>
-            <InputGroup>
-              <Input border='none' placeholder='0.0' type='number' value={store.amount.format} onChange={(e) => {
-                store.amount.setFormat(e.target.value);
-              }} onBlur={store.loadAllowance} />
-              <InputRightElement onClick={store.openTokenList} width='4rem' cursor='pointer' flexDir='column'>
-                <Flex alignItems='center' pr={2} w='100%'>
-                  <Image borderRadius='full' boxSize='24px' src={store.curToken?.logoURI}
-                         fallbackSrc='/images/token.svg' />
-                  <Icon as={ChevronDownIcon} ml={1} />
-                </Flex>
-              </InputRightElement>
-            </InputGroup>
-          </Box>
+          <TokenInput amount={store.amount} token={store.curToken} onChangeAmount={(e) => store.amount.setFormat(e)} onSelectToken={(e) => (store.curToken = e)} />
 
-          <Box border='1px solid' borderRadius='md' borderColor='inherit' mt={4}>
-            <Flex justify='space-between' p={2}>
-              <Text fontSize='sm'>{lang.t('receiver.address')}</Text>
-              <Text fontSize='sm'>{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
+          <Box border="1px solid" borderRadius="md" borderColor="inherit" mt={4}>
+            <Flex justify="space-between" p={2}>
+              <Text fontSize="sm">{lang.t('receiver.address')}</Text>
+              <Text fontSize="sm">{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
             </Flex>
             <InputGroup>
-              <Input border='none' placeholder={god.currentNetwork.info.token.tokenExample}
-                     value={store.receiverAdderss.value}
-                     onChange={(e) => {
-                       store.receiverAdderss.setValue(e.target.value);
-                     }}
-                     onBlur={store.loadAllowance}
+              <Input
+                border="none"
+                placeholder={god.currentNetwork.info.token.tokenExample}
+                value={store.receiverAdderss.value}
+                onChange={(e) => {
+                  store.receiverAdderss.setValue(e.target.value);
+                }}
+                onBlur={store.loadAllowance}
               />
             </InputGroup>
           </Box>
 
-          <Flex justify='space-around' p={2}>
-            <Button type='button' mt='4' disabled={!store.state.valid || store.loadingT?.value} onClick={store.onSubmit}
-                    isLoading={store.loadingT?.value || store.loadingP?.value}>
+          <Flex justify="space-around" p={2}>
+            <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onSubmit} isLoading={store.curToken?.transfer.loading.value}>
               {store.state.msg}
             </Button>
             {store.state.valid && god.isConnect && (
-              <Button type='button' mt='4' disabled={!store.state.valid || store.loadingP?.value}
-                      onClick={store.onApprove} isLoading={store.loadingP?.value || store.loadingT?.value}>
-                {/*{lang.t('approve')}*/}
+              <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onApprove} isLoading={store.curToken?.approve.loading.value}>
                 {store.state.msgApprove}
               </Button>
             )}
           </Flex>
         </FormControl>
       </form>
-      <TokenListModal isOpen={store.isOpenTokenList.value} onClose={() => store.isOpenTokenList.setValue(false)}
-                      onSelect={store.onSelectToken} />
     </Container>
   );
 });

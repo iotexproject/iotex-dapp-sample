@@ -88,12 +88,12 @@ export class TokenStore {
   }
 
   sortToken() {
-    this.currentTokens = this.currentTokens.sort((a, b) => b.balance.value.comparedTo(a.balance.value));
+    this.currentTokens = this.currentTokens.sort((a, b) => b._balance.value.comparedTo(a._balance.value));
   }
 
   async loadPrivateData() {
     if (!this.god.currentNetwork.account) return;
-    await this.currentNetwork.multicall([...this.currentTokens.map((i) => i.preMulticall({ method: 'balanceOf', params: [this.currentNetwork.account], handler: i.balance }))]);
+    await this.currentNetwork.multicall([...this.currentTokens.map((i) => i.preMulticall({ method: 'balanceOf', params: [this.currentNetwork.account], handler: i._balance }))].filter(Boolean));
 
     this.sortToken();
   }
