@@ -1,6 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 import { NetworkState } from './NetworkState';
 import { CoinState } from './CoinState';
+import { PromiseState } from '../standard/PromiseState';
+import axios from 'axios';
+import { ZeroQuoteRes } from '../../../type';
 
 export class ChainState {
   name: string;
@@ -12,10 +15,12 @@ export class ChainState {
   explorerName: string;
   explorerURL: string;
   Coin: CoinState;
+  zeroAPI: string = '';
   info: {
     blockPerSeconds: number;
     multicallAddr?: string;
     multicall2Addr?: string;
+    zeroRouterAddr?: string;
     theme?: {
       bgGradient: string;
     };
@@ -24,4 +29,10 @@ export class ChainState {
     Object.assign(this, args);
     makeAutoObservable(this, { network: false });
   }
+
+  quote0x = new PromiseState({
+    function: ({ params }: { params: { sellToken?: string; buyToken?: string; sellAmount?: string | number; buyAmount?: string | number } }) => {
+      return axios.request<ZeroQuoteRes>({ baseURL: this.zeroAPI, url: '/swap/v1/quote', method: 'GET', params });
+    }
+  });
 }

@@ -34,7 +34,7 @@ export const Home = observer(() => {
       </Flex>
       <SimpleGrid minChildWidth="200px" spacing="10px" py="6">
         {ToolConfig.map((i) => (
-          <Link href={i.path} key={i.path} as={`${i.path}.html`} passHref>
+          <Link href={i.path} key={i.path} as={`${i.path}`} passHref>
             <ChakraLink w="200px" p="4" borderWidth="1px" rounded="md" key={i.name} textDecoration="none" _hover={{ textDecoration: 'none' }}>
               <Text>{lang.t(i.name)}</Text>
               {i.tags && (

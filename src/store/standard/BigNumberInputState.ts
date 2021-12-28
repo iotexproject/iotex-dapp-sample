@@ -24,4 +24,7 @@ export class BigNumberInputState {
   setLoading(val: boolean) {
     this.loading = val;
   }
+  setDecimals(val: number) {
+    this.decimals = val;
+  }
 }

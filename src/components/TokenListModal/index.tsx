@@ -13,6 +13,7 @@ interface PropsType {
   isOpen: boolean;
   onClose: () => void;
   onSelect: (item: TokenState) => any;
+  blackList?: string[];
 }
 
 export const TokenListModal = observer((props: PropsType) => {
@@ -74,6 +75,7 @@ export const TokenListModal = observer((props: PropsType) => {
       }
     );
   }, []);
+  console.log(props.blackList);
 
   const tokenNameColor = useColorModeValue('gray.400', 'dark.300');
 
@@ -97,33 +99,44 @@ export const TokenListModal = observer((props: PropsType) => {
               const i = store.tokens[index];
 
               return (
-                <ListItem my={2} key={index} {...style} cursor="pointer" display="flex" alignItems="center" justifyContent="space-between" onClick={() => store.onSelect(i)}>
-                  <Box display="flex" alignItems="center">
-                    <Image borderRadius="full" boxSize="24px" src={i.logoURI} mr="4" fallbackSrc="/images/token.svg" />
-                    <Box>
-                      <Text fontWeight="500">{i.symbol}</Text>
-                      <Text fontSize="xs" color={tokenNameColor}>
-                        {i.name}
-                        {i.saved && ' • Added by user'}
-                      </Text>
+                <ListItem my={1} key={index} {...style} cursor="pointer" display="flex" alignItems="center" justifyContent="space-between">
+                  <Button
+                    p="2"
+                    disabled={props.blackList?.includes(i.address)}
+                    variant={'ghost'}
+                    display={'flex'}
+                    w="full"
+                    justifyContent={'space-between'}
+                    textAlign={'left'}
+                    onClick={() => store.onSelect(i)}
+                  >
+                    <Box display="flex" alignItems="center">
+                      <Image borderRadius="full" boxSize="24px" src={i.logoURI} mr="4" fallbackSrc="/images/token.svg" />
+                      <Box>
+                        <Text fontWeight="500">{i.symbol}</Text>
+                        <Text fontSize="xs" color={tokenNameColor}>
+                          {i.name}
+                          {i.saved && ' • Added by user'}
+                        </Text>
+                      </Box>
                     </Box>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <Text>{i._balance.format}</Text>
-                    {i.isNew && (
-                      <Button
-                        ml="4"
-                        px="4"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          store.addToken(i);
-                        }}
-                      >
-                        Import
-                      </Button>
-                    )}
-                  </Box>
+                    <Box display="flex" alignItems="center">
+                      <Text>{i.balance.format}</Text>
+                      {i.isNew && (
+                        <Button
+                          ml="4"
+                          px="4"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            store.addToken(i);
+                          }}
+                        >
+                          Import
+                        </Button>
+                      )}
+                    </Box>
+                  </Button>
                 </ListItem>
               );
             }}
