@@ -12,13 +12,13 @@ import { TokenInput } from '@/components/TokenInput';
 import { ZeroQuoteRes } from '../../type';
 import { PromiseState } from '../store/standard/PromiseState';
 import { Deferrable } from 'ethers/lib/utils';
-import { TransactionRequest } from 'ethers/node_modules/@ethersproject/providers';
 import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
 import { _ } from '../lib/lodash';
 import { helper } from '../lib/helper';
 import { BooleanState } from '../store/standard/base';
 import { IoSwapHorizontalSharp } from 'react-icons/io5';
+import { TransactionRequest } from '@ethersproject/providers';
 
 const ERC20 = observer(() => {
   const { god, lang, token } = useStore();
