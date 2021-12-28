@@ -93,7 +93,12 @@ export class TokenStore {
 
   async loadPrivateData() {
     if (!this.god.currentNetwork.account) return;
-    await this.currentNetwork.multicall([...this.currentTokens.map((i) => i.preMulticall({ method: 'balanceOf', params: [this.currentNetwork.account], handler: i._balance }))].filter(Boolean));
+    await this.currentNetwork.multicall(
+      [
+        ...this.currentTokens.map((i) => i.preMulticall({ method: 'balanceOf', params: [this.currentNetwork.account], handler: i._balance })),
+        ...this.currentTokens.map((i) => i.preMulticall({ method: 'allowance', params: [this.currentNetwork.account, this.currentChain.info.zeroRouterAddr], handler: i.allowanceForRouter }))
+      ].filter(Boolean)
+    );
 
     this.sortToken();
   }
