@@ -9,10 +9,12 @@ import { BigNumberInputState } from '../../store/standard/BigNumberInputState';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
 interface Props {
+  label?: string;
   token: TokenState;
   amount: BigNumberInputState;
   onSelectToken: (token: TokenState) => void;
   onChangeAmount: (value: string) => void;
+  blackList?: string[];
 }
 
 export const TokenInput = observer((props: Props) => {
@@ -24,8 +26,8 @@ export const TokenInput = observer((props: Props) => {
     <Box>
       <Box border="1px solid" borderRadius="md" borderColor="inherit">
         <Flex justify="space-between" p={2}>
-          <Text fontSize="sm">{lang.t('token.amount')}</Text>
-          <Text fontSize="sm">{props.token ? `Balance ${props.token._balance.format} ` : '...'}</Text>
+          <Text>{props.label}</Text>
+          <Text fontSize="sm">{props.token ? `Balance ${props.token.balance.format} ` : '...'}</Text>
         </Flex>
         <InputGroup>
           <Input border="none" placeholder="0.0" type="number" value={props.amount.format} onChange={(e) => props.onChangeAmount(e.target.value)} />
@@ -38,7 +40,7 @@ export const TokenInput = observer((props: Props) => {
         </InputGroup>
       </Box>
 
-      <TokenListModal isOpen={store.modelOpen.value} onClose={() => store.modelOpen.setValue(false)} onSelect={props.onSelectToken} />
+      <TokenListModal blackList={props.blackList} isOpen={store.modelOpen.value} onClose={() => store.modelOpen.setValue(false)} onSelect={props.onSelectToken} />
     </Box>
   );
 });

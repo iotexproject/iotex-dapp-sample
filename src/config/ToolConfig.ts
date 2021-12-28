@@ -1,4 +1,3 @@
-
 class Tool {
   name: string;
   path: string;
@@ -14,5 +13,10 @@ export const ToolConfig = [
     name: 'erc20.toolbox',
     path: '/erc20',
     tags: ['ERC20']
+  }),
+  new Tool({
+    name: 'dex',
+    path: '/dex',
+    tags: ['DEX']
   })
 ];

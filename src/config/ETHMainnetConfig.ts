@@ -10,6 +10,7 @@ export const ETHMainnetConfig = new ChainState({
   logoUrl: '/images/eth.svg',
   explorerURL: 'https://etherscan.io',
   explorerName: 'EtherScan',
+  zeroAPI: 'https://api.0x.org/',
   Coin: new CoinState({
     symbol: 'ETH',
     decimals: 18
@@ -18,6 +19,7 @@ export const ETHMainnetConfig = new ChainState({
     blockPerSeconds: 13,
     multicallAddr: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
     multicall2Addr: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+    zeroRouterAddr: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
     theme: {
       bgGradient: 'linear(to-r, #84ABF5, #CFC6F9)'
     }
