@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { Center, Text } from '@chakra-ui/layout';
-import toast from 'react-hot-toast';
+import { SettingsIcon } from "@chakra-ui/icons"
 
-import { Container, FormControl, Flex, Box, Button } from '@chakra-ui/react';
+import { Container, FormControl, Flex, Box, Button, IconButton } from '@chakra-ui/react';
 import { useStore } from '../store/index';
 import TokenState from '../store/lib/TokenState';
 import { BigNumberInputState } from '../store/standard/BigNumberInputState';
@@ -16,9 +16,10 @@ import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
 import { _ } from '../lib/lodash';
 import { helper } from '../lib/helper';
-import { BooleanState } from '../store/standard/base';
+import { BooleanState, StringState } from '../store/standard/base';
 import { IoSwapHorizontalSharp } from 'react-icons/io5';
 import { TransactionRequest } from '@ethersproject/providers';
+import { SettingModal } from "../components/SettingModal"
 
 const ERC20 = observer(() => {
   const { god, lang, token } = useStore();
@@ -30,7 +31,8 @@ const ERC20 = observer(() => {
     toToken: null as TokenState,
     toAmount: new BigNumberInputState({}),
     zeroResData: null as ZeroQuoteRes,
-    modelOpen: new BooleanState(),
+    modalOpen: new BooleanState(),
+    slippage: new StringState({ value: '0.5' }),
     swap: new PromiseState({
       async function(tx: Deferrable<TransactionRequest>) {
         return god.eth.signer.sendTransaction(tx);
@@ -119,7 +121,8 @@ const ERC20 = observer(() => {
             params: {
               sellToken: store.fromToken?.address || store.fromToken?.symbol,
               buyToken: store.toToken?.address || store.toToken?.symbol,
-              sellAmount: store.fromAmount.value.toFixed(0, 1)
+              sellAmount: store.fromAmount.value.toFixed(0, 1),
+              slippage: +store.slippage.value / 100
             }
           });
           if (res.data) {
@@ -187,6 +190,9 @@ const ERC20 = observer(() => {
   }, []);
   return (
     <Container maxW="md" mt="100px">
+      <Flex flexDirection='row-reverse' mb="4">
+        <IconButton aria-label='Setting' icon={<SettingsIcon />} onClick={() =>store.modalOpen.setValue(true)}></IconButton>
+      </Flex>
       <form>
         <FormControl>
           <TokenInput
@@ -244,6 +250,11 @@ const ERC20 = observer(() => {
           </Center>
         </FormControl>
       </form>
+      <SettingModal
+        slippageValue={store.slippage.value}
+        onSlippageChange={(value) => { console.log(value); store.slippage.setValue(value) }}
+        isOpen={store.modalOpen.value}
+        onClose={() => store.modalOpen.setValue(false)}></SettingModal>
     </Container>
   );
 });

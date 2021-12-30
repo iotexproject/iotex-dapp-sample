@@ -75,7 +75,6 @@ export const TokenListModal = observer((props: PropsType) => {
       }
     );
   }, []);
-  console.log(props.blackList);
 
   const tokenNameColor = useColorModeValue('gray.400', 'dark.300');
 
