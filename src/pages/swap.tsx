@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { Center, Text } from '@chakra-ui/layout';
-import { SettingsIcon } from "@chakra-ui/icons"
+import { SettingsIcon } from '@chakra-ui/icons';
+import { useRouter } from 'next/router';
 
 import { Container, FormControl, Flex, Box, Button, IconButton } from '@chakra-ui/react';
 import { useStore } from '../store/index';
@@ -19,19 +20,26 @@ import { helper } from '../lib/helper';
 import { BooleanState, StringState } from '../store/standard/base';
 import { IoSwapHorizontalSharp } from 'react-icons/io5';
 import { TransactionRequest } from '@ethersproject/providers';
-import { SettingModal } from "../components/SettingModal"
+import { SettingModal } from '../components/SettingModal';
+import { TokenImportModal } from '../components/TokenImportModal';
+import { UnknowTokenState } from '../components/TokenImportModal/UnknowTokenState';
 
 const ERC20 = observer(() => {
   const { god, lang, token } = useStore();
-
+  const { query } = useRouter();
   const store = useLocalObservable(() => ({
     fromToken: null as TokenState,
     fromAmount: new BigNumberInputState({}),
 
     toToken: null as TokenState,
     toAmount: new BigNumberInputState({}),
+
     zeroResData: null as ZeroQuoteRes,
+
     modalOpen: new BooleanState(),
+    importTokenModalOpen: new BooleanState(),
+    importTokens: [] as UnknowTokenState[],
+
     slippage: new StringState({ value: '0.5' }),
     swap: new PromiseState({
       async function(tx: Deferrable<TransactionRequest>) {
@@ -122,7 +130,7 @@ const ERC20 = observer(() => {
               sellToken: store.fromToken?.address || store.fromToken?.symbol,
               buyToken: store.toToken?.address || store.toToken?.symbol,
               sellAmount: store.fromAmount.value.toFixed(0, 1),
-              slippage: +store.slippage.value / 100
+              slippagePercentage: +store.slippage.value / 100
             }
           });
           if (res.data) {
@@ -136,7 +144,8 @@ const ERC20 = observer(() => {
             params: {
               sellToken: store.toToken?.address,
               buyToken: store.fromToken?.address,
-              sellAmount: store.toAmount.value.toFixed(0, 1)
+              sellAmount: store.toAmount.value.toFixed(0, 1),
+              slippagePercentage: +store.slippage.value / 100
             }
           });
           if (res.data) {
@@ -146,6 +155,22 @@ const ERC20 = observer(() => {
         }
       } catch (err) {
         console.error(err);
+      }
+    },
+    async onLoadUrlParams(inputCurrency: string, outputCurrency: string) {
+      const importTokensNotInDefault = [inputCurrency, outputCurrency] as string[];
+      const tokenAddresses = importTokensNotInDefault.filter(Boolean).filter(addr => {
+        const totalAddr = token.currentTokens.map(i => i.address.toLowerCase());
+        return !totalAddr.includes(addr.toLowerCase())
+      })
+      if (tokenAddresses.length === 0) { return }
+      const tokenStates = tokenAddresses.map(address => new UnknowTokenState({ address }))
+      try {
+        await Promise.all(tokenStates.map(state => state.promise))
+      } finally {}
+      if (tokenStates.every(state => state.loaded.value)) {
+        store.importTokens = tokenStates
+        store.importTokenModalOpen.setValue(true)
       }
     },
     async onSubmit() {
@@ -183,15 +208,22 @@ const ERC20 = observer(() => {
     }
   }, [god.updateTicker.value]);
   useEffect(() => {
-    eventBus.on('chain.switch', () => {
+    if (god.currentNetwork.account) {
+      store.onLoadUrlParams(query.inputCurrency as string, query.outputCurrency as string);
+    }
+  }, [god.currentNetwork.account])
+  useEffect(() => {
+    const onClear = () => {
       store.fromToken = null;
       store.toToken = null;
-    });
+    }
+    eventBus.on('chain.switch', onClear);
+    return () => { eventBus.off('chain.switch', onClear)}
   }, []);
   return (
     <Container maxW="md" mt="100px">
-      <Flex flexDirection='row-reverse' mb="4">
-        <IconButton aria-label='Setting' icon={<SettingsIcon />} onClick={() =>store.modalOpen.setValue(true)}></IconButton>
+      <Flex flexDirection="row-reverse" mb="4">
+        <IconButton aria-label="Setting" icon={<SettingsIcon />} onClick={() => store.modalOpen.setValue(true)}></IconButton>
       </Flex>
       <form>
         <FormControl>
@@ -252,9 +284,19 @@ const ERC20 = observer(() => {
       </form>
       <SettingModal
         slippageValue={store.slippage.value}
-        onSlippageChange={(value) => { console.log(value); store.slippage.setValue(value) }}
+        onSlippageChange={(value) => {
+          store.slippage.setValue(value);
+        }}
         isOpen={store.modalOpen.value}
-        onClose={() => store.modalOpen.setValue(false)}></SettingModal>
+        onClose={() => store.modalOpen.setValue(false)}
+      ></SettingModal>
+      <TokenImportModal
+        importTokens={store.importTokens}
+        isOpen={store.importTokenModalOpen.value}
+        onClose={() => {
+          store.importTokenModalOpen.setValue(false);
+        }}
+      ></TokenImportModal>
     </Container>
   );
 });

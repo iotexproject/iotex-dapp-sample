@@ -72,7 +72,6 @@ function SlippageRadio({ onSlippageChange, slippageValue }: Pick<SettingModalPro
 
 
 export const SettingModal = observer((props: SettingModalProps) => {
-  console.log("props", props)
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose}>
       <ModalOverlay />
