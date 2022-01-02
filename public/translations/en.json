@@ -24,5 +24,7 @@
   "issues": "Issues",
   "use.template": "Use template",
   "sample": "Sample",
-  "erc20.toolbox": "ERC20 Toolbox"
+  "erc20.toolbox": "ERC20 Toolbox",
+  "manage.token.list": "Manage Token Lists",
+  "manage": "Manage"
 }
