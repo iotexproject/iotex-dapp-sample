@@ -45,11 +45,10 @@ function SlippageRadioOption(props) {
 }
 
 function SlippageRadio({ onSlippageChange, slippageValue }: Pick<SettingModalProps, 'onSlippageChange' | 'slippageValue'>) {
-  const options = ['0.1', '0.5', '1']
+  const options = ['0.5', '1', '5']
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'slippage',
-    defaultValue: '0.5',
     value: slippageValue,
     onChange: onSlippageChange,
   })
@@ -82,10 +81,10 @@ export const SettingModal = observer((props: SettingModalProps) => {
           <Text fontWeight="bold" mb="4">Slippage Tolerance</Text>
           <Stack direction="row" spacing="2">
             <SlippageRadio onSlippageChange={props.onSlippageChange} slippageValue={props.slippageValue}></SlippageRadio>
-            <InputGroup>
+            {/* <InputGroup>
               <Input w="20"></Input>
               <InputRightAddon>%</InputRightAddon>
-            </InputGroup>
+            </InputGroup> */}
           </Stack>
         </ModalBody>
       </ModalContent>

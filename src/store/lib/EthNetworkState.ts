@@ -72,8 +72,14 @@ export class EthNetworkState implements NetworkState {
 
   async multicall(calls: CallParams[]): Promise<any[]> {
     //@ts-ignore
-    const res = await this.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
+    let res: any[] = []
+    try {
+      res = await this.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
+    } catch(e) {
+      console.warn("error", e)
+    }
     res.forEach((v, i) => {
+      if (!v) { return }
       const callback = calls[i].handler;
       if (typeof callback == 'function') {
         //@ts-ignore

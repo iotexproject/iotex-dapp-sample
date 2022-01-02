@@ -19,11 +19,13 @@ export class UnknowTokenState {
   }
   private async start() {
     this.loaded.setValue(false);
-    await rootStore.god.currentNetwork.multicall([
+    const res = await rootStore.god.currentNetwork.multicall([
       { method: 'name', address: this.address, abi: this.abi, handler: this.name },
       { method: 'symbol', address: this.address, abi: this.abi, handler: this.symbol },
       { method: 'decimals', address: this.address, abi: this.abi, handler: this.symbol }
     ]);
-    this.loaded.setValue(true);
+    if (res.filter(Boolean).length === 3) {
+      this.loaded.setValue(true);
+    }
   }
 }

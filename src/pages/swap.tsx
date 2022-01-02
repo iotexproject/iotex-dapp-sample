@@ -23,6 +23,7 @@ import { TransactionRequest } from '@ethersproject/providers';
 import { SettingModal } from '../components/SettingModal';
 import { TokenImportModal } from '../components/TokenImportModal';
 import { UnknowTokenState } from '../components/TokenImportModal/UnknowTokenState';
+import { SwapConfirmModal } from '../components/SwapConfirmModal';
 
 const ERC20 = observer(() => {
   const { god, lang, token } = useStore();
@@ -38,9 +39,10 @@ const ERC20 = observer(() => {
 
     modalOpen: new BooleanState(),
     importTokenModalOpen: new BooleanState(),
+    swapConfirmModalOpen: new BooleanState({ value: false }),
     importTokens: [] as UnknowTokenState[],
 
-    slippage: new StringState({ value: '0.5' }),
+    slippage: new StringState({ value: '1' }),
     swap: new PromiseState({
       async function(tx: Deferrable<TransactionRequest>) {
         return god.eth.signer.sendTransaction(tx);
@@ -159,18 +161,21 @@ const ERC20 = observer(() => {
     },
     async onLoadUrlParams(inputCurrency: string, outputCurrency: string) {
       const importTokensNotInDefault = [inputCurrency, outputCurrency] as string[];
-      const tokenAddresses = importTokensNotInDefault.filter(Boolean).filter(addr => {
-        const totalAddr = token.currentTokens.map(i => i.address.toLowerCase());
-        return !totalAddr.includes(addr.toLowerCase())
-      })
-      if (tokenAddresses.length === 0) { return }
-      const tokenStates = tokenAddresses.map(address => new UnknowTokenState({ address }))
+      const tokenAddresses = importTokensNotInDefault.filter(Boolean).filter((addr) => {
+        const totalAddr = token.currentTokens.map((i) => i.address.toLowerCase());
+        return !totalAddr.includes(addr.toLowerCase());
+      });
+      if (tokenAddresses.length === 0) {
+        return;
+      }
+      const tokenStates = tokenAddresses.map((address) => new UnknowTokenState({ address }));
       try {
-        await Promise.all(tokenStates.map(state => state.promise))
-      } finally {}
-      if (tokenStates.every(state => state.loaded.value)) {
-        store.importTokens = tokenStates
-        store.importTokenModalOpen.setValue(true)
+        await Promise.all(tokenStates.map((state) => state.promise));
+      } finally {
+      }
+      if (tokenStates.length > 0 && tokenStates.every((state) => state.loaded.value)) {
+        store.importTokens = tokenStates;
+        store.importTokenModalOpen.setValue(true);
       }
     },
     async onSubmit() {
@@ -181,6 +186,11 @@ const ERC20 = observer(() => {
         return store.approve(store.fromToken);
       }
       if (store.state.valid) {
+        store.swapConfirmModalOpen.setValue(true)
+      }
+    },
+    async onConfirm() {
+      if (store.state.valid) {
         const postData = _.pick(store.zeroResData, ['chainId', 'confirmations', 'data', 'from', 'gasLimit', 'gasPrice', 'hash', 'nonce', 'r', 's', 'to', 'type', 'v', 'value', 'wait']);
         postData.gasPrice = ethers.BigNumber.from(postData.gasPrice) as unknown as string;
         postData.value = ethers.BigNumber.from(postData.value) as unknown as string;
@@ -190,6 +200,7 @@ const ERC20 = observer(() => {
           store.fromAmount.setValue(new BigNumber(0));
           store.toAmount.setValue(new BigNumber(0));
           store.zeroResData = null;
+          store.swapConfirmModalOpen.setValue(false)
         }
       }
     },
@@ -211,14 +222,16 @@ const ERC20 = observer(() => {
     if (god.currentNetwork.account) {
       store.onLoadUrlParams(query.inputCurrency as string, query.outputCurrency as string);
     }
-  }, [god.currentNetwork.account])
+  }, [god.currentNetwork.account]);
   useEffect(() => {
     const onClear = () => {
       store.fromToken = null;
       store.toToken = null;
-    }
+    };
     eventBus.on('chain.switch', onClear);
-    return () => { eventBus.off('chain.switch', onClear)}
+    return () => {
+      eventBus.off('chain.switch', onClear);
+    };
   }, []);
   return (
     <Container maxW="md" mt="100px">
@@ -297,6 +310,16 @@ const ERC20 = observer(() => {
           store.importTokenModalOpen.setValue(false);
         }}
       ></TokenImportModal>
+      <SwapConfirmModal
+        isLoading={store.swap.loading.value || god.currentChain.quote0x.loading.value}
+        zeroResData={store.zeroResData}
+        fromToken={store.fromToken}
+        fromAmount={store.fromAmount}
+        toToken={store.toToken}
+        toAmount={store.toAmount}
+        isOpen={store.swapConfirmModalOpen.value}
+        onClose={() => store.swapConfirmModalOpen.setValue(false)}
+        onConfirm={store.onConfirm}></SwapConfirmModal>
     </Container>
   );
 });
