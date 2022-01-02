@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
-import { ChakraProvider, Button, Container, Center } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { Toaster } from 'react-hot-toast';
 import type { AppProps } from 'next/app';
-import { ErrorBoundary } from 'react-error-boundary';
 
 import { useStore } from '@/store/index';
 import { Header } from '@/components/Header/index';
@@ -20,17 +19,20 @@ function MyApp({ Component, pageProps }: AppProps) {
       god.pollingData();
     }, 15000);
   }, []);
-  return (
-    <ChakraProvider theme={theme}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <WalletSelecter />
-        <ETHProvider />
-        <Toaster />
-        <Header />
-        <Component {...pageProps} />
-      </Web3ReactProvider>
-    </ChakraProvider>
-  );
+  // use useMemo to fix issue https://github.com/vercel/next.js/issues/12010
+  return useMemo(() => {
+    return (
+      <ChakraProvider theme={theme}>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <WalletSelecter />
+          <ETHProvider />
+          <Toaster />
+          <Header />
+          <Component {...pageProps} />
+        </Web3ReactProvider>
+      </ChakraProvider>
+    )
+  }, [Component, pageProps]);
 }
 
 export default MyApp;
