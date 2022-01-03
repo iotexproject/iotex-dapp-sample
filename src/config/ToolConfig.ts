@@ -15,8 +15,8 @@ export const ToolConfig = [
     tags: ['ERC20']
   }),
   new Tool({
-    name: 'dex',
-    path: '/dex',
-    tags: ['DEX']
+    name: 'swap',
+    path: '/swap',
+    tags: ['Swap']
   })
 ];
