@@ -29,7 +29,7 @@ export const TokenListModal = observer((props: PropsType) => {
           if (store.keyword.value.length == 42 && i.address.toLowerCase() == store.keyword.value.toLowerCase()) {
             return true;
           }
-          if (i.symbol.toLowerCase().includes(store.keyword.value)) {
+          if (i.symbol.toLowerCase().includes(store.keyword.value.toLowerCase())) {
             return true;
           }
           return false;

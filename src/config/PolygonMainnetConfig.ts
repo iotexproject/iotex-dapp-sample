@@ -19,6 +19,7 @@ export const PolygonMainnetConfig = new ChainState({
     blockPerSeconds: 3,
     multicallAddr: '0x35e4aa226ce52e1e59e5e5ec24766007bcbe2e7d',
     multicall2Addr: '0xf43a7be1b284aa908cdfed8b3e286961956b4d2c',
+    zeroRouterAddr: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
     theme: {
       bgGradient: 'linear(to-r, #7A4FDD, #B874D0)'
     }

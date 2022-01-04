@@ -34,7 +34,7 @@ export class ChainState {
   }
 
   quote0x = new PromiseState({
-    function: ({ params }: { params: { sellToken?: string; buyToken?: string; sellAmount?: string | number; buyAmount?: string | number } }) => {
+    function: ({ params }: { params: { sellToken?: string; buyToken?: string; sellAmount?: string | number; buyAmount?: string | number; slippagePercentage?: string | number } }) => {
       return axios.request<ZeroQuoteRes>({ baseURL: this.zeroAPI, url: '/swap/v1/quote', method: 'GET', params });
     }
   });
