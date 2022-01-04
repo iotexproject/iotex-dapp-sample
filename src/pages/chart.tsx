@@ -92,7 +92,7 @@ const Chart = observer(() => {
     },
     setGrowthLabel(minuend) {
       if (this.data[0].data) {
-        let difference = this.lastDataY - minuend;
+        let difference = minuend - this.lastDataY;
         if (difference > 0) {
           this.setPoNe('+');
         } else {
