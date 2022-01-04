@@ -43,7 +43,7 @@ export const DesktopNav = observer((props: BoxProps) => {
           }}
         >
           <Text mr={2}>{helper.string.truncate(god.currentNetwork.account, 12, '...')}</Text>
-          <Jazzicon diameter={22} address={god.currentNetwork.account} style={{ border: '2px solid #617aff', borderRadius: '50px', padding: '1px' }}></Jazzicon>
+          <Jazzicon diameter={22} address={god.currentNetwork.account} style={{ border: '2px solid white', borderRadius: '50px'}}></Jazzicon>
         </Button>
       </Button>
     );

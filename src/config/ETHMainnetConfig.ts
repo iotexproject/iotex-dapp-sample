@@ -11,6 +11,7 @@ export const ETHMainnetConfig = new ChainState({
   explorerURL: 'https://etherscan.io',
   explorerName: 'EtherScan',
   zeroAPI: 'https://api.0x.org/',
+  coingeckoAPI: ({ from, to }: { from: number; to: number }) => `https://api.coingecko.com/api/v3/coins/ethereum/contract/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
   Coin: new CoinState({
     symbol: 'ETH',
     decimals: 18

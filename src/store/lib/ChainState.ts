@@ -1,3 +1,4 @@
+import { timestamp } from './../../../../iotex-website-v3/src/generated/gql/schema';
 import { makeAutoObservable } from 'mobx';
 import { NetworkState } from './NetworkState';
 import { CoinState } from './CoinState';
@@ -16,6 +17,7 @@ export class ChainState {
   explorerURL: string;
   Coin: CoinState;
   zeroAPI: string = '';
+  coingeckoAPI?({ from, to }: { from: number; to: number }): string;
   info: {
     blockPerSeconds: number;
     multicallAddr?: string;
@@ -26,6 +28,7 @@ export class ChainState {
     };
   };
   constructor(args: Partial<ChainState>) {
+    this.coingeckoAPI = () => '';
     Object.assign(this, args);
     makeAutoObservable(this, { network: false });
   }

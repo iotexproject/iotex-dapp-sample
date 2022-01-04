@@ -1,0 +1,23 @@
+.scroll-number-container {
+    width: 400px;
+    height: 40px;
+    background: black;
+    line-height: 40px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 40px;
+    overflow: hidden;
+  }
+  
+  .scroll-number {
+    width: 40px;
+    height: 400px;
+    color: white;
+    float: left;
+    position: relative;
+    transition: top 1s;
+    text-align: center;
+    top: 0px;
+  }
+  
+  
+  

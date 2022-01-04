@@ -18,5 +18,10 @@ export const ToolConfig = [
     name: 'dex',
     path: '/dex',
     tags: ['DEX']
+  }),
+  new Tool({
+    name: 'chart',
+    path: '/chart',
+    tags: ['CHART']
   })
 ];
