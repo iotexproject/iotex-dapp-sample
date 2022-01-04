@@ -18,5 +18,10 @@ export const ToolConfig = [
     name: 'swap',
     path: '/swap',
     tags: ['Swap']
+  }),
+  new Tool({
+    name: 'chart',
+    path: '/chart',
+    tags: ['CHART']
   })
 ];

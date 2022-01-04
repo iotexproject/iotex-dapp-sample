@@ -10,6 +10,7 @@ export const IotexMainnetConfig = new ChainState({
   logoUrl: '/images/iotex.svg',
   explorerURL: 'https://iotexscan.io',
   explorerName: 'IoTeXScan',
+  coingeckoAPI: ({ from, to }: { from: number; to: number }) => `https://api.coingecko.com/api/v3/coins/iotex/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
   Coin: new CoinState({
     symbol: 'IOTX',
     decimals: 18

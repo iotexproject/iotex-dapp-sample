@@ -11,6 +11,7 @@ export const BSCMainnetConfig = new ChainState({
   explorerURL: 'https://bscscan.com',
   explorerName: 'BscScan',
   zeroAPI: 'https://bsc.api.0x.org/',
+  coingeckoAPI: ({ from, to }: { from: number; to: number }) => `https://api.coingecko.com/api/v3/coins/binance-smart-chain/contract/0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
   Coin: new CoinState({
     symbol: 'BNB',
     decimals: 18

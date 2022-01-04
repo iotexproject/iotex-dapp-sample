@@ -10,7 +10,7 @@ export const PolygonMainnetConfig = new ChainState({
   rpcUrl: RPC_URLS[137],
   explorerURL: 'https://explorer-mainnet.maticvigil.com/',
   explorerName: 'PolygonScan',
-  zeroAPI: 'https://polygon.api.0x.org/',
+  coingeckoAPI: ({ from, to }: { from: number; to: number }) => `https://api.coingecko.com/api/v3/coins/polygon-pos/contract/0x2791bca1f2de4661ed88a30c99a7a9449aa84174/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
   Coin: new CoinState({
     symbol: 'MATIC',
     decimals: 18
