@@ -1,6 +1,8 @@
 import numeral from 'numeral';
 import BN from 'bignumber.js';
 import { createStandaloneToast } from '@chakra-ui/react';
+import { CallParams } from '../../type';
+import { ContractState, ReadFunction } from '../store/lib/ContractState';
 
 export const helper = {
   toast: createStandaloneToast(),
@@ -14,12 +16,15 @@ export const helper = {
   },
   env: {
     isIopayMobile: global?.navigator?.userAgent && (global?.navigator?.userAgent.includes('IoPayAndroid') || global?.navigator?.userAgent.includes('IoPayiOs')),
-    isPc(){
+    isPc() {
       const userAgentInfo = global?.navigator?.userAgent;
-      const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+      const Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
       let flag = true;
       for (let v = 0; v < Agents.length; v++) {
-        if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+          flag = false;
+          break;
+        }
       }
       return flag;
     }
@@ -98,4 +103,15 @@ export const helper = {
       return value instanceof BN ? value : typeof value === 'string' ? new BN(Number(value)) : new BN(value);
     }
   },
+  c: {
+    preMulticall(contract: ContractState, args: Partial<CallParams>) {
+      if (!contract.address) return;
+      return Object.assign({ address: contract.address, abi: contract.abi }, args);
+    },
+    autoLoad(contract: ContractState) {
+      return Object.values(contract)
+        .filter((i: ReadFunction) => i.autoLoad)
+        .map((i: ReadFunction) => i.preMulticall({}));
+    }
+  }
 };

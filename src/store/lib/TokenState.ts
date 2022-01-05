@@ -64,17 +64,6 @@ class TokenState {
       }
     }
   });
-
-  preMulticall(args: Partial<CallParams>) {
-    if (this.isEther || !this.address) return;
-    return Object.assign({ address: this.address, abi: this.abi }, args);
-  }
-
-  autoLoad() {
-    return Object.values(this)
-      .filter((i: ReadFunction) => i.autoLoad)
-      .map((i: ReadFunction) => i.preMulticall({}));
-  }
 }
 
 export default TokenState;

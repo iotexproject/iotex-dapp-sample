@@ -17,6 +17,7 @@ import { StorageState } from './standard/StorageState';
 import TokenState from './lib/TokenState';
 import RootStore from './root';
 import { _ } from '@/lib/lodash';
+import { helper } from '../lib/helper';
 
 export class TokenStore {
   rootStore: RootStore;
@@ -94,7 +95,7 @@ export class TokenStore {
   async loadPrivateData() {
     if (!this.god.currentNetwork.account) return;
     await this.currentNetwork.multicall([
-      ...this.currentTokens.filter((i) => !i.isEther).map((i) => i.preMulticall({ method: 'balanceOf', params: [this.currentNetwork.account], handler: i._balance }))
+      ...this.currentTokens.filter((i) => !i.isEther).map((i) => helper.c.preMulticall(i, { method: 'balanceOf', params: [this.currentNetwork.account], handler: i._balance }))
     ]);
 
     this.sortToken();
