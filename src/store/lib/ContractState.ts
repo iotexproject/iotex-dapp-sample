@@ -5,20 +5,24 @@ import { rootStore } from '../index';
 import { BooleanState } from '../standard/base';
 import { helper } from '../../lib/helper';
 import { TransactionReceipt } from '@ethersproject/providers';
+import BigNumber from 'bignumber.js';
 
 export interface ContractState {
   address: string;
   abi: any;
 }
 
-export class ReadFunction<V> {
+export class ReadFunction<V = BigNumber, T = any[]> {
   name: string;
   value: V;
   contract: ContractState;
-  autoLoad: boolean = true;
-  constructor(args: Partial<ReadFunction<V>>) {
+  autoLoad: boolean = false;
+  constructor(args: Partial<ReadFunction<V, T>>) {
     Object.assign(this, args);
     makeAutoObservable(this);
+  }
+  preMulticall(args: Partial<CallParams<T>>): Partial<CallParams<T>> {
+    return Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name, handler: this.value }, args);
   }
 }
 

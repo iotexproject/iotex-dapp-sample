@@ -13,6 +13,7 @@ import { CallParams } from '../../../type';
 import { GodStore } from '../god';
 import { BigNumberState } from '../standard/BigNumberState';
 import { NumberState, StringState } from '../standard/base';
+import { ReadFunction } from './ContractState';
 
 export class EthNetworkState implements NetworkState {
   god: GodStore;
@@ -79,18 +80,25 @@ export class EthNetworkState implements NetworkState {
         //@ts-ignore
         callback(v);
       } else {
-        if (callback instanceof BigNumberState) {
-          callback.setValue(new BigNumber(v.toString()));
-        }
-        if (callback instanceof NumberState) {
-          callback.setValue(Number(v.toString()));
-        }
-        if (callback instanceof StringState) {
-          callback.setValue(v.toString());
-        }
+        this.handleCallBack(callback, v);
       }
     });
     return res;
+  }
+
+  handleCallBack(callback, val) {
+    if (callback instanceof BigNumberState) {
+      callback.setValue(new BigNumber(val.toString()));
+    }
+    if (callback instanceof NumberState) {
+      callback.setValue(Number(val.toString()));
+    }
+    if (callback instanceof StringState) {
+      callback.setValue(val.toString());
+    }
+    if (callback instanceof ReadFunction) {
+      this.handleCallBack(callback.value, val);
+    }
   }
 
   isAddress(address: string): boolean {

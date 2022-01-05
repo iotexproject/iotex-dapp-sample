@@ -2,18 +2,22 @@ import { makeAutoObservable } from 'mobx';
 import { BooleanState } from './base';
 import { helper } from '../../lib/helper';
 
-export class PromiseState<T, U> {
+export class PromiseState<T extends (...args: any[]) => Promise<any>, U = ReturnType<T>> {
   loading = new BooleanState();
-  function: (args: T) => Promise<U>;
+
+  function: T;
+
+  context: any = undefined;
+
   constructor(args: Partial<PromiseState<T, U>> = {}) {
     Object.assign(this, args);
     makeAutoObservable(this);
   }
 
-  async call(args?: T): Promise<U> {
+  async call(...args: Parameters<T>): Promise<Awaited<U>> {
     try {
       this.loading.setValue(true);
-      const res = await this.function(args);
+      const res = await this.function.apply(this.context, args);
       return res;
     } catch (error) {
       console.log(error);
