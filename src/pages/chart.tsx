@@ -111,12 +111,12 @@ const Chart = observer(() => {
       store.data[0].data = _.chunk(
         res.prices.map((i) => {
           return {
-            x: dayjs(i[0]).format('MM-DD hh:mm:ss'),
-            y: i[1] ? i[1] : i[0]
+            x: dayjs(i[0]).format('hh:mm A MMM DD, YYYY'),
+            y: i[1]
           };
         }),
         2
-      ).map((i) => i[1]);
+      ).map((i) => (i[1] ? i[1] : i[0]));
       this.yScaleRange = {
         max: _.maxBy(store.data[0].data, 'y').y,
         min: _.minBy(store.data[0].data, 'y').y
@@ -129,8 +129,9 @@ const Chart = observer(() => {
 
   const BarTooltip = (props) => {
     return (
-      <Box bg="white" border={'1px solid #ff656d'} padding={'1px 4px'} borderRadius={'5px'}>
+      <Box bg="white" boxShadow={'0 0 5px -3px black'} border={'1px solid white'} padding={'4px 4px'} borderRadius={'5px'}>
         {props.point.data.x}
+        <Box color={store.color}>{store.growthLabel}</Box>
       </Box>
     );
   };
