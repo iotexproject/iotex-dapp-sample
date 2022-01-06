@@ -32,3 +32,24 @@ export class NumberState {
     this.value = value;
   }
 }
+
+export class ValueState<T> {
+  _value: T = null;
+  constructor(args: Partial<ValueState<T>> = {}) {
+    Object.assign(this, args);
+    makeAutoObservable(this);
+  }
+
+  get value() {
+    return this.getValue ? this.getValue(this._value) : this._value;
+  }
+  set value(value) {
+    this._value = value;
+  }
+
+  getValue: (value: T) => T;
+
+  setValue(value: T) {
+    this._value = value;
+  }
+}
