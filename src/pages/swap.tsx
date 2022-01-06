@@ -186,7 +186,7 @@ const ERC20 = observer(() => {
         return store.approve(store.fromToken);
       }
       if (store.state.valid) {
-        store.swapConfirmModalOpen.setValue(true)
+        store.swapConfirmModalOpen.setValue(true);
       }
     },
     async onConfirm() {
@@ -200,7 +200,7 @@ const ERC20 = observer(() => {
           store.fromAmount.setValue(new BigNumber(0));
           store.toAmount.setValue(new BigNumber(0));
           store.zeroResData = null;
-          store.swapConfirmModalOpen.setValue(false)
+          store.swapConfirmModalOpen.setValue(false);
         }
       }
     },
@@ -224,13 +224,9 @@ const ERC20 = observer(() => {
     }
   }, [god.currentNetwork.account]);
   useEffect(() => {
-    const onClear = () => {
-      store.fromToken = null;
-      store.toToken = null;
-    };
-    eventBus.on('chain.switch', onClear);
+    eventBus.on('chain.switch', store.reset);
     return () => {
-      eventBus.off('chain.switch', onClear);
+      eventBus.off('chain.switch', store.reset);
     };
   }, []);
   return (
@@ -319,7 +315,8 @@ const ERC20 = observer(() => {
         toAmount={store.toAmount}
         isOpen={store.swapConfirmModalOpen.value}
         onClose={() => store.swapConfirmModalOpen.setValue(false)}
-        onConfirm={store.onConfirm}></SwapConfirmModal>
+        onConfirm={store.onConfirm}
+      ></SwapConfirmModal>
     </Container>
   );
 });
