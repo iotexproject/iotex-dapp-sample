@@ -5,7 +5,7 @@ import { CallParams } from '../../../type';
 import erc20Abi from '@/constants/abi/erc20.json';
 import { EthNetworkConfig } from '../../config/NetworkConfig';
 import BigNumber from 'bignumber.js';
-import { WriteFunction, ReadFunction } from './ContractState';
+import { WriteFunction } from './ContractState';
 import { rootStore } from '../index';
 import { ethers } from 'ethers';
 
@@ -64,6 +64,11 @@ class TokenState {
       }
     }
   });
+
+  preMulticall(args: Partial<CallParams>) {
+    if (this.isEther || !this.address) return;
+    return Object.assign({ address: this.address, abi: this.abi }, args);
+  }
 }
 
 export default TokenState;
