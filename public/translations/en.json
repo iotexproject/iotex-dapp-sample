@@ -26,5 +26,7 @@
   "sample": "Sample",
   "erc20.toolbox": "ERC20 Toolbox",
   "manage.token.list": "Manage Token Lists",
-  "manage": "Manage"
+  "manage": "Manage",
+  "lists": "Lists",
+  "tokens": "Tokens"
 }

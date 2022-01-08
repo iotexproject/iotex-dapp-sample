@@ -26,5 +26,7 @@
   "sample": "Узор",
   "erc20.toolbox": "ERC20 набор інструментаў",
   "manage.token.list": "Списки токенов Mange",
-  "manage": "Управлять"
+  "manage": "Управлять",
+  "lists": "Списки",
+  "tokens": "Жетоны"
 }

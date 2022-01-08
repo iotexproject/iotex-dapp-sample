@@ -26,5 +26,7 @@
   "sample": "示例",
   "erc20.toolbox": "ERC20 工具箱",
   "manage.token.list": "管理代币列表",
-  "manage": "管理"
+  "manage": "管理",
+  "lists": "清单",
+  "tokens": "代币"
 }
