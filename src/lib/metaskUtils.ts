@@ -34,38 +34,47 @@ export const metamaskUtils = {
       decimals: number;
     };
   }) => {
-    //@ts-ignore
-    const provider = window.ethereum;
-    if (provider) {
-      try {
-        await provider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: `0x${chainId.toString(16)}` }]
-        });
-      } catch (switchError) {
-        // This error code indicates that the chain has not been added to MetaMask.
+    return new Promise(async (resolve, reject) => {
+      //@ts-ignore
+      const provider = window.ethereum;
+      if (provider) {
         try {
           await provider.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: `0x${chainId.toString(16)}`,
-                chainName,
-                nativeCurrency,
-                rpcUrls,
-                blockExplorerUrls
-              }
-            ]
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${chainId.toString(16)}` }]
           });
-          return true;
-        } catch (error) {
-          console.error(error);
-          return false;
+          resolve(true);
+        } catch (switchError) {
+          // This error code indicates that the chain has not been added to MetaMask.
+          if (switchError.code === 4902) {
+            try {
+              await provider.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainId: `0x${chainId.toString(16)}`,
+                    chainName,
+                    nativeCurrency,
+                    rpcUrls,
+                    blockExplorerUrls
+                  }
+                ]
+              });
+              resolve(true);
+              return true;
+            } catch (error) {
+              reject(error);
+              return false;
+            }
+          } else {
+            reject(switchError);
+          }
         }
+      } else {
+        console.error("Can't setup the BSC network on metamask because window.ethereum is undefined");
+        reject(false);
+        return false;
       }
-    } else {
-      console.error("Can't setup the BSC network on metamask because window.ethereum is undefined");
-      return false;
-    }
+    });
   }
 };

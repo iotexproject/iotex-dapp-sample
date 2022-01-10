@@ -24,7 +24,7 @@ import {
   TabList,
   Tab,
   TabPanels,
-  TabPanel,
+  TabPanel
 } from '@chakra-ui/react';
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
@@ -34,14 +34,14 @@ import { PolygonMainnetConfig } from '../../config/PolygonMainnetConfig';
 import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
 import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
 
-import { BSCTestnetConfig } from "../../config/BSCTestnetConfig";
-import { ETHKovanConfig } from "../../config/ETHKovanConfig";
-import { IotexTestnetConfig } from "../../config/IotexTestnetConfig";
+import { BSCTestnetConfig } from '../../config/BSCTestnetConfig';
+import { ETHKovanConfig } from '../../config/ETHKovanConfig';
+import { IotexTestnetConfig } from '../../config/IotexTestnetConfig';
 
 const toast = createStandaloneToast();
 
 export const WalletSelecter = observer(() => {
-  const { god,lang } = useStore();
+  const { god, lang } = useStore();
   const { active, error, activate } = useWeb3React();
 
   const store = useLocalStore(() => ({
@@ -52,7 +52,7 @@ export const WalletSelecter = observer(() => {
       return [ETHMainnetConfig, BSCMainnetConfig, IotexMainnetConfig, PolygonMainnetConfig];
     },
     get testnet() {
-      return [ETHKovanConfig, BSCTestnetConfig, IotexTestnetConfig]
+      return [ETHKovanConfig, BSCTestnetConfig, IotexTestnetConfig];
     },
     close() {
       god.eth.connector.showConnector = false;
@@ -60,18 +60,25 @@ export const WalletSelecter = observer(() => {
     async setChain(val) {
       const chain = god.currentNetwork.chain.map[val];
       console.log(chain);
-      await metamaskUtils.setupNetwork({
-        chainId: chain.chainId,
-        blockExplorerUrls: [chain.explorerURL],
-        chainName: chain.name,
-        nativeCurrency: {
-          decimals: chain.Coin.decimals || 18,
-          name: chain.Coin.symbol,
-          symbol: chain.Coin.symbol
-        },
-        rpcUrls: [chain.rpcUrl]
-      });
-      god.setChain(val);
+      try {
+        await metamaskUtils.setupNetwork({
+          chainId: chain.chainId,
+          blockExplorerUrls: [chain.explorerURL],
+          chainName: chain.name,
+          nativeCurrency: {
+            decimals: chain.Coin.decimals || 18,
+            name: chain.Coin.symbol,
+            symbol: chain.Coin.symbol
+          },
+          rpcUrls: [chain.rpcUrl]
+        });
+        god.setChain(val);
+      } catch (error) {
+        toast({
+          description: error.message,
+          status: 'warning'
+        });
+      }
     },
     connectInejct() {
       god.setNetwork(Network.ETH);
@@ -143,7 +150,7 @@ export const WalletSelecter = observer(() => {
       <ModalContent borderRadius="15px" bgGradient={god.currentChain.info.theme.bgGradient}>
         <ModalHeader bg={useColorModeValue('white', 'gray.800')} borderTopRadius="15px" margin={`${bW}  ${bW}  0 ${bW} `}>
           <Text fontSize="xl" fontWeight="bold">
-            { lang.t(god.isConnect?'switch.network':'connect.to.wallet') }
+            {lang.t(god.isConnect ? 'switch.network' : 'connect.to.wallet')}
           </Text>
         </ModalHeader>
         <ModalCloseButton />
@@ -169,7 +176,7 @@ export const WalletSelecter = observer(() => {
                 </HStack>
               </TabPanel>
               <TabPanel>
-              <HStack justify="space-between" mb={6} px={4}>
+                <HStack justify="space-between" mb={6} px={4}>
                   {store.testnet.map((i) => (
                     <Box display="flex" flexDirection="column" alignItems="center" key={i.chainId}>
                       <Avatar src={i.logoUrl} cursor="pointer" bg="transparent" size="md" onClick={() => store.setChain(i.chainId)}>
