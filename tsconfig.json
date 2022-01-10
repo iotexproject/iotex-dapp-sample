@@ -42,7 +42,8 @@
       "@/constants/*": [
         "constants/*"
       ]
-    }
+    },
+    "incremental": true
   },
   "include": [
     "src",

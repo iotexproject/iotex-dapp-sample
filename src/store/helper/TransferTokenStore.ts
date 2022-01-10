@@ -4,12 +4,12 @@ import { StringState, BooleanState } from '../standard/base';
 import TokenState from '../lib/TokenState';
 import { rootStore } from '../index';
 
-export class useTransferToken {
+export class TransferTokenStore {
   amount = new BigNumberInputState({});
   receiverAdderss = new StringState();
   curToken = null as TokenState;
   isOpenTokenList = new BooleanState();
-  constructor(args: Partial<useTransferToken>) {
+  constructor(args: Partial<TransferTokenStore>) {
     Object.assign(this, args);
     makeAutoObservable(this);
   }
