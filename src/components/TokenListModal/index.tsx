@@ -38,6 +38,8 @@ import { StringState } from '../../store/standard/base';
 import { Text } from '@chakra-ui/layout';
 import VirtualList from 'react-tiny-virtual-list';
 import { reaction } from 'mobx';
+import { helper } from '@/lib/helper';
+import { StorageState } from '@/store/standard/StorageState';
 
 interface PropsType {
   isOpen: boolean;
@@ -87,6 +89,7 @@ export const TokenListModal = observer((props: PropsType) => {
   const store = useLocalObservable(() => ({
     keyword: new StringState(),
     newToken: null as TokenState,
+    tokenList: new StorageState<any[]>({ key: 'TokenStore.tokenList', default: []}),
     get tokens() {
       if (!token.currentTokens) return [];
       if (store.newToken) return [store.newToken];
@@ -120,6 +123,7 @@ export const TokenListModal = observer((props: PropsType) => {
     }
   }));
   useEffect(() => {
+    store.tokenList.load()
     reaction(
       () => store.keyword.value,
       async (val) => {
@@ -147,7 +151,7 @@ export const TokenListModal = observer((props: PropsType) => {
         }
       }
     );
-    setTempList([...mockData]);
+    setTempList([...store.tokenList?.value]);
   }, []);
   const handleInput = useCallback((e) => {
     setListUrlInput(e.target.value);
@@ -156,7 +160,7 @@ export const TokenListModal = observer((props: PropsType) => {
   const popoverColor = useColorModeValue('black', 'white');
 
   function createListCom(obj: any) {
-    const { status = '', tokens = [], address = '', version = '', tokenUrl = '' } = obj;
+    const { tokens = [], url = '', version: {major = '', minor = '',patch = ''} = {}, enable = false } = obj;
     const tool =
       <Popover>
         <PopoverTrigger>
@@ -165,33 +169,33 @@ export const TokenListModal = observer((props: PropsType) => {
         <PopoverContent color={popoverColor} width={200}>
           <PopoverArrow />
           <PopoverCloseButton />
-          <PopoverHeader fontSize={18}>{version}</PopoverHeader>
+          <PopoverHeader fontSize={18}>{`v${major}.${minor}.${patch}`}</PopoverHeader>
           <PopoverBody fontSize={14}>
-            <Text><a href={`https://tokenlists.org/token-list?url=${tokenUrl}`} target="_blank">View list</a></Text>
+            <Text><a href={`https://tokenlists.org/token-list?url=${url}`} target="_blank">View list</a></Text>
             <Text marginTop='3px'><a href='#'>Remove list</a></Text>
           </PopoverBody>
         </PopoverContent>
      </Popover>;
     return (
-      <Flex background={status === 'on' ? '#0094EC' : '#161522'} color={status === 'on' ? 'white' : '#BFBFBF'}
+      <Flex background={enable ? '#0094EC' : '#161522'} color={enable ? 'white' : '#BFBFBF'}
             borderRadius={10} margin='10px 0 '>
         <Box p='4'>
           <Image borderRadius='full' boxSize='40px' src={obj.logoURI} mr='4'
                  fallbackSrc='/images/token.svg' />
         </Box>
         <Box p='4'>
-          <Text fontWeight='500'>{obj.symbol}</Text>
+          <Text fontWeight='500'>{obj?.name}</Text>
           <Text fontSize={12}>{tokens.length ? <span>{tokens.length} tokens {tool}</span> :
             <span>0 tokens</span>}</Text>
         </Box>
         <Spacer />
         <Box p='4' paddingTop={6}>
-          <Switch size='lg' defaultChecked={status === 'on'} onChange={() => {
+          <Switch size='lg' defaultChecked={enable} onChange={() => {
             setTempList(tempList.map((l) => {
               let temL = { ...l };
-              const { address: addressL = '' } = l;
-              if (addressL === address) {
-                temL.status = l.status === 'on' ? 'off' : 'on';
+              const { url: urlL = '' } = l;
+              if (urlL === url) {
+                temL.enable = !l.enable;
               }
               return temL;
             }));
@@ -239,24 +243,6 @@ export const TokenListModal = observer((props: PropsType) => {
           <Input placeholder={lang.t('select.token.placeholder')} value={store.keyword.value}
                  onChange={(e) => store.keyword.setValue(e.target.value)} />
         </Box>}
-        { /*mock data*/
-          !isDrillDown && store.tokens.length && store.tokens.length > 10 &&
-          <Box ml={4}><Text fontWeight='500'>Common bases <Tooltip
-            label='These tokens are commonly paired with other tokens.'>
-            <QuestionIcon cursor='help' />
-          </Tooltip></Text> <Grid gap={4}
-                                  templateColumns='repeat(4, 1fr)'> {store.tokens.slice(0, 10).map((obj) =>
-            <GridItem w='100%' onClick={() => store.onSelect(obj)}>
-              <Button variant={'ghost'} w='100%' display='flex' alignItems='center'>
-                <Image borderRadius='full' boxSize='24px' src={obj.logoURI} mr='4'
-                       fallbackSrc='/images/token.svg' />
-                <Text fontWeight='500'>{obj.symbol}</Text>
-              </Button>
-            </GridItem>
-          )}
-          </Grid>
-          </Box>
-        }
         <Box ml={4}>
           {isDrillDown ? temCom : <VirtualList
             width='100%'

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { Box, Container, LinkBox, SimpleGrid, LinkOverlay, Stack, Alert, Image, Link as ChakraLink } from '@chakra-ui/react';
@@ -7,14 +7,18 @@ import { Badge, Flex, Text } from '@chakra-ui/layout';
 import { useStore } from '@/store/index';
 
 export const Home = observer(() => {
-  const { lang } = useStore();
+  const { god, token, lang } = useStore();
 
   const links = [
     { text: 'GitHub |', url: 'https://github.com/iotexproject/iotex-dapp-sample-v2' },
     { text: `${lang.t('issues')} |`, url: 'https://github.com/iotexproject/iotex-dapp-sample-v2/issues' },
     { text: `${lang.t('use.template')}`, url: 'https://github.com/iotexproject/iotex-dapp-sample-v2/generate' }
   ];
-
+  useEffect(() => {
+    if (god.currentNetwork.account) {
+      token.loadTokens();
+    }
+  }, []);
   return (
     <Container maxW="7xl">
       <Flex justifyContent={'center'} alignItems={'center'} mt={10} flexDirection={'column'}>

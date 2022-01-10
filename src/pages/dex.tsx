@@ -177,6 +177,7 @@ const ERC20 = observer(() => {
   useEffect(() => {
     if (god.currentNetwork.account) {
       token.loadPrivateData();
+      token.loadTokens();
     }
   }, [god.updateTicker.value]);
   useEffect(() => {
