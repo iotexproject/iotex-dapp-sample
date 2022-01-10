@@ -5,7 +5,7 @@ import { CallParams } from '../../../type';
 import erc20Abi from '@/constants/abi/erc20.json';
 import { EthNetworkConfig } from '../../config/NetworkConfig';
 import BigNumber from 'bignumber.js';
-import { WriteFunction } from './ContractState';
+import { WriteFunction, ReadFunction } from './ContractState';
 import { rootStore } from '../index';
 import { ethers } from 'ethers';
 
@@ -19,7 +19,7 @@ class TokenState {
   decimals: number = 18;
 
   network: NetworkState = EthNetworkConfig;
-  allowanceForRouter = new BigNumberState({});
+  allowanceForRouter = new ReadFunction<BigNumberState, [string, string]>({ name: 'allowance', contract: this, value: new BigNumberState({}) });
 
   _balance: BigNumberState;
   isNew = false;
@@ -30,7 +30,7 @@ class TokenState {
     Object.assign(this, args);
     this._balance = new BigNumberState({ decimals: this.decimals, loading: true });
     if (this.isEther) {
-      this.allowanceForRouter.setValue(new BigNumber(ethers.constants.MaxUint256.toString()));
+      this.allowanceForRouter.value.setValue(new BigNumber(ethers.constants.MaxUint256.toString()));
     }
     makeAutoObservable(this);
   }
@@ -38,7 +38,7 @@ class TokenState {
   setDecimals(val) {
     this.decimals = val;
     this._balance.setDecimals(val);
-    this.allowanceForRouter.setDecimals(val);
+    this.allowanceForRouter.value.setDecimals(val);
   }
 
   get balance() {
@@ -60,7 +60,7 @@ class TokenState {
     onAfterCall: ({ args, receipt }) => {
       if (receipt.status) {
         const amount = args.params[1];
-        this.allowanceForRouter.setValue(new BigNumber(amount));
+        this.allowanceForRouter.value.setValue(new BigNumber(amount));
       }
     }
   });

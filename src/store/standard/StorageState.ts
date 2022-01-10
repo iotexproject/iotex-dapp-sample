@@ -20,8 +20,10 @@ export class StorageState<T> {
     }
   }
 
-  save(value: any) {
-    this.value = value;
+  save(value?: any) {
+    if (value) {
+      this.value = value;
+    }
     global?.localStorage.setItem(this.key, JSON.stringify(value));
   }
 

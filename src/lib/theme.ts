@@ -1,5 +1,6 @@
 import { extendTheme, IconButton } from '@chakra-ui/react';
 
+// @ts-ignore
 export const theme = extendTheme({
   fonts: {
     body: 'Inter, system-ui, sans-serif',
