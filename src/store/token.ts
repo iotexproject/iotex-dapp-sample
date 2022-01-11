@@ -30,11 +30,15 @@ export class TokenStore {
     default: [
       { url: 'https://yearn.science/static/tokenlist.json', enable: false },
       { url: 'https://nftx.ethereumdb.com/v2/tokenlist/', enable: false },
-      { url: 'https://bafybeiatjxnavi26uaujxrlir7ucwprncu5y7673cueyiztkqc33bocbfy.ipfs.dweb.link/', enable: false },
       // { url: 'https://raw.githubusercontent.com/opynfinance/opyn-tokenlist/master/opyn-v1.tokenlist.json', enable: false },
-      // { url: 'https://tokenlist.aave.eth', enable: false },
-      // { url: 'https://defi.cmc.eth', enable: false },
-      // { url: 'https://stablecoin.cmc.eth', enable: false },
+      // { url: 'https://tokens.coingecko.com/uniswap/all.json', enable: false },
+      // { url: 'https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json', enable: false },
+      // { url: 'https://www.gemini.com/uniswap/manifest.json', enable: false },
+      { url: 'https://static.optimism.io/optimism.tokenlist.json', enable: false },
+      { url: 'https://app.tryroll.com/tokens.json', enable: false },
+      // { url: 'https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json', enable: false },
+      { url: 'https://umaproject.org/uma.tokenlist.json', enable: false },
+      { url: 'https://list.dhedge.eth.link/', enable: false },
     ]
   });
   // tokenList = [];
@@ -108,7 +112,10 @@ export class TokenStore {
   sortToken() {
     this.currentTokens = this.currentTokens.length && this.currentTokens.sort((a, b) => b._balance.value.comparedTo(a._balance.value));
   }
-
+  manageToken(data){
+    this.tokenList.save([...data]);
+    this.loadTokens();
+  }
   async loadPrivateData() {
     if (!this.god.currentNetwork.account) return;
     this.currentTokens.length && await this.currentNetwork.multicall(
@@ -130,21 +137,25 @@ export class TokenStore {
 
   async loadTokens() {
     const data: any = await Promise.all(this.tokenList.value.map(i => fetch(i?.url).then(response => response.json().then(d => {
-      return { ...d, url: i?.url, enable: i?.enable };
+      if (response?.status && response?.status === 200){
+        return { ...d, url: i?.url, enable: i?.enable };
+      }
     }))));
     const tokens: TokenState[] = data.reduce(((p, c) => {
-      p = p.concat(c.tokens.map(i => new TokenState(i)));
+      p = c && Object.keys(c) && p.concat(c.enable && c.tokens.map(i => new TokenState(i)));
       return p;
     }), []);
     const chainIdList = [];
-    for (const d of tokens) {
-      if (!chainIdList.includes(d.chainId)) {
-        chainIdList.push(d.chainId);
-      }
-    }
     const temTokens = {};
-    for (const i of chainIdList) {
-      temTokens[i] = tokens.filter((obj) => obj.chainId === i);
+    if (tokens.length){
+      for (const d of tokens) {
+        if (!chainIdList.includes(d.chainId)) {
+          chainIdList.push(d.chainId);
+        }
+      }
+      for (const i of chainIdList) {
+        temTokens[i] = tokens.filter((obj) => obj.chainId === i);
+      }
     }
     this.tokenList.save(data);
     this.tokens = { ...temTokens } || {};

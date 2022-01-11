@@ -216,7 +216,6 @@ const ERC20 = observer(() => {
   useEffect(() => {
     if (god.currentNetwork.account) {
       token.loadPrivateData();
-      token.loadTokens();
     }
   }, [god.updateTicker.value]);
   useEffect(() => {
@@ -230,6 +229,9 @@ const ERC20 = observer(() => {
       eventBus.off('chain.switch', store.reset);
     };
   }, []);
+  useEffect(() => {
+    token.loadTokens();
+  }, [])
   return (
     <Container maxW="md" mt="100px">
       <Flex flexDirection="row-reverse" mb="4">

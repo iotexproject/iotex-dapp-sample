@@ -7,7 +7,7 @@ import { Badge, Flex, Text } from '@chakra-ui/layout';
 import { useStore } from '@/store/index';
 
 export const Home = observer(() => {
-  const { god, token, lang } = useStore();
+  const { token, lang } = useStore();
 
   const links = [
     { text: 'GitHub |', url: 'https://github.com/iotexproject/iotex-dapp-sample-v2' },
@@ -15,9 +15,7 @@ export const Home = observer(() => {
     { text: `${lang.t('use.template')}`, url: 'https://github.com/iotexproject/iotex-dapp-sample-v2/generate' }
   ];
   useEffect(() => {
-    if (god.currentNetwork.account) {
-      token.loadTokens();
-    }
+    token.loadTokens();
   }, []);
   return (
     <Container maxW="7xl">

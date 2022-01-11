@@ -177,7 +177,6 @@ const ERC20 = observer(() => {
   useEffect(() => {
     if (god.currentNetwork.account) {
       token.loadPrivateData();
-      token.loadTokens();
     }
   }, [god.updateTicker.value]);
   useEffect(() => {
@@ -186,6 +185,9 @@ const ERC20 = observer(() => {
       store.toToken = null;
     });
   }, []);
+  useEffect(() => {
+    token.loadTokens();
+  }, [])
   return (
     <Container maxW="md" mt="100px">
       <form>

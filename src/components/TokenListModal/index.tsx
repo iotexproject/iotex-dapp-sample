@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import {
   Box,
@@ -10,8 +10,10 @@ import {
   Input,
   ListItem,
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Popover,
@@ -28,17 +30,16 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Tooltip,
-  useColorModeValue
+  useColorModeValue,
+  useDisclosure
 } from '@chakra-ui/react';
-import { ChevronLeftIcon, QuestionIcon, SettingsIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon, SettingsIcon } from '@chakra-ui/icons';
 import { useStore } from '../../store/index';
 import TokenState from '../../store/lib/TokenState';
 import { StringState } from '../../store/standard/base';
 import { Text } from '@chakra-ui/layout';
 import VirtualList from 'react-tiny-virtual-list';
 import { reaction } from 'mobx';
-import { helper } from '@/lib/helper';
 import { StorageState } from '@/store/standard/StorageState';
 
 interface PropsType {
@@ -48,48 +49,19 @@ interface PropsType {
   blackList?: string[];
 }
 
-const mockData = [
-  {
-    address: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
-    name: 'Aave',
-    symbol: 'AAVE',
-    logoURI: 'https://assets.coingecko.com/coins/images/12645/thumb/AAVE.png?1601374110',
-    tokens: [1, 2, 3, 4, 5, 6],
-    status: 'on',
-    tokenUrl: 'https://static.optimism.io/optimism.tokenlist.json',
-    version: 'v1.0.1'
-  },
-  {
-    address: '0xfF20817765cB7f73d4bde2e66e067E58D11095C2',
-    name: 'Amp',
-    symbol: 'AMP',
-    logoURI: 'https://assets.coingecko.com/coins/images/12409/thumb/amp-200x200.png?1599625397',
-    tokens: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    status: 'on',
-    tokenUrl: 'https://static.optimism.io/optimism.tokenlist.json',
-    version: '2.0.1'
-  },
-  {
-    address: '0x960b236A07cf122663c4303350609A66A7B288C0',
-    name: 'Aragon Network Token',
-    symbol: 'ANT',
-    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x960b236A07cf122663c4303350609A66A7B288C0/logo.png',
-    tokens: [1, 2, 3, 4, 5],
-    status: 'off',
-    tokenUrl: 'https://static.optimism.io/optimism.tokenlist.json',
-    version: '3.0.1'
-  }
-];
+let timer;
 export const TokenListModal = observer((props: PropsType) => {
   const { god, token, lang } = useStore();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isDrillDown, setDrill] = useState<boolean>(false);
   const [tempList, setTempList] = useState<any>([]);
-  const [addError, setAddError] = useState<string | undefined>();
   const [listUrlInput, setListUrlInput] = useState<string>('');
+  const [editData, setEdit] = useState<any>({});
   const store = useLocalObservable(() => ({
     keyword: new StringState(),
+    deleteKeyword: new StringState(),
     newToken: null as TokenState,
-    tokenList: new StorageState<any[]>({ key: 'TokenStore.tokenList', default: []}),
+    tokenList: new StorageState<any[]>({ key: 'TokenStore.tokenList', default: [...token?.tokenList?.value] }),
     get tokens() {
       if (!token.currentTokens) return [];
       if (store.newToken) return [store.newToken];
@@ -120,10 +92,12 @@ export const TokenListModal = observer((props: PropsType) => {
       token.saveToken(item);
       store.keyword.setValue('');
       store.newToken = null;
+    },
+    manageToken(arr){
+      token.manageToken(arr);
     }
   }));
   useEffect(() => {
-    store.tokenList.load()
     reaction(
       () => store.keyword.value,
       async (val) => {
@@ -153,14 +127,18 @@ export const TokenListModal = observer((props: PropsType) => {
     );
     setTempList([...store.tokenList?.value]);
   }, []);
-  const handleInput = useCallback((e) => {
-    setListUrlInput(e.target.value);
-  }, []);
   const tokenNameColor = useColorModeValue('gray.400', 'dark.300');
   const popoverColor = useColorModeValue('black', 'white');
-
+  const onSearch = (val) => {
+    console.log('val', val);
+  };
+  const onChange = (e) => {
+    clearTimeout(timer);
+    setListUrlInput(e.target.value);
+    timer = setTimeout(() => onSearch(e.target.value), 1200);
+  };
   function createListCom(obj: any) {
-    const { tokens = [], url = '', version: {major = '', minor = '',patch = ''} = {}, enable = false } = obj;
+    const { tokens = [], url = '', version: { major = '', minor = '', patch = '' } = {}, enable = false } = obj;
     const tool =
       <Popover>
         <PopoverTrigger>
@@ -171,13 +149,16 @@ export const TokenListModal = observer((props: PropsType) => {
           <PopoverCloseButton />
           <PopoverHeader fontSize={18}>{`v${major}.${minor}.${patch}`}</PopoverHeader>
           <PopoverBody fontSize={14}>
-            <Text><a href={`https://tokenlists.org/token-list?url=${url}`} target="_blank">View list</a></Text>
-            <Text marginTop='3px'><a href='#'>Remove list</a></Text>
+            <Text><a href={`https://tokenlists.org/token-list?url=${url}`} target='_blank'>View list</a></Text>
+            <Text marginTop='3px' onClick={() => {
+              onOpen();
+              setEdit(obj);
+            }}><a href='#'>Remove list</a></Text>
           </PopoverBody>
         </PopoverContent>
-     </Popover>;
+      </Popover>;
     return (
-      <Flex background={enable ? '#0094EC' : '#161522'} color={enable ? 'white' : '#BFBFBF'}
+      <Flex key={url} background={enable ? '#0094EC' : '#161522'} color={enable ? 'white' : '#BFBFBF'}
             borderRadius={10} margin='10px 0 '>
         <Box p='4'>
           <Image borderRadius='full' boxSize='40px' src={obj.logoURI} mr='4'
@@ -185,20 +166,21 @@ export const TokenListModal = observer((props: PropsType) => {
         </Box>
         <Box p='4'>
           <Text fontWeight='500'>{obj?.name}</Text>
-          <Text fontSize={12}>{tokens.length ? <span>{tokens.length} tokens {tool}</span> :
-            <span>0 tokens</span>}</Text>
+          <Text fontSize={12}><span>{tokens.length || 0} tokens {tokens.length && tool}</span></Text>
         </Box>
         <Spacer />
         <Box p='4' paddingTop={6}>
           <Switch size='lg' defaultChecked={enable} onChange={() => {
-            setTempList(tempList.map((l) => {
+            const managedList = tempList.map((l) => {
               let temL = { ...l };
               const { url: urlL = '' } = l;
               if (urlL === url) {
                 temL.enable = !l.enable;
               }
               return temL;
-            }));
+            });
+            setTempList(managedList);
+            store.manageToken(managedList);
           }} />
         </Box>
       </Flex>
@@ -212,15 +194,15 @@ export const TokenListModal = observer((props: PropsType) => {
     </TabList>
     <TabPanels>
       <TabPanel>
-        <Input borderColor='inherit' placeholder='https:// or ipfs:// or ENS name' onChange={handleInput}
+        <Input borderColor='inherit' placeholder='https:// or ipfs:// or ENS name' onChange={onChange}
+               value={listUrlInput}
                title='List URL' marginBottom={5} />
         <Box border='none' height={600} overflowY='auto'>
           {tempList.map((i) => createListCom(i))}
         </Box>
       </TabPanel>
       <TabPanel>
-        <Input placeholder={god.currentNetwork.info.token.tokenExample}
-               onChange={handleInput} />
+        <Input placeholder={god.currentNetwork.info.token.tokenExample} />
         <Box border='none' height={600} overflowY='auto' />
         <Text fontSize={12} textAlign='center'>Tip: Custom tokens are stored locally in your browser</Text>
       </TabPanel>
@@ -303,6 +285,36 @@ export const TokenListModal = observer((props: PropsType) => {
             onClick={() => setDrill(true)}
           >{lang.t('manage.token.list')}</Button>}
         </Box>
+        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={() => {
+          onClose();
+        }}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader />
+            <ModalBody>
+              Please confirm you would like to remove this list by typing REMOVE
+              <Input value={store.deleteKeyword.value} marginTop='15px'
+                     onChange={(e) => store.deleteKeyword.setValue(e.target.value)} />
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3} onClick={() => {
+                if (store.deleteKeyword.value === 'REMOVE') {
+                  const {name = ''} = editData;
+                  const managedList = tempList.filter((i) => i.name !== name);
+                  setTempList(managedList);
+                  store.manageToken(managedList);
+                }
+                store.deleteKeyword.setValue('');
+                onClose();
+              }}>
+                Confirm
+              </Button>
+              <Button variant='ghost' onClick={() => {
+                onClose();
+              }}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </ModalContent>
     </Modal>
   );

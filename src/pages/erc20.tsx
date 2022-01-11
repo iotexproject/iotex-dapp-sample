@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
-import { Icon } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+// import { Icon } from '@chakra-ui/react';
+// import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Center, Text } from '@chakra-ui/layout';
 import toast from 'react-hot-toast';
 
@@ -78,8 +78,8 @@ const ERC20 = observer(() => {
   }));
   useEffect(() => {
     if (god.currentNetwork.account) {
+      console.log('请求你嘎喋');
       token.loadPrivateData();
-      token.loadTokens();
     }
   }, [god.updateTicker.value]);
   useEffect(() => {
@@ -87,6 +87,9 @@ const ERC20 = observer(() => {
       store.curToken = null;
     });
   }, []);
+  useEffect(() => {
+    token.loadTokens();
+  }, [])
   return (
     <Container maxW="md">
       <form>
