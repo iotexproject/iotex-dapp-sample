@@ -78,7 +78,6 @@ const ERC20 = observer(() => {
   }));
   useEffect(() => {
     if (god.currentNetwork.account) {
-      console.log('请求你嘎喋');
       token.loadPrivateData();
     }
   }, [god.updateTicker.value]);
