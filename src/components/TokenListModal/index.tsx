@@ -33,7 +33,7 @@ import {
   useColorModeValue,
   useDisclosure
 } from '@chakra-ui/react';
-import { ChevronLeftIcon, SettingsIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon, SettingsIcon, CheckIcon } from '@chakra-ui/icons';
 import { useStore } from '../../store/index';
 import TokenState from '../../store/lib/TokenState';
 import { StringState } from '../../store/standard/base';
@@ -57,6 +57,7 @@ export const TokenListModal = observer((props: PropsType) => {
   const [tempList, setTempList] = useState<any>([]);
   const [listUrlInput, setListUrlInput] = useState<string>('');
   const [editData, setEdit] = useState<any>({});
+  const [tokenData, setToken] = useState<any>({});
   const store = useLocalObservable(() => ({
     keyword: new StringState(),
     deleteKeyword: new StringState(),
@@ -93,7 +94,7 @@ export const TokenListModal = observer((props: PropsType) => {
       store.keyword.setValue('');
       store.newToken = null;
     },
-    manageToken(arr){
+    manageToken(arr) {
       token.manageToken(arr);
     }
   }));
@@ -130,13 +131,22 @@ export const TokenListModal = observer((props: PropsType) => {
   const tokenNameColor = useColorModeValue('gray.400', 'dark.300');
   const popoverColor = useColorModeValue('black', 'white');
   const onSearch = (val) => {
-    console.log('val', val);
+    if (val) fetch(val).then(response => response.json()).then(data => {
+      if (data && data.name) {
+        setToken({ ...data, url: val, enable: false });
+      } else {
+        // Enter valid list location
+        setToken({});
+      }
+    });
+    setToken({});
   };
   const onChange = (e) => {
     clearTimeout(timer);
     setListUrlInput(e.target.value);
     timer = setTimeout(() => onSearch(e.target.value), 1200);
   };
+
   function createListCom(obj: any) {
     const { tokens = [], url = '', version: { major = '', minor = '', patch = '' } = {}, enable = false } = obj;
     const tool =
@@ -186,6 +196,7 @@ export const TokenListModal = observer((props: PropsType) => {
       </Flex>
     );
   }
+
   const temCom = (<Tabs isFitted variant='enclosed' width='100%' style={{ paddingRight: '15px' }}>
     <TabList mb='1em'>
       <Tab>{lang.t('lists')}</Tab>
@@ -197,6 +208,40 @@ export const TokenListModal = observer((props: PropsType) => {
                value={listUrlInput}
                title='List URL' marginBottom={5} />
         <Box border='none' height={600} overflowY='auto'>
+          {tokenData && Object.keys(tokenData).length ?
+            <Flex key={tokenData?.url + 'new'}
+                  background={tempList.filter((i) => i.name === tokenData.name).length ? '#1AA034' : '#3C3F41'}
+                  color={tempList.filter((i) => i.name === tokenData.name).length ? 'white' : '#BFBFBF'}
+                  borderRadius={10} margin='10px 0 '>
+              <Box p='4'>
+                <Image borderRadius='full' boxSize='40px' src={tokenData?.logoURI} mr='4'
+                       fallbackSrc='/images/token.svg' />
+              </Box>
+              <Box p='4'>
+                <Text fontWeight='500'>{tokenData?.name}</Text>
+                <Text fontSize={12}><span>{tokenData?.tokens.length || 0} tokens</span></Text>
+              </Box>
+              <Spacer />
+              <Box p='4' paddingTop={6}>
+                {
+                  tempList.filter((i) => i.name === tokenData.name).length ?  <Text fontSize={12}><span><CheckIcon /> Loaded</span></Text> : <Button
+                    ml='4'
+                    px='4'
+                    size='sm'
+                    onClick={(e) => {
+                      setTempList([tokenData, ...tempList]);
+                      store.manageToken([tokenData, ...tempList]);
+                      setTimeout(() => {
+                        setToken('');
+                        setListUrlInput('')
+                      }, 500)
+                    }}
+                  >
+                    Import
+                  </Button>
+                }
+              </Box>
+            </Flex> : <Text color='red'>{listUrlInput && 'Enter valid list location'}</Text>}
           {tempList.map((i) => createListCom(i))}
         </Box>
       </TabPanel>
@@ -216,6 +261,8 @@ export const TokenListModal = observer((props: PropsType) => {
                                                  onClick={() => {
                                                    setDrill(false);
                                                    store.keyword.setValue('');
+                                                   setToken({});
+                                                   setListUrlInput('');
                                                  }} /></GridItem>
           <GridItem colStart={3} colEnd={6}>{lang.t('manage')}</GridItem>
         </Grid> : lang.t('select.token')}</ModalHeader>
@@ -298,7 +345,7 @@ export const TokenListModal = observer((props: PropsType) => {
             <ModalFooter>
               <Button colorScheme='blue' mr={3} onClick={() => {
                 if (store.deleteKeyword.value === 'REMOVE') {
-                  const {name = ''} = editData;
+                  const { name = '' } = editData;
                   const managedList = tempList.filter((i) => i.name !== name);
                   setTempList(managedList);
                   store.manageToken(managedList);
