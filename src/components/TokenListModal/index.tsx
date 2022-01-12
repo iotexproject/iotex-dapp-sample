@@ -186,7 +186,6 @@ export const TokenListModal = observer((props: PropsType) => {
       </Flex>
     );
   }
-
   const temCom = (<Tabs isFitted variant='enclosed' width='100%' style={{ paddingRight: '15px' }}>
     <TabList mb='1em'>
       <Tab>{lang.t('lists')}</Tab>

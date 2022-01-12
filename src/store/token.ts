@@ -41,7 +41,6 @@ export class TokenStore {
       { url: 'https://list.dhedge.eth.link/', enable: false },
     ]
   });
-  // tokenList = [];
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -142,7 +141,7 @@ export class TokenStore {
       }
     }))));
     const tokens: TokenState[] = data.reduce(((p, c) => {
-      p = c && Object.keys(c) && p.concat(c.enable && c.tokens.map(i => new TokenState(i)));
+      p = c && Object.keys(c) && p.concat(c.enable && c.tokens.map(i => new TokenState({...i, tags: i?.tags || []})));
       return p;
     }), []);
     const chainIdList = [];

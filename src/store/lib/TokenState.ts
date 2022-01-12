@@ -32,7 +32,7 @@ class TokenState {
     if (this.isEther) {
       this.allowanceForRouter.setValue(new BigNumber(ethers.constants.MaxUint256.toString()));
     }
-    // makeAutoObservable(this);
+    makeAutoObservable(this);
   }
 
   setDecimals(val) {
