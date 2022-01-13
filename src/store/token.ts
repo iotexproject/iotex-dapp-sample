@@ -11,11 +11,11 @@ import { makeAutoObservable } from 'mobx';
 // import { EthNetworkConfig } from '../config/NetworkConfig';
 // import { IotexTestnetConfig } from '../config/IotexTestnetConfig';
 // import { IotexMainnetConfig } from '../config/IotexMainnetConfig';
-
 // import { PolygonMainnetConfig } from '../config/PolygonMainnetConfig';
 import { StorageState } from './standard/StorageState';
 import TokenState from './lib/TokenState';
 import RootStore from './root';
+
 // import { _ } from '@/lib/lodash';
 
 export class TokenStore {
@@ -29,7 +29,7 @@ export class TokenStore {
     key: 'TokenStore.tokenList',
     default: [
       { url: 'https://yearn.science/static/tokenlist.json', enable: false },
-      { url: 'https://nftx.ethereumdb.com/v2/tokenlist/', enable: false },
+      { url: 'https://nftx.ethereumdb.com/v2/tokenlist/', enable: false }
     ]
   });
 
@@ -85,7 +85,7 @@ export class TokenStore {
     if (!this.localStorageToken.value[this.currentChain.chainId]) {
       this.localStorageToken.value[this.currentChain.chainId] = [];
     }
-    this.localStorageToken.value[this.currentChain.chainId].push({
+    this.localStorageToken.value[this.currentChain.chainId].unshift({
       address: item.address,
       name: item.name,
       symbol: item.symbol,
@@ -102,10 +102,12 @@ export class TokenStore {
   sortToken() {
     this.currentTokens = this.currentTokens.length && this.currentTokens.sort((a, b) => b._balance.value.comparedTo(a._balance.value));
   }
-  manageToken(data){
+
+  manageToken(data) {
     this.tokenList.save([...data]);
     this.loadTokens();
   }
+
   async loadPrivateData() {
     if (!this.god.currentNetwork.account) return;
     this.currentTokens.length && await this.currentNetwork.multicall(
@@ -127,17 +129,17 @@ export class TokenStore {
 
   async loadTokens() {
     const data: any = await Promise.all(this.tokenList.value.map(i => fetch(i?.url).then(response => response.json().then(d => {
-      if (response?.status && response?.status === 200){
+      if (response?.status && response?.status === 200) {
         return { ...d, url: i?.url, enable: i?.enable };
       }
     }))));
     const tokens: TokenState[] = data.reduce(((p, c) => {
-      p = c && Object.keys(c) && p.concat(c.enable && c.tokens.map(i => new TokenState({...i, tags: i?.tags || []})));
+      p = c && Object.keys(c) && p.concat(c.enable && c.tokens.map(i => new TokenState({ ...i, tags: i?.tags || [] })));
       return p;
     }), []);
     const chainIdList = [];
     const temTokens = {};
-    if (tokens.length){
+    if (tokens.length) {
       for (const d of tokens) {
         if (!chainIdList.includes(d.chainId)) {
           chainIdList.push(d.chainId);
@@ -145,6 +147,11 @@ export class TokenStore {
       }
       for (const i of chainIdList) {
         temTokens[i] = tokens.filter((obj) => obj.chainId === i);
+      }
+    }
+    if (this.localStorageToken.value && Object.keys(this.localStorageToken.value).length) {
+      for (const i in this.localStorageToken.value) {
+        temTokens[i] = this.localStorageToken.value[i].map(l => new TokenState({ ...l })).concat(temTokens[i] || [])
       }
     }
     this.tokenList.save(data);

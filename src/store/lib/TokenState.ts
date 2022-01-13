@@ -17,7 +17,7 @@ class TokenState {
   logoURI: string = '';
   chainId: number = 0;
   decimals: number = 18;
-
+  tags: object = [];
   network: NetworkState = EthNetworkConfig;
   allowanceForRouter = new BigNumberState({});
 
