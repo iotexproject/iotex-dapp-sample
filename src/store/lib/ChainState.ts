@@ -16,6 +16,7 @@ export class ChainState {
     blockPerSeconds: number;
     multicallAddr?: string;
     multicall2Addr?: string;
+    zeroRouterAddr?: string;
     theme?: {
       bgGradient: string;
     };
