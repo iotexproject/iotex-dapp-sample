@@ -98,7 +98,25 @@ export class TokenStore {
     this.currentTokens = [item, ...this.currentTokens];
     this.sortToken();
   }
-
+  deleteToken(address: string) {
+    if (!this.localStorageToken.value[this.currentChain.chainId]) {
+      this.localStorageToken.value[this.currentChain.chainId] = [];
+    }
+    // this.localStorageToken.value[this.currentChain.chainId].unshift({
+    //   address: item.address,
+    //   name: item.name,
+    //   symbol: item.symbol,
+    //   decimals: item.decimals,
+    //   saved: true
+    // });
+    // item.isNew = false;
+    // item.saved = true;
+    this.localStorageToken.value[this.currentChain.chainId] =
+      this.localStorageToken.value[this.currentChain.chainId].filter((i) => i.address !== address);
+    this.localStorageToken.save(this.localStorageToken.value);
+    this.currentTokens = [...this.currentTokens.filter((i) => i.address !== address)];
+    this.sortToken();
+  }
   sortToken() {
     this.currentTokens = this.currentTokens.length && this.currentTokens.sort((a, b) => b._balance.value.comparedTo(a._balance.value));
   }

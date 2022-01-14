@@ -8,7 +8,6 @@ import {
   GridItem,
   Image,
   Input,
-  ListItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -156,7 +155,7 @@ export const TokenListModal = observer((props: PropsType) => {
         <Input borderColor='inherit' placeholder='https:// or ipfs:// or ENS name' onChange={onChange}
                value={listUrlInput}
                title='List URL' marginBottom={5}/>
-        <Box border='none' height={600} overflowY='auto'>
+        <Box border='none' height={500} overflowY='auto'>
           {tokenData && Object.keys(tokenData).length ?
             <Flex key={tokenData?.url + 'new'}
                   background={tempList.filter((i) => i.name === tokenData.name).length ? '#1AA034' : '#3C3F41'}
@@ -196,8 +195,7 @@ export const TokenListModal = observer((props: PropsType) => {
         </Box>
       </TabPanel>
       <TabPanel>
-        {/*<Input placeholder={god.currentNetwork.info.token.tokenExample}/>*/}
-        <Box border='none' height={600} overflowY='auto'>
+        <Box>
           <TokenListWithSearch onSelect={store.onSelect} blackList={props.blackList} isTokenManage={true}/>
         </Box>
         <Text fontSize={12} textAlign='center'>Tip: Custom tokens are stored locally in your browser</Text>
