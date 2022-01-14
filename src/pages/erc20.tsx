@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
-import { Icon } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Center, Text } from '@chakra-ui/layout';
+import { Box, Button, Container, Flex, FormControl, Input, InputGroup } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/layout';
 import toast from 'react-hot-toast';
-
-import { Container, FormControl, Input, Button, Image, InputGroup, InputRightElement, Flex, Box } from '@chakra-ui/react';
 import { useStore } from '../store/index';
-import { StringState, BooleanState } from '../store/standard/base';
+import { BooleanState, StringState } from '../store/standard/base';
 import TokenState from '../store/lib/TokenState';
 import { BigNumberInputState } from '../store/standard/BigNumberInputState';
 import { eventBus } from '../lib/event';
@@ -86,20 +83,24 @@ const ERC20 = observer(() => {
       store.curToken = null;
     });
   }, []);
+  useEffect(() => {
+    token.loadTokens();
+  }, []);
   return (
-    <Container maxW="md">
+    <Container maxW='md'>
       <form>
         <FormControl mt={20}>
-          <TokenInput amount={store.amount} token={store.curToken} onChangeAmount={(e) => store.amount.setFormat(e)} onSelectToken={(e) => (store.curToken = e)} />
+          <TokenInput amount={store.amount} token={store.curToken} onChangeAmount={(e) => store.amount.setFormat(e)}
+                      onSelectToken={(e) => (store.curToken = e)} />
 
-          <Box border="1px solid" borderRadius="md" borderColor="inherit" mt={4}>
-            <Flex justify="space-between" p={2}>
-              <Text fontSize="sm">{lang.t('receiver.address')}</Text>
-              <Text fontSize="sm">{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
+          <Box border='1px solid' borderRadius='md' borderColor='inherit' mt={4}>
+            <Flex justify='space-between' p={2}>
+              <Text fontSize='sm'>{lang.t('receiver.address')}</Text>
+              <Text fontSize='sm'>{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
             </Flex>
             <InputGroup>
               <Input
-                border="none"
+                border='none'
                 placeholder={god.currentNetwork.info.token.tokenExample}
                 value={store.receiverAdderss.value}
                 onChange={(e) => {
@@ -110,12 +111,14 @@ const ERC20 = observer(() => {
             </InputGroup>
           </Box>
 
-          <Flex justify="space-around" p={2}>
-            <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onSubmit} isLoading={store.curToken?.transfer.loading.value}>
+          <Flex justify='space-around' p={2}>
+            <Button type='button' mt='4' disabled={!store.state.valid} onClick={store.onSubmit}
+                    isLoading={store.curToken?.transfer.loading.value}>
               {store.state.msg}
             </Button>
             {store.state.valid && god.isConnect && (
-              <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onApprove} isLoading={store.curToken?.approve.loading.value}>
+              <Button type='button' mt='4' disabled={!store.state.valid} onClick={store.onApprove}
+                      isLoading={store.curToken?.approve.loading.value}>
                 {store.state.msgApprove}
               </Button>
             )}

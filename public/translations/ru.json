@@ -24,5 +24,9 @@
   "issues": "пытанні",
   "use.template": "Выкарыстоўвайце шаблон",
   "sample": "Узор",
-  "erc20.toolbox": "ERC20 набор інструментаў"
+  "erc20.toolbox": "ERC20 набор інструментаў",
+  "manage.token.list": "Списки токенов Mange",
+  "manage": "Управлять",
+  "lists": "Списки",
+  "tokens": "Жетоны"
 }

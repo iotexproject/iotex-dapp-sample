@@ -13,6 +13,7 @@ class TokenState {
   abi = erc20Abi;
   name: string = '';
   symbol: string = '';
+  tags: object = [];
   address: string = '';
   logoURI: string = '';
   chainId: number = 0;
