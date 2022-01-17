@@ -117,6 +117,8 @@ export const TokenListWithSearch = observer((props: PropsType) => {
   }, [Object.keys(store.localStorageToken.value).length]);
   const tokenNameColor = useColorModeValue('gray.400', 'dark.300');
   const popoverColor = useColorModeValue('black', 'white');
+  console.log('store.list', store.list);
+  console.log('store.tokens', store.tokens);
   return (
     <Box>
       <Box px={4} pb={2}>

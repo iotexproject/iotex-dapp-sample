@@ -100,6 +100,7 @@ export const TokenListModal = observer((props: PropsType) => {
     store.setTempList([...store.tokenList?.value]);
   }, []);
   const popoverColor = useColorModeValue('black', 'white');
+  const bgColor = useColorModeValue( '#2D3748',  '#161522');
   const onSearch = (val) => {
     if (val) fetch(val).then(response => response.json()).then(data => {
       if (data && data.name) {
@@ -137,7 +138,7 @@ export const TokenListModal = observer((props: PropsType) => {
         </PopoverContent>
       </Popover>;
     return (
-      <Flex key={url} background={enable ? '#0094EC' : '#161522'} color={enable ? 'white' : '#BFBFBF'}
+      <Flex key={url} background={enable ? '#0094EC' : bgColor} color='white'
             borderRadius={10} margin='10px 0 '>
         <Box p='4'>
           <Image borderRadius='full' boxSize='40px' src={obj.logoURI} mr='4'
