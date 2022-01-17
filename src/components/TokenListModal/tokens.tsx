@@ -37,6 +37,8 @@ interface PropsType {
 export const TokenListWithSearch = observer((props: PropsType) => {
   const initRef = useRef();
   const { god, token, lang } = useStore();
+  // const [errorMsg, setMsg] = useState('');
+  // const [list, setList] = useState<any>([]);
   const store = useLocalObservable(() => ({
     keyword: new StringState(),
     newToken: null as TokenState,
@@ -44,6 +46,8 @@ export const TokenListWithSearch = observer((props: PropsType) => {
       key: 'TokenStore.localStorageToken',
       default: token?.localStorageToken?.value || []
     }),
+    errorMsg: '',
+    list: [],
     get tokens() {
       if (!token.currentTokens) return [];
       if (store.newToken) return [store.newToken];
@@ -60,6 +64,12 @@ export const TokenListWithSearch = observer((props: PropsType) => {
       }
       return token.currentTokens;
     },
+    setMsg(msg: string) {
+      store.errorMsg = msg;
+    },
+    setList(list: any) {
+      store.list = [...list];
+    },
     onSelect(item: TokenState) {
       props.onSelect(item);
     },
@@ -69,8 +79,6 @@ export const TokenListWithSearch = observer((props: PropsType) => {
       store.newToken = null;
     }
   }));
-  const [errorMsg, setMsg] = useState('');
-  const [tempList, setTempList] = useState<any>([]);
   useEffect(() => {
     reaction(
       () => store.keyword.value,
@@ -107,7 +115,7 @@ export const TokenListWithSearch = observer((props: PropsType) => {
     }
   }
   useEffect(() => {
-    setTempList([...localList]);
+    store.setList([...localList]);
   }, [Object.keys(store.localStorageToken.value).length]);
   const tokenNameColor = useColorModeValue('gray.400', 'dark.300');
   const popoverColor = useColorModeValue('black', 'white');
@@ -120,17 +128,17 @@ export const TokenListWithSearch = observer((props: PropsType) => {
                  store.keyword.setValue(e.target.value);
                  if (props.isTokenManage && e.target.value) {
                    if (!god.currentNetwork.isAddress(e.target.value)) {
-                     setMsg('Enter valid token address');
+                     store.setMsg('Enter valid token address');
                    } else {
-                     setMsg('');
+                     store.setMsg('');
                    }
                  } else {
-                   setMsg('');
+                   store.setMsg('');
                  }
                }} />
       </Box>
       <Box ml={4}>
-        {errorMsg ? <Text color='red'>{errorMsg}</Text> :
+        {store.errorMsg ? <Text color='red'>{store.errorMsg}</Text> :
           store.keyword.value && props.isTokenManage && store.tokens.length && store.tokens.length === 1 ?
             <Flex key={store.tokens[0].address}>
               <Box p='4'>
@@ -149,7 +157,7 @@ export const TokenListWithSearch = observer((props: PropsType) => {
                       size='sm'
                       onClick={() => {
                         store.addToken(store.tokens[0]);
-                        setTempList([store.tokens[0], ...localList]);
+                        store.setList([store.tokens[0], ...localList]);
                       }}
                     >
                       Import
@@ -164,9 +172,9 @@ export const TokenListWithSearch = observer((props: PropsType) => {
           height={500}
           itemSize={50}
           style={{ paddingRight: '15px' }}
-          itemCount={props.isTokenManage ? tempList.length : store.tokens.length}
+          itemCount={props.isTokenManage ? store.list.length : store.tokens.length}
           renderItem={({ index, style }) => {
-            const i = props.isTokenManage ? tempList[index] : store.tokens[index];
+            const i = props.isTokenManage ? store.list[index] : store.tokens[index];
             return (
               <ListItem my={1} key={index} {...style} cursor='pointer' display='flex' alignItems='center'
                         justifyContent='space-between'>
@@ -211,7 +219,7 @@ export const TokenListWithSearch = observer((props: PropsType) => {
                                   <Button variant='outline' onClick={() => onClose()}>Cancel</Button>
                                   <Button colorScheme='red' onClick={() => {
                                     token.deleteToken(i?.address);
-                                    setTempList([...tempList.filter((l) => l.address !== i.address)])
+                                    store.setList([...store.list.filter((l) => l.address !== i.address)])
                                     onClose();
                                   }}>Apply</Button>
                                 </ButtonGroup>

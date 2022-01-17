@@ -14,13 +14,20 @@ export class TokenStore {
     key: 'TokenStore.tokenList',
     default: [
       { url: 'https://yearn.science/static/tokenlist.json', enable: false },
-      { url: 'https://nftx.ethereumdb.com/v2/tokenlist/', enable: false }
+      { url: 'https://nftx.ethereumdb.com/v2/tokenlist/', enable: false },
+      // { url: 'https://raw.githubusercontent.com/opynfinance/opyn-tokenlist/master/opyn-v1.tokenlist.json', enable: false },
+      // { url: 'https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json', enable: false },
+      // { url: 'https://www.gemini.com/uniswap/manifest.json', enable: false },
+      { url: 'https://static.optimism.io/optimism.tokenlist.json', enable: false },
+      { url: 'https://app.tryroll.com/tokens.json', enable: false },
+      // { url: 'https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json', enable: false },
+      { url: 'https://umaproject.org/uma.tokenlist.json', enable: false },
+      { url: 'https://list.dhedge.eth.link/', enable: false },
     ]
   });
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-    console.log(this.localStorageToken.value);
     makeAutoObservable(this, {
       rootStore: false
     });
