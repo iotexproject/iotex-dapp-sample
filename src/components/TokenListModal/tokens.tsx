@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import {
   Box,
@@ -37,8 +37,6 @@ interface PropsType {
 export const TokenListWithSearch = observer((props: PropsType) => {
   const initRef = useRef();
   const { god, token, lang } = useStore();
-  // const [errorMsg, setMsg] = useState('');
-  // const [list, setList] = useState<any>([]);
   const store = useLocalObservable(() => ({
     keyword: new StringState(),
     newToken: null as TokenState,

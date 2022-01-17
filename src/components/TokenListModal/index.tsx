@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import {
   Box,
@@ -49,13 +49,8 @@ interface PropsType {
 
 let timer;
 export const TokenListModal = observer((props: PropsType) => {
-  const { god, token, lang } = useStore();
+  const { token, lang } = useStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [isDrillDown, setDrill] = useState<boolean>(false);
-  // const [tempList, setTempList] = useState<any>([]);
-  // const [listUrlInput, setListUrlInput] = useState<string>('');
-  // const [editData, setEdit] = useState<any>({});
-  // const [tokenData, setToken] = useState<any>({});
   const store = useLocalObservable(() => ({
     deleteKeyword: new StringState(),
     tokenList: new StorageState<any[]>({ key: 'TokenStore.tokenList', default: [...token?.tokenList?.value] }),
