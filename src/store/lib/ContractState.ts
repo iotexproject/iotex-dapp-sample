@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, reaction } from 'mobx';
 import { NetworkState } from './NetworkState';
 import { CallParams } from '../../../type';
 import { rootStore } from '../index';
@@ -6,23 +6,39 @@ import { BooleanState } from '../standard/base';
 import { helper } from '../../lib/helper';
 import { TransactionReceipt } from '@ethersproject/providers';
 import BigNumber from 'bignumber.js';
+import { CacheState } from '../standard/CacheState';
 
 export interface ContractState {
   address: string;
   abi: any;
 }
 
-export class ReadFunction<V = BigNumber, T = any[]> {
+export class ReadFunction<T = any[]> {
   name: string;
-  value: V;
+  value: string = '';
   contract: ContractState;
   autoLoad: boolean = false;
-  constructor(args: Partial<ReadFunction<V, T>>) {
+  cache?: CacheState;
+  constructor(args: Partial<ReadFunction<T>>) {
     Object.assign(this, args);
+    if (this.cache) {
+      this.cache.onSet = (value) => {
+        this.value = value;
+      };
+    }
     makeAutoObservable(this);
   }
   preMulticall(args: Partial<CallParams<T>>): Partial<CallParams<T>> {
-    return Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name, handler: this.value }, args);
+    if (this.value) return null;
+    return Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name, handler: this }, args);
+  }
+
+  setValue(value: any) {
+    if (this.cache) {
+      this.cache.set(value);
+    } else {
+      this.value = value;
+    }
   }
 }
 

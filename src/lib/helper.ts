@@ -3,6 +3,10 @@ import BN from 'bignumber.js';
 import { createStandaloneToast } from '@chakra-ui/react';
 import { CallParams } from '../../type';
 import { ContractState, ReadFunction } from '../store/lib/ContractState';
+import { BigNumberState } from '../store/standard/BigNumberState';
+import BigNumber from 'bignumber.js';
+import { NumberState, StringState } from '../store/standard/base';
+import { CacheState } from '../store/standard/CacheState';
 
 export const helper = {
   toast: createStandaloneToast(),
@@ -112,6 +116,25 @@ export const helper = {
       return Object.values(contract)
         .filter((i: ReadFunction) => i.autoLoad)
         .map((i: ReadFunction) => i.preMulticall({}));
+    }
+  },
+  state: {
+    handleCallBack(callback, val) {
+      if (callback instanceof BigNumberState) {
+        callback.setValue(new BigNumber(val.toString()));
+      }
+      if (callback instanceof NumberState) {
+        callback.setValue(Number(val.toString()));
+      }
+      if (callback instanceof StringState) {
+        callback.setValue(val.toString());
+      }
+      if (callback instanceof ReadFunction) {
+        callback.setValue(val.toString());
+      }
+      if (callback instanceof CacheState) {
+        callback.set(val);
+      }
     }
   }
 };
