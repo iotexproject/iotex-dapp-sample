@@ -37,8 +37,9 @@ export class ReadFunction<T = any[], V = String> {
     if (this.value.setValue) {
       //@ts-ignore
       this.value.setValue(value);
+    } else {
+      this.value = value;
     }
-    this.value = value;
   }
 
   setValue(value: any) {

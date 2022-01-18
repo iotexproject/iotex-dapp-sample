@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocalObservable, observer } from 'mobx-react-lite';
+import { Box, Button } from '@chakra-ui/react';
 
 interface Props {}
 
@@ -11,10 +12,10 @@ export const Template = observer((props: Props) => {
     }
   }));
   return (
-    <div>
-      <div>Template: {store.count}</div>
-      <button onClick={() => store.setCount(store.count + 1)}>+</button>
-      <button onClick={() => store.setCount(store.count - 1)}>-</button>
-    </div>
+    <Box>
+      <Box>Template: {store.count}</Box>
+      <Button onClick={() => store.setCount(store.count + 1)}>+</Button>
+      <Button onClick={() => store.setCount(store.count - 1)}>-</Button>
+    </Box>
   );
 });
