@@ -13,31 +13,39 @@ export interface ContractState {
   abi: any;
 }
 
-export class ReadFunction<T = any[]> {
+export class ReadFunction<T = any[], V = String> {
   name: string;
-  value: string = '';
+  //@ts-ignore
+  value: V = '';
   contract: ContractState;
   autoLoad: boolean = false;
   cache?: CacheState;
-  constructor(args: Partial<ReadFunction<T>>) {
+  constructor(args: Partial<ReadFunction<T, V>>) {
     Object.assign(this, args);
     if (this.cache) {
-      this.cache.onSet = (value) => {
-        this.value = value;
-      };
+      this.cache.onSet = this._setValue;
     }
     makeAutoObservable(this);
   }
   preMulticall(args: Partial<CallParams<T>>): Partial<CallParams<T>> {
-    if (this.value) return null;
+    if (this.value && this.cache) return null;
     return Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name, handler: this }, args);
+  }
+
+  _setValue(value: any) {
+    //@ts-ignore
+    if (this.value.setValue) {
+      //@ts-ignore
+      this.value.setValue(value);
+    }
+    this.value = value;
   }
 
   setValue(value: any) {
     if (this.cache) {
       this.cache.set(value);
     } else {
-      this.value = value;
+      this._setValue(value);
     }
   }
 }

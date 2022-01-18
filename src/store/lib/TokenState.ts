@@ -19,13 +19,13 @@ class TokenState {
   decimals: number = 18;
 
   network: NetworkState = EthNetworkConfig;
-  allowanceForRouter = new ReadFunction<BigNumberState, [string, string]>({ name: 'allowance', contract: this, value: new BigNumberState({}) });
+  allowanceForRouter = new ReadFunction<[string, string], BigNumberState>({ name: 'allowance', contract: this, value: new BigNumberState({}) });
 
   _balance: BigNumberState;
   isNew = false;
   saved = false;
   isEther = false;
-
+  y;
   constructor(args: Partial<TokenState>) {
     Object.assign(this, args);
     this._balance = new BigNumberState({ decimals: this.decimals, loading: true });
