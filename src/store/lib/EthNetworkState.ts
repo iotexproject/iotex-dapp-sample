@@ -14,6 +14,7 @@ import { GodStore } from '../god';
 import { BigNumberState } from '../standard/BigNumberState';
 import { NumberState, StringState } from '../standard/base';
 import { ReadFunction } from './ContractState';
+import { helper } from '../../lib/helper';
 
 export class EthNetworkState implements NetworkState {
   god: GodStore;
@@ -73,6 +74,7 @@ export class EthNetworkState implements NetworkState {
 
   async multicall(calls: CallParams[]): Promise<any[]> {
     //@ts-ignore
+    calls = calls.filter(Boolean);
     const res = await this.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
     res.forEach((v, i) => {
       const callback = calls[i].handler;
@@ -80,25 +82,10 @@ export class EthNetworkState implements NetworkState {
         //@ts-ignore
         callback(v);
       } else {
-        this.handleCallBack(callback, v);
+        helper.state.handleCallBack(callback, v);
       }
     });
     return res;
-  }
-
-  handleCallBack(callback, val) {
-    if (callback instanceof BigNumberState) {
-      callback.setValue(new BigNumber(val.toString()));
-    }
-    if (callback instanceof NumberState) {
-      callback.setValue(Number(val.toString()));
-    }
-    if (callback instanceof StringState) {
-      callback.setValue(val.toString());
-    }
-    if (callback instanceof ReadFunction) {
-      this.handleCallBack(callback.value, val);
-    }
   }
 
   isAddress(address: string): boolean {
