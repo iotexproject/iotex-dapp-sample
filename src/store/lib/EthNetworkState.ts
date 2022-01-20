@@ -82,7 +82,7 @@ export class EthNetworkState implements NetworkState {
         //@ts-ignore
         callback(v);
       } else {
-        helper.state.handleCallBack(callback, v);
+        helper.state.handleCallBack(callback, v, calls[i].method);
       }
     });
     return res;

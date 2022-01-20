@@ -113,13 +113,20 @@ export const helper = {
       return Object.assign({ address: contract.address, abi: contract.abi }, args);
     },
     autoLoad(contract: ContractState) {
-      return Object.values(contract)
-        .filter((i: ReadFunction) => i.autoLoad)
-        .map((i: ReadFunction) => i.preMulticall({}));
+      const autoLoads = Object.values(contract).filter((i: ReadFunction) => i.autoLoad);
+      if (contract.cache && contract.cache?.data) {
+        autoLoads.forEach((i) => {
+          const value = contract.cache.data[i.name];
+          if (value) {
+            i.setValue(value);
+          }
+        });
+      }
+      return autoLoads.map((i: ReadFunction) => i.preMulticall({}));
     }
   },
   state: {
-    handleCallBack(callback, val) {
+    handleCallBack(callback, val, key?) {
       if (callback instanceof BigNumberState) {
         callback.setValue(new BigNumber(val.toString()));
       }
@@ -131,9 +138,6 @@ export const helper = {
       }
       if (callback instanceof ReadFunction) {
         callback.setValue(val.toString());
-      }
-      if (callback instanceof CacheState) {
-        callback.set(val);
       }
     }
   }

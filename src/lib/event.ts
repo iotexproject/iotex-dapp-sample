@@ -14,6 +14,7 @@ interface MessageEvents {
   'wallet.onAccount': () => void;
   'wallet.logout': () => void;
   'chain.switch': () => void;
+  'global.cacheData': () => void;
 }
 
 export const eventBus = new MyEmitter() as TypedEmitter<MessageEvents>;
