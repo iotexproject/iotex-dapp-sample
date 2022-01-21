@@ -12,7 +12,7 @@ export const RPC_URLS = {
   97: 'https://data-seed-prebsc-1-s1.binance.org:8545',
   4689: 'https://babel-api.mainnet.iotex.io/',
   4690: `https://babel-api.testnet.iotex.io`,
-  137: 'https://rpc-mainnet.maticvigil.com/'
+  137: 'https://polygon-rpc.com/'
 };
 
 export const allowChains = Object.keys(RPC_URLS).map((i) => Number(i));
