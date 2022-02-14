@@ -19,6 +19,7 @@ export const helper = {
     }
   },
   env: {
+    isBrower: typeof window === 'undefined' ? false : true,
     isIopayMobile: global?.navigator?.userAgent && (global?.navigator?.userAgent.includes('IoPayAndroid') || global?.navigator?.userAgent.includes('IoPayiOs')),
     isPc() {
       const userAgentInfo = global?.navigator?.userAgent;
