@@ -8,6 +8,12 @@ import BigNumber from 'bignumber.js';
 import { NumberState, StringState } from '../store/standard/base';
 import { CacheState } from '../store/standard/CacheState';
 
+export interface RouterParsed {
+  pathname: string;
+  hash: string;
+  query: Record<string, string | string[] | undefined>;
+}
+
 export const helper = {
   toast: createStandaloneToast(),
   promise: {
@@ -18,7 +24,13 @@ export const helper = {
       return promise.then<[null, T]>((data: T) => [null, data]).catch<[U, null]>((err) => [err, null]);
     }
   },
+  get: {
+    larger: (a: number, b: number): number => {
+      return a > b ? a : b;
+    }
+  },
   env: {
+    //@ts-ignore
     isBrower: typeof window === 'undefined' ? false : true,
     isIopayMobile: global?.navigator?.userAgent && (global?.navigator?.userAgent.includes('IoPayAndroid') || global?.navigator?.userAgent.includes('IoPayiOs')),
     isPc() {
@@ -114,11 +126,12 @@ export const helper = {
       return Object.assign({ address: contract.address, abi: contract.abi }, args);
     },
     autoLoad(contract: ContractState) {
-      const autoLoads = Object.values(contract).filter((i: ReadFunction) => i.autoLoad);
+      const autoLoads: ReadFunction[] = Object.values(contract).filter((i) => i.autoLoad && !i.cacheLoaded);
       if (contract.cache && contract.cache?.data) {
         autoLoads.forEach((i) => {
           const value = contract.cache.data[i.name];
           if (value) {
+            i.cacheLoaded = true;
             i.setValue(value);
           }
         });

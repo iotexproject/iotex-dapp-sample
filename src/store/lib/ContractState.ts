@@ -16,10 +16,11 @@ export interface ContractState {
 export class ReadFunction<T = any[], V = ReturnType<any>> {
   name: string;
   //@ts-ignore
-  value?: V = '';
+  value?: V = '...';
   contract: ContractState;
   autoLoad: boolean = false;
   cacheAble: boolean = false;
+  cacheLoaded: boolean = false;
   onSet?: (value: any) => V;
   constructor(args: Partial<ReadFunction<T, V>>) {
     Object.assign(this, args);
