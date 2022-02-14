@@ -136,7 +136,7 @@ export const helper = {
           }
         });
       }
-      return autoLoads.map((i: ReadFunction) => i.preMulticall({}));
+      return autoLoads.filter((i) => !i.cacheLoaded).map((i: ReadFunction) => i.preMulticall({}));
     }
   },
   state: {
