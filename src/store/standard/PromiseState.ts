@@ -4,7 +4,7 @@ import { helper } from '../../lib/helper';
 
 export class PromiseState<T extends (...args: any[]) => Promise<any>, U = ReturnType<T>> {
   loading = new BooleanState();
-
+  value?: Awaited<U>;
   function: T;
 
   context: any = undefined;
@@ -18,6 +18,7 @@ export class PromiseState<T extends (...args: any[]) => Promise<any>, U = Return
     try {
       this.loading.setValue(true);
       const res = await this.function.apply(this.context, args);
+      this.value = res;
       return res;
     } catch (error) {
       console.log(error);
