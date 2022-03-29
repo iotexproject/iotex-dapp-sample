@@ -41,7 +41,8 @@
       ],
       "@/constants/*": [
         "constants/*"
-      ]
+      ],
+      "@/server/*":["server/*"]
     },
     "incremental": true
   },
