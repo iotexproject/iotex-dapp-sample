@@ -1,4 +1,5 @@
 # IoTeX dApp Sample V2
+
 <a href="https://iotex.io/devdiscord" target="_blank">
   <img src="https://github.com/iotexproject/halogrants/blob/880eea4af074b082a75608c7376bd7a8eaa1ac21/img/btn-discord.svg" height="36px">
 </a>
@@ -11,6 +12,7 @@ Technology used in this template are
 
 - [Next](https://github.com/vercel/next.js)
 - [React](https://reactjs.org/)
+- [TRPC](https://trpc.io/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Mobx](https://mobx.js.org/README.html)
 - [Chakra](https://chakra-ui.com/)
