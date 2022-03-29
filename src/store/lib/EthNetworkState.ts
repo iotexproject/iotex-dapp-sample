@@ -55,9 +55,12 @@ export class EthNetworkState implements NetworkState {
       chain.multiCall.multicall = { address: chain.info.multicallAddr, block: 0 };
       chain.multiCall.multicall2 = { address: chain.info.multicall2Addr, block: 0 };
       //@ts-ignore
-      this.dataloader[chain.chainId] = new DataLoader(async (calls) => {
-        return chain.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
-      });
+      this.dataloader[chain.chainId] = new DataLoader(
+        async (calls) => {
+          return chain.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
+        },
+        { maxBatchSize: 100 }
+      );
     });
   }
 
