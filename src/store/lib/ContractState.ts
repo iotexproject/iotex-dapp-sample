@@ -10,6 +10,7 @@ import { CacheState } from '../standard/CacheState';
 export interface ContractState {
   address: string;
   abi: any;
+  chainId?: number;
   cache?: CacheState;
 }
 
@@ -27,7 +28,7 @@ export class ReadFunction<T = any[], V = ReturnType<any>> {
     makeAutoObservable(this);
   }
   preMulticall(args: Partial<CallParams<T>>): Partial<CallParams<T>> {
-    return Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name, handler: this }, args);
+    return Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name, handler: this, chainId: this.contract.chainId }, args);
   }
 
   setValue(value: any) {
@@ -52,9 +53,14 @@ export class WriteFunction<T> {
   contract: ContractState;
   loading = new BooleanState();
   onAfterCall: (call: { args: Partial<CallParams<T>>; receipt: TransactionReceipt }) => void;
+  autoRefresh = true;
   constructor(args: Partial<WriteFunction<T>>) {
     Object.assign(this, args);
     makeAutoObservable(this);
+  }
+
+  get god() {
+    return rootStore.god;
   }
 
   get network() {
@@ -68,6 +74,9 @@ export class WriteFunction<T> {
       const res = await this.network.execContract(Object.assign({ address: this.contract.address, abi: this.contract.abi, method: this.name }, args));
       res.wait().then(async (receipt) => {
         this.loading.setValue(false);
+        if (this.autoRefresh) {
+          this.god.pollingData;
+        }
         if (this.onAfterCall) {
           this.onAfterCall({ args, receipt });
         }

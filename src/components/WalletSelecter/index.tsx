@@ -59,7 +59,6 @@ export const WalletSelecter = observer(() => {
     },
     async setChain(val) {
       const chain = god.currentNetwork.chain.map[val];
-      console.log(chain);
       try {
         await metamaskUtils.setupNetwork({
           chainId: chain.chainId,
@@ -108,6 +107,7 @@ export const WalletSelecter = observer(() => {
       ethereum.on('close', handleChainChanged);
       ethereum.on('chainChanged', handleChainChanged);
       ethereum.on('accountsChanged', handleAccountsChanged);
+
       return () => {
         if (ethereum.removeListener) {
           ethereum.removeListener('networkChanged', handleChainChanged);

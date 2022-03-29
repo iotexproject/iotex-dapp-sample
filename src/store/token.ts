@@ -25,17 +25,16 @@ export class TokenStore {
   tokens: { [key: number]: TokenState[] } = {};
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-    console.log(this.localStorageToken.value);
     this.tokens = {
-      [BSCMainnetConfig.chainId]: pancakeTokenList.tokens.concat(this.localStorageToken.value[BSCMainnetConfig.chainId] || []).map((i) => new TokenState(i)),
+      [BSCMainnetConfig.chainId]: pancakeTokenList.tokens.concat(this.localStorageToken.value[BSCMainnetConfig.chainId] || []).map((i) => new TokenState({ ...i, chainId: BSCMainnetConfig.chainId })),
       [ETHMainnetConfig.chainId]: uniswapTokenList.tokens
         .filter((i) => i.chainId == ETHMainnetConfig.chainId)
         .concat(this.localStorageToken.value[ETHMainnetConfig.chainId] || [])
-        .map((i) => new TokenState(i)),
+        .map((i) => new TokenState({ ...i, chainId: ETHMainnetConfig.chainId })),
       [ETHKovanConfig.chainId]: uniswapTokenList.tokens
         .filter((i) => i.chainId == ETHKovanConfig.chainId)
         .concat(this.localStorageToken.value[ETHKovanConfig.chainId] || [])
-        .map((i) => new TokenState(i)),
+        .map((i) => new TokenState({ ...i, chainId: ETHKovanConfig.chainId })),
       [IotexTestnetConfig.chainId]: iotexTokenlist.tokens
         .filter((i) => i.chainId == IotexTestnetConfig.chainId)
         .concat(this.localStorageToken.value[IotexTestnetConfig.chainId] || [])
@@ -43,8 +42,10 @@ export class TokenStore {
       [IotexMainnetConfig.chainId]: iotexTokenlist.tokens
         .filter((i) => i.chainId == IotexMainnetConfig.chainId)
         .concat(this.localStorageToken.value[IotexMainnetConfig.chainId] || [])
-        .map((i) => new TokenState({ ...i, address: from(i.address).stringEth() })),
-      [PolygonMainnetConfig.chainId]: polygonTokenList.tokens.concat(this.localStorageToken.value[PolygonMainnetConfig.chainId] || []).map((i) => new TokenState(i))
+        .map((i) => new TokenState({ ...i, address: from(i.address).stringEth(), chainId: IotexMainnetConfig.chainId })),
+      [PolygonMainnetConfig.chainId]: polygonTokenList.tokens
+        .concat(this.localStorageToken.value[PolygonMainnetConfig.chainId] || [])
+        .map((i) => new TokenState({ ...i, chainId: PolygonMainnetConfig.chainId }))
     };
 
     makeAutoObservable(this, {
@@ -94,9 +95,10 @@ export class TokenStore {
 
   async loadPrivateData() {
     if (!this.god.currentNetwork.account) return;
-    await this.currentNetwork.multicall([
-      ...this.currentTokens.filter((i) => !i.isEther).map((i) => helper.c.preMulticall(i, { method: 'balanceOf', params: [this.currentNetwork.account], handler: i._balance }))
-    ]);
+    await this.currentNetwork.multicall(
+      [...this.currentTokens.filter((i) => !i.isEther).map((i) => helper.c.preMulticall(i, { method: 'balanceOf', params: [this.currentNetwork.account], handler: i._balance }))],
+      { crosschain: true }
+    );
 
     this.sortToken();
   }

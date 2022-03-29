@@ -44,10 +44,10 @@ export const ETHProvider = observer(({ children }) => {
     god.eth.provider = library ? library : god.eth.defaultEthers;
     god.eth.signer = library ? library.getSigner() : null;
 
-    god.eth.multiCall = new MulticallProvider();
-    god.eth.multiCall.provider = god.eth.provider;
-    god.eth.multiCall.multicall = { address: god.currentChain.info.multicallAddr, block: 0 };
-    god.eth.multiCall.multicall2 = { address: god.currentChain.info.multicall2Addr, block: 0 };
+    // god.eth.multiCall = new MulticallProvider();
+    // god.eth.multiCall.provider = god.eth.provider;
+    // god.eth.multiCall.multicall = { address: god.currentChain.info.multicallAddr, block: 0 };
+    // god.eth.multiCall.multicall2 = { address: god.currentChain.info.multicall2Addr, block: 0 };
 
     if (account) {
       god.setShowConnecter(false);
@@ -59,7 +59,9 @@ export const ETHProvider = observer(({ children }) => {
   useEffect(() => {
     if (activate && god.eth.connector.latestProvider.value) {
       if (god.eth.connector.latestProvider.value == 'inject') {
-        activate(injected);
+        setTimeout(() => {
+          activate(injected);
+        }, 1000);
       }
     }
   }, [activate, god.eth.connector.latestProvider.value]);

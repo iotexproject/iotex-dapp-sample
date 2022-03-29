@@ -15,6 +15,7 @@ import { BigNumberState } from '../standard/BigNumberState';
 import { NumberState, StringState } from '../standard/base';
 import { ReadFunction } from './ContractState';
 import { helper } from '../../lib/helper';
+import DataLoader from 'dataloader';
 
 export class EthNetworkState implements NetworkState {
   god: GodStore;
@@ -24,10 +25,15 @@ export class EthNetworkState implements NetworkState {
   signer: Signer;
   provider: BaseProvider;
   account: string = '';
-  multiCall: MulticallProvider;
+  // multiCall: MulticallProvider;
   allowChains: number[];
 
+  get multiCall() {
+    return this.currentChain.multiCall;
+  }
   info = {};
+
+  dataloader: Record<number, DataLoader<CallParams, any, any>> = {};
 
   // ui
   connector = {
@@ -42,6 +48,17 @@ export class EthNetworkState implements NetworkState {
   constructor(args: Partial<EthNetworkState>) {
     Object.assign(this, args);
     makeAutoObservable(this);
+    Object.values(this.chain.map).forEach((chain) => {
+      chain.provider = new JsonRpcProvider(chain.rpcUrl);
+      chain.multiCall = new MulticallProvider();
+      chain.multiCall.provider = chain.provider;
+      chain.multiCall.multicall = { address: chain.info.multicallAddr, block: 0 };
+      chain.multiCall.multicall2 = { address: chain.info.multicall2Addr, block: 0 };
+      //@ts-ignore
+      this.dataloader[chain.chainId] = new DataLoader(async (calls) => {
+        return chain.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
+      });
+    });
   }
 
   get defaultEthers() {
@@ -72,10 +89,20 @@ export class EthNetworkState implements NetworkState {
     return contract[method](...params, options);
   }
 
-  async multicall(calls: CallParams[]): Promise<any[]> {
+  async multicall(calls: CallParams[], args: { crosschain?: boolean } = {}): Promise<any[]> {
     //@ts-ignore
     calls = calls.filter(Boolean);
-    const res = await this.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
+    let res;
+    if (args.crosschain) {
+      res = await Promise.all(
+        calls.map((i) => {
+          return this.dataloader[i.chainId].load(i);
+        })
+      );
+    } else {
+      res = await this.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
+    }
+
     res.forEach((v, i) => {
       const callback = calls[i].handler;
       if (typeof callback == 'function') {

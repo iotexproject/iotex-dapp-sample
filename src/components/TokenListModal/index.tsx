@@ -95,9 +95,8 @@ export const TokenListModal = observer((props: PropsType) => {
             itemCount={store.tokens.length}
             renderItem={({ index, style }) => {
               const i = store.tokens[index];
-
               return (
-                <ListItem my={2} key={index} {...style} cursor="pointer" display="flex" alignItems="center" justifyContent="space-between" onClick={() => store.onSelect(i)}>
+                <Box my={2} key={index} {...style} cursor="pointer" display="flex" alignItems="center" justifyContent="space-between" onClick={() => store.onSelect(i)}>
                   <Box display="flex" alignItems="center">
                     <Image borderRadius="full" boxSize="24px" src={i.logoURI} mr="4" fallbackSrc="/images/token.svg" />
                     <Box>
@@ -124,7 +123,7 @@ export const TokenListModal = observer((props: PropsType) => {
                       </Button>
                     )}
                   </Box>
-                </ListItem>
+                </Box>
               );
             }}
           />

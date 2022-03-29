@@ -6,7 +6,10 @@ import { ContractState, ReadFunction } from '../store/lib/ContractState';
 import { BigNumberState } from '../store/standard/BigNumberState';
 import BigNumber from 'bignumber.js';
 import { NumberState, StringState } from '../store/standard/base';
-import { CacheState } from '../store/standard/CacheState';
+import { DynamicMappingState } from '@/store/standard/MappingState';
+import { metamaskUtils } from './metaskUtils';
+import toast from 'react-hot-toast';
+import { theme } from './theme';
 
 export interface RouterParsed {
   pathname: string;
@@ -15,7 +18,56 @@ export interface RouterParsed {
 }
 
 export const helper = {
-  toast: createStandaloneToast(),
+  interceptorNull: (c, option?: { extraValue?: any[]; crossChain?: Boolean }) => {
+    if (option?.crossChain) {
+      if (!(c instanceof Array)) throw new Error('c is not an Array when CrossChain mode');
+      if (!c.every(Boolean)) throw 'interceptor undefined value in crossChain mode';
+    } else {
+      if (!(c instanceof Object)) throw new Error('c is not an Object');
+      if (
+        !Object.values(c)
+          .filter((i) => i instanceof DynamicMappingState)
+          .map((i: any) => i.current)
+          .every(Boolean)
+      ) {
+        throw 'interceptor undefined value';
+      }
+    }
+
+    if (option?.extraValue) {
+      if (!option?.extraValue?.every(Boolean)) {
+        throw 'interceptor undefined value in extra value';
+      }
+    }
+  },
+  setChain(god, chainId) {
+    if (god.chainId === chainId) return;
+    return new Promise((resolve, reject) => {
+      const chain = god.currentNetwork.chain.map[chainId];
+      console.log(chain);
+      metamaskUtils
+        .setupNetwork({
+          chainId: chain.chainId,
+          blockExplorerUrls: [chain.explorerURL],
+          chainName: chain.name,
+          nativeCurrency: {
+            decimals: chain.Coin.decimals || 18,
+            name: chain.Coin.symbol,
+            symbol: chain.Coin.symbol
+          },
+          rpcUrls: [chain.rpcUrl]
+        })
+        .then((res) => {
+          god.setChain(chainId);
+          resolve(res);
+        })
+        .catch((err) => {
+          toast.error(err.message);
+          reject(err);
+        });
+    });
+  },
+  toast: createStandaloneToast({ theme }),
   promise: {
     async sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
@@ -83,8 +135,11 @@ export const helper = {
       for (; index < length && (str[index] === '0' || str[index] === '.'); index += 1);
       return length - index - Number(str.includes('.'));
     },
-    toPrecisionFloor: (str: number | string, options?: { decimals?: number; format?: string }) => {
-      const { decimals = 6, format = '' } = options || {};
+    numberWithCommas(num: number) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+    toPrecisionFloor: (str: number | string, options?: { decimals?: number; format?: string; toLocalString?: boolean }) => {
+      const { decimals = 6, format = '', toLocalString = false } = options || {};
       if (!str || isNaN(Number(str))) return '';
 
       if (helper.number.countNonZeroNumbers(String(str)) <= decimals) return String(str);
@@ -114,6 +169,11 @@ export const helper = {
         return numeral(Number(result)).format(format);
       }
 
+      if (toLocalString) {
+        console.log(helper.number.numberWithCommas(Number(new BN(result).toFixed())));
+        return helper.number.numberWithCommas(Number(new BN(result).toFixed()));
+      }
+
       return new BN(result).toFixed();
     },
     getBN: (value: number | string | BN) => {
@@ -123,10 +183,10 @@ export const helper = {
   c: {
     preMulticall(contract: ContractState, args: Partial<CallParams>) {
       if (!contract.address) return;
-      return Object.assign({ address: contract.address, abi: contract.abi }, args);
+      return Object.assign({ address: contract.address, abi: contract.abi, chainId: contract.chainId }, args);
     },
     autoLoad(contract: ContractState) {
-      const autoLoads: ReadFunction[] = Object.values(contract).filter((i) => i.autoLoad && !i.cacheLoaded);
+      const autoLoads: ReadFunction[] = Object.values(contract).filter((i) => i.autoLoad && !i.cacheLoaded && !i.address);
       if (contract.cache && contract.cache?.data) {
         autoLoads.forEach((i) => {
           const value = contract.cache.data[i.name];
@@ -141,17 +201,21 @@ export const helper = {
   },
   state: {
     handleCallBack(callback, val, key?) {
-      if (callback instanceof BigNumberState) {
-        callback.setValue(new BigNumber(val.toString()));
-      }
-      if (callback instanceof NumberState) {
-        callback.setValue(Number(val.toString()));
-      }
-      if (callback instanceof StringState) {
-        callback.setValue(val.toString());
-      }
-      if (callback instanceof ReadFunction) {
-        callback.setValue(val.toString());
+      try {
+        if (callback instanceof BigNumberState) {
+          callback.setValue(new BigNumber(val.toString()));
+        }
+        if (callback instanceof NumberState) {
+          callback.setValue(Number(val.toString()));
+        }
+        if (callback instanceof StringState) {
+          callback.setValue(val.toString());
+        }
+        if (callback instanceof ReadFunction) {
+          callback.setValue(val.toString());
+        }
+      } catch (error) {
+        throw new Error(error.message);
       }
     }
   }
