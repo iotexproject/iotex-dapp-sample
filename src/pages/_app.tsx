@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import React, { useEffect, useMemo } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import { ChakraProvider } from '@chakra-ui/react';

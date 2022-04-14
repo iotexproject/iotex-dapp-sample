@@ -1,0 +1,228 @@
+type Query {
+  ETH(rpcURL: [String]): Multicall
+  BSC(rpcURL: [String]): Multicall
+  Polygon(rpcURL: [String]): Multicall
+  IoTeX_Mainnet(rpcURL: [String]): Multicall
+  IoTeX_Testnet(rpcURL: [String]): Multicall
+  UniswapFactory(calls: [CrossChainCalls] = []): [UniswapFactory]
+  UniswapRouter(calls: [CrossChainCalls] = []): [UniswapRouter]
+  LPToken(calls: [CrossChainCalls] = []): [LPToken]
+  WETH(calls: [CrossChainCalls] = []): [WETH]
+  ERC20(calls: [CrossChainCalls] = []): [ERC20]
+  ERC721(calls: [CrossChainCalls] = []): [ERC721]
+}
+
+type UniswapFactory {
+  address: String
+  chainId: String
+  INIT_CODE_PAIR_HASH: String
+  allPairs(args0: String): String
+  allPairsLength: String
+  createPair(tokenA: String, tokenB: String): String
+  feeTo: String
+  feeToSetter: String
+  getPair(args0: String, args1: String): String
+  setFeeTo(_feeTo: String): String
+  setFeeToSetter(_feeToSetter: String): String
+}
+
+type UniswapRouter {
+  address: String
+  chainId: String
+  WETH: String
+  addLiquidity(tokenA: String, tokenB: String, amountADesired: String, amountBDesired: String, amountAMin: String, amountBMin: String, to: String, deadline: String): String
+  addLiquidityETH(token: String, amountTokenDesired: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
+  factory: String
+  getAmountIn(amountOut: String, reserveIn: String, reserveOut: String): String
+  getAmountOut(amountIn: String, reserveIn: String, reserveOut: String): String
+  getAmountsIn(amountOut: String, path: String): String
+  getAmountsOut(amountIn: String, path: String): String
+  quote(amountA: String, reserveA: String, reserveB: String): String
+  removeLiquidity(tokenA: String, tokenB: String, liquidity: String, amountAMin: String, amountBMin: String, to: String, deadline: String): String
+  removeLiquidityETH(token: String, liquidity: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
+  removeLiquidityETHSupportingFeeOnTransferTokens(token: String, liquidity: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
+  swapETHForExactTokens(amountOut: String, path: String, to: String, deadline: String): String
+  swapExactETHForTokens(amountOutMin: String, path: String, to: String, deadline: String): String
+  swapExactETHForTokensSupportingFeeOnTransferTokens(amountOutMin: String, path: String, to: String, deadline: String): String
+  swapExactTokensForETH(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
+  swapExactTokensForETHSupportingFeeOnTransferTokens(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
+  swapExactTokensForTokens(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
+  swapExactTokensForTokensSupportingFeeOnTransferTokens(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
+  swapTokensForExactETH(amountOut: String, amountInMax: String, path: String, to: String, deadline: String): String
+  swapTokensForExactTokens(amountOut: String, amountInMax: String, path: String, to: String, deadline: String): String
+  swap(args: SwapArgsType): amount
+}
+
+type LPToken {
+  address: String
+  chainId: String
+  MINIMUM_LIQUIDITY: String
+  allowance(args0: String, args1: String): String
+  approve(spender: String, value: String): String
+  balanceOf(args0: String): String
+  burn(to: String): String
+  decimals: String
+  factory: String
+  getReserves: String
+  initialize(_token0: String, _token1: String): String
+  kLast: String
+  mint(to: String): String
+  name: String
+  price0CumulativeLast: String
+  price1CumulativeLast: String
+  skim(to: String): String
+  swap(amount0Out: String, amount1Out: String, to: String, data: String): String
+  symbol: String
+  sync: String
+  token0: String
+  token1: String
+  totalSupply: String
+  transfer(to: String, value: String): String
+  transferFrom(from: String, to: String, value: String): String
+  Token0: ERC20
+  Token1: ERC20
+  priceUSD: String
+  totalLiquidityUSD: String
+}
+
+type WETH {
+  address: String
+  chainId: String
+  CALLBACK_SUCCESS: String
+  PERMIT_TYPEHASH: String
+  allowance(args0: String, args1: String): String
+  approve(spender: String, value: String): String
+  approveAndCall(spender: String, value: String, data: String): String
+  balanceOf(args0: String): String
+  decimals: String
+  deposit: String
+  depositTo(to: String): String
+  depositToAndCall(to: String, data: String): String
+  flashFee(token: String, args1: String): String
+  flashLoan(receiver: String, token: String, value: String, data: String): String
+  flashMinted: String
+  maxFlashLoan(token: String): String
+  name: String
+  nonces(args0: String): String
+  permit(owner: String, spender: String, value: String, deadline: String, v: String, r: String, s: String): String
+  symbol: String
+  totalSupply: String
+  transfer(to: String, value: String): String
+  transferAndCall(to: String, value: String, data: String): String
+  transferFrom(from: String, to: String, value: String): String
+  withdraw(value: String): String
+  withdrawFrom(from: String, to: String, value: String): String
+  withdrawTo(to: String, value: String): String
+}
+
+type ERC20 {
+  address: String
+  chainId: String
+  allowance(owner: String, spender: String): String
+  approve(spender: String, amount: String): String
+  balanceOf(account: String): String
+  burn(amount: String): String
+  burnFrom(account: String, amount: String): String
+  decimals: String
+  decreaseAllowance(spender: String, subtractedValue: String): String
+  increaseAllowance(spender: String, addedValue: String): String
+  name: String
+  symbol: String
+  totalSupply: String
+  transfer(recipient: String, amount: String): String
+  transferFrom(sender: String, recipient: String, amount: String): String
+  checkApproval(user: String!, spender: String!, amount: String!, withData: Boolean = false): ApprovalReturnType
+  any(field: AnyDataField, params: [String]): String
+}
+
+type ERC721 {
+  address: String
+  chainId: String
+  DEFAULT_ADMIN_ROLE: String
+  MINTER_ROLE: String
+  PAUSER_ROLE: String
+  approve(to: String, tokenId: String): String
+  balanceOf(owner: String): String
+  burn(tokenId: String): String
+  getApproved(tokenId: String): String
+  getRoleAdmin(role: String): String
+  getRoleMember(role: String, index: String): String
+  getRoleMemberCount(role: String): String
+  grantRole(role: String, account: String): String
+  hasRole(role: String, account: String): String
+  isApprovedForAll(owner: String, operator: String): String
+  mint(to: String): String
+  name: String
+  ownerOf(tokenId: String): String
+  pause: String
+  paused: String
+  renounceRole(role: String, account: String): String
+  revokeRole(role: String, account: String): String
+  safeTransferFrom(from: String, to: String, tokenId: String, _data: String): String
+  setApprovalForAll(operator: String, approved: String): String
+  supportsInterface(interfaceId: String): String
+  symbol: String
+  tokenByIndex(index: String): String
+  tokenOfOwnerByIndex(owner: String, index: String): String
+  tokenURI(tokenId: String): String
+  totalSupply: String
+  transferFrom(from: String, to: String, tokenId: String): String
+  unpause: String
+}
+
+type ApprovalReturnType {
+  needApprove: Boolean
+  data: String
+  allownace: String
+  approveTarget: String
+}
+
+input SwapArgsType {
+  sellToken: String
+  buyToken: String
+  sellAmount: String
+  buyAmount: String
+  recipient: String
+  maxDelay: Int = 120
+  slippagePercentage: Float = 0.005
+  offlinePrice: Boolean = false
+}
+
+type Multicall {
+  name: String
+  chainId: String
+  UniswapFactory(address: [String!]!): [UniswapFactory]
+  UniswapRouter(address: [String!]!): [UniswapRouter]
+  LPToken(address: [String!]!): [LPToken]
+  WETH(address: [String!]!): [WETH]
+  ERC20(address: [String!]!): [ERC20]
+  ERC721(address: [String!]!): [ERC721]
+}
+
+input CrossChainCalls {
+  address: String
+  chainId: Int
+}
+
+enum AnyDataField {
+  price
+  market_cap
+  balance
+}
+
+type amount {
+  amount: String
+  path: [ERC20]
+  from: String
+  to: String
+  router: String
+  data: String
+  value: String
+  slippagePercentage: Float
+  sellToken: ERC20
+  buyToken: ERC20
+}
+
+schema{
+	query: Query
+}

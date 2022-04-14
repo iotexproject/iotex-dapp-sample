@@ -49,7 +49,7 @@
   "include": [
     "src",
     "type.ts"
-  ],
+, "__generated"  ],
   "exclude": [
     "node_modules"
   ]

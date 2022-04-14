@@ -6,7 +6,6 @@ import { Provider as MulticallProvider } from 'ethcall';
 
 export class ChainState {
   name: string;
-  smartGraphName: string;
   network: NetworkState;
   networkKey: string;
   chainId: number;
