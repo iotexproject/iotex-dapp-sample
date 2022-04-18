@@ -13,6 +13,7 @@ import { BigNumberInputState } from '../store/standard/BigNumberInputState';
 import { eventBus } from '../lib/event';
 import { BigNumberState } from '../store/standard/BigNumberState';
 import { TokenInput } from '@/components/TokenInput';
+import MainLayout from '@/components/Layout';
 
 const ERC20 = observer(() => {
   const { god, token, lang } = useStore();
@@ -87,42 +88,44 @@ const ERC20 = observer(() => {
     });
   }, []);
   return (
-    <Container maxW="md">
-      <form>
-        <FormControl mt={20}>
-          <TokenInput amount={store.amount} token={store.curToken} onChangeAmount={(e) => store.amount.setFormat(e)} onSelectToken={(e) => (store.curToken = e)} />
+    <MainLayout>
+      <Container maxW="md">
+        <form>
+          <FormControl mt={20}>
+            <TokenInput amount={store.amount} token={store.curToken} onChangeAmount={(e) => store.amount.setFormat(e)} onSelectToken={(e) => (store.curToken = e)} />
 
-          <Box border="1px solid" borderRadius="md" borderColor="inherit" mt={4}>
-            <Flex justify="space-between" p={2}>
-              <Text fontSize="sm">{lang.t('receiver.address')}</Text>
-              <Text fontSize="sm">{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
-            </Flex>
-            <InputGroup>
-              <Input
-                border="none"
-                placeholder={god.currentNetwork.info.token.tokenExample}
-                value={store.receiverAdderss.value}
-                onChange={(e) => {
-                  store.receiverAdderss.setValue(e.target.value);
-                }}
-                onBlur={store.loadAllowance}
-              />
-            </InputGroup>
-          </Box>
+            <Box border="1px solid" borderRadius="md" borderColor="inherit" mt={4}>
+              <Flex justify="space-between" p={2}>
+                <Text fontSize="sm">{lang.t('receiver.address')}</Text>
+                <Text fontSize="sm">{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
+              </Flex>
+              <InputGroup>
+                <Input
+                  border="none"
+                  placeholder={god.currentNetwork.info.token.tokenExample}
+                  value={store.receiverAdderss.value}
+                  onChange={(e) => {
+                    store.receiverAdderss.setValue(e.target.value);
+                  }}
+                  onBlur={store.loadAllowance}
+                />
+              </InputGroup>
+            </Box>
 
-          <Flex justify="space-around" p={2}>
-            <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onSubmit} isLoading={store.curToken?.transfer.loading.value}>
-              {store.state.msg}
-            </Button>
-            {store.state.valid && god.isConnect && (
-              <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onApprove} isLoading={store.curToken?.approve.loading.value}>
-                {store.state.msgApprove}
+            <Flex justify="space-around" p={2}>
+              <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onSubmit} isLoading={store.curToken?.transfer.loading.value}>
+                {store.state.msg}
               </Button>
-            )}
-          </Flex>
-        </FormControl>
-      </form>
-    </Container>
+              {store.state.valid && god.isConnect && (
+                <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onApprove} isLoading={store.curToken?.approve.loading.value}>
+                  {store.state.msgApprove}
+                </Button>
+              )}
+            </Flex>
+          </FormControl>
+        </form>
+      </Container>
+    </MainLayout>
   );
 });
 

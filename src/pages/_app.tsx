@@ -1,8 +1,6 @@
 import 'reflect-metadata';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
-import { ChakraProvider } from '@chakra-ui/react';
-import { Toaster } from 'react-hot-toast';
 import type { AppProps } from 'next/app';
 import superjson from 'superjson';
 
@@ -11,15 +9,21 @@ import { loggerLink } from '@trpc/client/links/loggerLink';
 import { withTRPC } from '@trpc/next';
 
 import { useStore } from '@/store/index';
-import { Header } from '@/components/Header/index';
-import { theme } from '@/lib/theme';
 import { ETHProvider } from '../components/EthProvider';
 import { getLibrary } from '../lib/web3-react';
 import { WalletSelecter } from '../components/WalletSelecter/index';
 import { AppRouter } from '@/server/routers/_app';
+import { useLocalStorage } from '@mantine/hooks';
+import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
+import Head from 'next/head';
+import { observe } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { lang, god } = useStore();
+  const { lang, god, user } = useStore();
+  const colorScheme: ColorScheme = user.theme.value;
+  console.log(colorScheme);
+
   useEffect(() => {
     lang.init();
     setInterval(() => {
@@ -27,19 +31,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, 15000);
   }, []);
   // use useMemo to fix issue https://github.com/vercel/next.js/issues/12010
-  return useMemo(() => {
-    return (
-      <ChakraProvider theme={theme}>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <WalletSelecter />
-          <ETHProvider />
-          <Toaster />
-          <Header />
-          <Component {...pageProps} />
-        </Web3ReactProvider>
-      </ChakraProvider>
-    );
-  }, [Component, pageProps]);
+  return (
+    <>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={user.toggleTheme}>
+        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <WalletSelecter />
+            <ETHProvider />
+            {/* <Toaster /> */}
+            {/* <Header /> */}
+            <Component {...pageProps} />
+          </Web3ReactProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </>
+  );
 }
 
 function getBaseUrl() {
@@ -109,4 +115,4 @@ export default withTRPC<AppRouter>({
 
     return {};
   }
-})(MyApp);
+})(observer(MyApp));

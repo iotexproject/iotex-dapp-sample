@@ -61,7 +61,7 @@ export const ETHProvider = observer(({ children }) => {
       if (god.eth.connector.latestProvider.value == 'inject') {
         setTimeout(() => {
           activate(injected);
-        }, 1000);
+        }, 3000);
       }
     }
   }, [activate, god.eth.connector.latestProvider.value]);

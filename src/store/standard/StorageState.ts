@@ -4,8 +4,8 @@ import { helper } from '@/lib/helper';
 
 export class StorageState<T> {
   key: string;
-  value: T | any;
-  default: T | any;
+  value: T | any = null;
+  default: T | any = null;
   constructor(args: Partial<StorageState<T>>) {
     Object.assign(this, args);
     makeAutoObservable(this);
@@ -18,6 +18,7 @@ export class StorageState<T> {
     if (this.value == null) {
       this.value = this.default;
     }
+    return this.value;
   }
 
   save(value?: any) {
