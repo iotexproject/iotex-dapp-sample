@@ -24,7 +24,6 @@
     "@emotion/styled": "^11",
     "@graphql-yoga/node": "^2.2.1",
     "@iotexproject/iotex-address-ts": "^1.0.2",
-    "@iotexproject/walletconnect-connector": "^6.2.0",
     "@mantine/core": "^4.1.4",
     "@mantine/dates": "^4.1.4",
     "@mantine/dropzone": "^4.1.4",

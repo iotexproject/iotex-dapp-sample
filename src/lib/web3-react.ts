@@ -1,7 +1,7 @@
 import { publicConfig } from './../config/public';
 import { Web3Provider } from '@ethersproject/providers';
 import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
-import { WalletConnectConnector, UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@iotexproject/walletconnect-connector';
+// import { WalletConnectConnector, UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@iotexproject/walletconnect-connector';
 import { UnsupportedChainIdError } from '@web3-react/core';
 
 const POLLING_INTERVAL = 12000;
@@ -25,20 +25,20 @@ export function getLibrary(provider: any): Web3Provider {
 
 export const injected = new InjectedConnector({ supportedChainIds: allowChains });
 
-export const walletconnect = new WalletConnectConnector({
-  rpc: { 4689: RPC_URLS[4689] },
-  bridge: 'https://bridge.walletconnect.org',
-  qrcode: true,
-  pollingInterval: POLLING_INTERVAL
-});
+// export const walletconnect = new WalletConnectConnector({
+//   rpc: { 4689: RPC_URLS[4689] },
+//   bridge: 'https://bridge.walletconnect.org',
+//   qrcode: true,
+//   pollingInterval: POLLING_INTERVAL
+// });
 
 export function getErrorMessage(error: Error) {
   if (error instanceof NoEthereumProviderError) {
     return 'No Ethereum browser extension detected, install MetaMask on desktop or visit from a dApp browser on mobile.';
   } else if (error instanceof UnsupportedChainIdError) {
     return "You're connected to an unsupported network.";
-  } else if (error instanceof UserRejectedRequestError || error instanceof UserRejectedRequestErrorWalletConnect) {
-    return 'Please authorize this website to access your Ethereum account.';
+    // } else if (error instanceof UserRejectedRequestError || error instanceof UserRejectedRequestErrorWalletConnect) {
+    // return 'Please authorize this website to access your Ethereum account.';
   } else {
     console.error(error);
     return 'An unknown error occurred. Check the console for more details.';

@@ -2,7 +2,7 @@ import React from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { useWeb3React } from '@web3-react/core';
-import { injected, walletconnect } from '../../lib/web3-react';
+import { injected } from '../../lib/web3-react';
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/modal';
 import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/layout';
 import {
@@ -86,7 +86,7 @@ export const WalletSelecter = observer(() => {
     },
     onWalletConnect() {
       god.setNetwork(Network.ETH);
-      activate(walletconnect);
+      // activate(walletconnect);
       god.eth.connector.latestProvider.save('walletConnect');
     }
   }));
