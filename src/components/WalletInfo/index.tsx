@@ -63,7 +63,7 @@ export const WalletInfo = observer(() => {
             >
               {god.currentNetwork?.account}
               {/* <CopyIcon ml="4px" w="1rem" h="1rem" /> */}
-              <Copy size={24} style={{marginLeft: 4}}></Copy>
+              <Copy size={24} style={{ marginLeft: 4 }}></Copy>
             </Text>
           </Tooltip>
         </Box>

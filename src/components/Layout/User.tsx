@@ -1,5 +1,5 @@
 import React from 'react';
-import { UnstyledButton, Group, Text, createStyles, Box, Image, ThemeIcon, Avatar } from '@mantine/core';
+import { UnstyledButton, Group, Text, createStyles, Box, Image, ThemeIcon, Avatar, useMantineTheme } from '@mantine/core';
 import { ChevronRight, Search } from 'tabler-icons-react';
 import Jazzicon from '../Jazzicon';
 import { observer, useLocalObservable } from 'mobx-react-lite';
@@ -24,7 +24,7 @@ const useStyles = createStyles((theme) => ({
 export const User = observer(() => {
   const { god } = useStore();
   const { classes } = useStyles();
-
+  const theme = useMantineTheme();
   const store = useLocalObservable(() => ({
     showConnecter() {
       god.setShowConnecter(true);
@@ -34,31 +34,36 @@ export const User = observer(() => {
     },
     currentAvatar: 1
   }));
-  if (!god.currentNetwork.account) {
-    return (
-      <Group>
-        <Text color={'pink'} onClick={store.showConnecter} style={{ cursor: 'pointer', background: '#FFF0E8', borderRadius: '1.25rem' }} py="0.25rem" px="0.8rem">
-          Connect Wallet
-        </Text>
-      </Group>
-    );
-  }
   return (
     <Box>
-      <UnstyledButton className={classes.user} sx={{ flex: 1 }} onClick={store.showWalletInfo}>
-        <Group spacing={10} p="xs">
-          <Jazzicon diameter={28} address={god.currentNetwork.account || '0x......'} />
-          <div style={{ flex: 1 }}>
-            <Text size="sm" weight={500}>
-              {helper.string.truncate(god.currentNetwork.account || '0x......', 12, '...')}
+      {god.currentNetwork.account ? (
+        <UnstyledButton className={classes.user} sx={{ flex: 1 }}>
+          <Group spacing={10} p="xs" onClick={store.showWalletInfo}>
+            <Jazzicon diameter={30} address={god.currentNetwork.account || '0x......'} />
+            <div style={{ flex: 1 }}>
+              <Text size="sm" weight={500}>
+                {helper.string.truncate(god.currentNetwork.account || '0x......', 12, '...')}
+              </Text>
+              <Text color="dimmed" size="xs">
+                <span style={{ marginRight: 4 }}>{god.currentChain.Coin.balance.format}</span>
+                <span>{god.currentChain.Coin.symbol}</span>
+              </Text>
+            </div>
+          </Group>
+        </UnstyledButton>
+      ) : (
+        <UnstyledButton
+          onClick={store.showConnecter}
+          className={classes.user}
+          style={{ borderRadius: '50px', flex: 1, background: theme.fn.linearGradient(90, theme.colors.red[8], theme.colors.pink[6]) }}
+        >
+          <Group spacing={10} p="xs">
+            <Text color={'white'} weight="bold" ml="10px">
+              Connect Wallet
             </Text>
-            <Text color="dimmed" size="xs">
-              <span style={{ marginRight: 4 }}>{god.currentChain.Coin.balance.format}</span>
-              <span>{god.currentChain.Coin.symbol}</span>
-            </Text>
-          </div>
-        </Group>
-      </UnstyledButton>
+          </Group>
+        </UnstyledButton>
+      )}
       <UnstyledButton className={classes.user} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Group spacing={10} p="xs" onClick={store.showConnecter}>
           <Avatar size={30} src={`//logo.chainbit.xyz/${god.Coin.symbol.toLowerCase()}`} />

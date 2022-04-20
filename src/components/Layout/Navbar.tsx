@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { createStyles, Navbar, Group, Box, TextInput, Code, Space, ThemeIcon } from '@mantine/core';
-import { Home, Coin, Search, Photo, LayersLinked } from 'tabler-icons-react';
+import { createStyles, Navbar, Group, Box, TextInput, Code, Space, ThemeIcon, Text } from '@mantine/core';
+import { Home, Code as CodeIcon, Search, Photo, LayersLinked } from 'tabler-icons-react';
 import { useStore } from '../../store/index';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
@@ -101,9 +101,11 @@ export const NavbarSimple = observer(() => {
         <Group className={classes.header} position="apart" align={'center'}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ThemeIcon size="lg" radius="xl" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-              <Photo />
+              <CodeIcon />
             </ThemeIcon>
-            <Box ml={'sm'}>IoTeX Dapp V3</Box>
+            <Text ml={'sm'} weight="bold">
+              IoTeX Dapp V3
+            </Text>
           </Box>
         </Group>
 
