@@ -1,11 +1,12 @@
 import React from 'react';
-import { Stack, BoxProps, Text, Button, Box, Img, Tag, ButtonGroup, chakra, useColorModeValue } from '@chakra-ui/react';
+import { Text, Button, Box, Image, Group } from '@mantine/core';
 import { observer, useObserver, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '@/store/index';
 import { helper } from '@/lib/helper';
 import Jazzicon from '../Jazzicon';
+import { useColorScheme } from '@mantine/hooks';
 
-export const DesktopNav = observer((props: BoxProps) => {
+export const DesktopNav = observer((props) => {
   const { god, lang } = useStore();
 
   const store = useLocalStore(() => ({
@@ -21,16 +22,17 @@ export const DesktopNav = observer((props: BoxProps) => {
   const accountView = useObserver(() => {
     if (!god.currentNetwork.account) {
       return (
-        <Button colorScheme="pink" onClick={store.showConnecter}>
+        <Button onClick={store.showConnecter}>
           {lang.t('connect.wallet')}
         </Button>
       );
     }
+    const colorScheme = useColorScheme();
     return (
-      <Button pr="0" pl="4" bg={useColorModeValue('gray.100', 'dark.100')}>
-        <Text mr="2" fontSize="sm">
-          <chakra.span mr={1}>{god.currentChain.Coin.balance.format}</chakra.span>
-          <chakra.span>{god.currentChain.Coin.symbol}</chakra.span>
+      <Button style={{ paddingRight: 0, paddingLeft: 4, background: colorScheme === 'dark' ? 'gray.100' : 'dark.100' }}>
+        <Text style={{marginRight: 2, fontSize: 'sm'}}>
+          <span style={{ marginRight: 1 }}>{god.currentChain.Coin.balance.format}</span>
+          <span>{god.currentChain.Coin.symbol}</span>
         </Text>
         <Button
           px={4}
@@ -49,12 +51,12 @@ export const DesktopNav = observer((props: BoxProps) => {
     );
   });
   return (
-    <Stack direction={'row'} spacing={2} {...props}>
-      <Button onClick={store.showConnecter} pl={1} borderRadius="40">
-        <Img w={8} src={god.currentChain.logoUrl} />
+    <Group  spacing={2} {...props}>
+      <Button onClick={store.showConnecter} style={{ paddingLeft: 1, borderRadius: '40' }}>
+        <Image style={{width: 8}} src={god.currentChain.logoUrl} />
         <Box ml={2}>{god.currentChain.name}</Box>
       </Button>
       {accountView}
-    </Stack>
+    </Group>
   );
 });

@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
-import { Icon } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Center, Text } from '@chakra-ui/layout';
 import toast from 'react-hot-toast';
 
-import { Container, FormControl, Input, Button, Image, InputGroup, InputRightElement, Flex, Box } from '@chakra-ui/react';
+import { Container, Input, Button, Box, Text } from '@mantine/core';
 import { useStore } from '../store/index';
 import { StringState, BooleanState } from '../store/standard/base';
 import TokenState from '../store/lib/TokenState';
@@ -89,40 +86,38 @@ const ERC20 = observer(() => {
   }, []);
   return (
     <MainLayout>
-      <Container maxW="md">
+      <Container size="md">
         <form>
-          <FormControl mt={20}>
-            <TokenInput amount={store.amount} token={store.curToken} onChangeAmount={(e) => store.amount.setFormat(e)} onSelectToken={(e) => (store.curToken = e)} />
+          {/* <FormControl mt={20}> */}
+          <TokenInput amount={store.amount} token={store.curToken} onChangeAmount={(e) => store.amount.setFormat(e)} onSelectToken={(e) => (store.curToken = e)} />
 
-            <Box border="1px solid" borderRadius="md" borderColor="inherit" mt={4}>
-              <Flex justify="space-between" p={2}>
-                <Text fontSize="sm">{lang.t('receiver.address')}</Text>
-                <Text fontSize="sm">{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
-              </Flex>
-              <InputGroup>
-                <Input
-                  border="none"
-                  placeholder={god.currentNetwork.info.token.tokenExample}
-                  value={store.receiverAdderss.value}
-                  onChange={(e) => {
-                    store.receiverAdderss.setValue(e.target.value);
-                  }}
-                  onBlur={store.loadAllowance}
-                />
-              </InputGroup>
+          <Box style={{ border: '1px solid', borderRadius: 'md', borderColor: 'inherit' }} mt={4}>
+            <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Text size="sm">{lang.t('receiver.address')}</Text>
+              <Text size="sm">{store.curToken ? `Allowance ${store.allowance.format} ` : '...'}</Text>
             </Box>
+            <Input
+              style={{ border: 'none' }}
+              placeholder={god.currentNetwork.info.token.tokenExample}
+              value={store.receiverAdderss.value}
+              onChange={(e) => {
+                store.receiverAdderss.setValue(e.target.value);
+              }}
+              onBlur={store.loadAllowance}
+            />
+          </Box>
 
-            <Flex justify="space-around" p={2}>
-              <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onSubmit} isLoading={store.curToken?.transfer.loading.value}>
-                {store.state.msg}
+          <Box style={{ display: 'flex', justifyContent: 'space-around' }} p={2}>
+            <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onSubmit} loading={store.curToken?.transfer.loading.value}>
+              {store.state.msg}
+            </Button>
+            {store.state.valid && god.isConnect && (
+              <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onApprove} loading={store.curToken?.approve.loading.value}>
+                {store.state.msgApprove}
               </Button>
-              {store.state.valid && god.isConnect && (
-                <Button type="button" mt="4" disabled={!store.state.valid} onClick={store.onApprove} isLoading={store.curToken?.approve.loading.value}>
-                  {store.state.msgApprove}
-                </Button>
-              )}
-            </Flex>
-          </FormControl>
+            )}
+          </Box>
+          {/* </FormControl> */}
         </form>
       </Container>
     </MainLayout>
