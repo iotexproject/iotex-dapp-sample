@@ -70,7 +70,9 @@ export class EthNetworkState implements NetworkState {
   }
 
   async loadBalance() {
-    if (!this.provider || !this.account) return;
+    if (!this.provider || !this.account) {
+      return this.currentChain.Coin.balance.setValue(new BigNumber(0));
+    }
     const balance = await this.provider.getBalance(this.account);
     this.currentChain.Coin.balance.setValue(new BigNumber(balance.toString()));
   }

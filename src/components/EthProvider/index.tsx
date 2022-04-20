@@ -40,6 +40,7 @@ export const ETHProvider = observer(({ children }) => {
     god.eth.provider = library ? library : god.eth.defaultEthers;
     god.eth.signer = library ? library.getSigner() : null;
 
+    god.currentNetwork.loadBalance();
     // god.eth.multiCall = new MulticallProvider();
     // god.eth.multiCall.provider = god.eth.provider;
     // god.eth.multiCall.multicall = { address: god.currentChain.info.multicallAddr, block: 0 };
@@ -47,7 +48,6 @@ export const ETHProvider = observer(({ children }) => {
 
     if (account) {
       god.setShowConnecter(false);
-      god.currentNetwork.loadBalance();
     }
     god.updateTicker.setValue(god.updateTicker.value + 1);
   }, [god, library, chainId, account, active, error]);

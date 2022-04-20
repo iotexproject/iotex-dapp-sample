@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createStyles, Navbar, Group, Box, TextInput, Code, Space } from '@mantine/core';
-import { Home, Search, LayersLinked } from 'tabler-icons-react';
+import { BellRinging, Fingerprint, Key, CodePlus, Settings, TwoFA, DatabaseImport, Receipt2, SwitchHorizontal, Home, Coin, Search, Photo, LayersLinked } from 'tabler-icons-react';
 import { useStore } from '../../store/index';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
@@ -98,9 +98,12 @@ export const NavbarSimple = observer(() => {
   return (
     <Navbar p="md" hiddenBreakpoint="sm" hidden={!user.layout.sidebarOpen.value} width={{ sm: 200, lg: 300 }}>
       <Navbar.Section grow>
-        <Group className={classes.header} position="apart">
+        <Group className={classes.header} position="apart" align={'center'}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box ml={'md'}>IoTeX Dapp V3</Box>
+            <ThemeIcon size="lg" radius="xl" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+              <Photo />
+            </ThemeIcon>
+            <Box ml={'sm'}>IoTeX Dapp V3</Box>
           </Box>
         </Group>
 
@@ -124,7 +127,6 @@ export const NavbarSimple = observer(() => {
           <Space h="xs" />
           <User />
           <Space h="xs" />
-          
         </Box>
 
         {/* <a href="#" className={classes.link}>
