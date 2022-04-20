@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { createStyles, Navbar, Group, Box, TextInput, Code, MediaQuery } from '@mantine/core';
-import { BellRinging, Fingerprint, Key, CodePlus, Settings, TwoFA, DatabaseImport, Receipt2, SwitchHorizontal, Home, Coin, Search } from 'tabler-icons-react';
+import { createStyles, Navbar, Group, Box, TextInput, Code, Space } from '@mantine/core';
+import { Home, Search, LayersLinked } from 'tabler-icons-react';
 import { useStore } from '../../store/index';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
@@ -72,7 +72,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
   { link: '/', label: 'Home', icon: Home },
-  { link: '/erc20', label: 'ERC20 Example', icon: Coin }
+  { link: '/api/graphql', label: 'Playground', icon: LayersLinked }
 ];
 
 export const NavbarSimple = observer(() => {
@@ -120,10 +120,11 @@ export const NavbarSimple = observer(() => {
 
       <Navbar.Section className={classes.footer}>
         <Box my={8}>
-          <Group sx={{ flexDirection: 'row' }}>
-            <SwitchThemeToggle />
-            <User />
-          </Group>
+          <SwitchThemeToggle />
+          <Space h="xs" />
+          <User />
+          <Space h="xs" />
+          
         </Box>
 
         {/* <a href="#" className={classes.link}>
