@@ -2,23 +2,19 @@ import React from 'react';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { useWeb3React } from '@web3-react/core';
-import { Web3Provider } from '@ethersproject/providers';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
-import { Provider as MulticallProvider } from 'ethcall';
+
 import { injected } from '@/lib/web3-react';
 import { eventBus } from '../../lib/event';
 import { _ } from '@/lib/lodash';
+import { Web3Provider } from '@ethersproject/providers';
 
 export const ETHProvider = observer(({ children }) => {
   const { god, lang } = useStore();
   const { chainId, account, activate, active, library, deactivate, error, connector } = useWeb3React<Web3Provider>();
 
   const store = useLocalStore(() => ({
-    get defaultChain() {
-      return ETHMainnetConfig;
-    },
     logout() {
       deactivate();
       god.eth.connector.latestProvider.clear();

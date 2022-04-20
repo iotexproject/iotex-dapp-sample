@@ -67,7 +67,7 @@ const data = [
 export const NavbarSimple = observer(() => {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Home');
-  const { user } = useStore();
+  const { user, god } = useStore();
 
   const links = data.map((item) => (
     <Link href={item.link} key={item.label}>
@@ -108,7 +108,7 @@ export const NavbarSimple = observer(() => {
           <span>Change Theme</span>
         </a>
 
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+        <a href="#" className={classes.link} onClick={(event) => god.setShowConnecter(true)}>
           <SwitchHorizontal className={classes.linkIcon} />
           <span>Change Network</span>
         </a>

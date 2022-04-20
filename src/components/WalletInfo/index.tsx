@@ -74,7 +74,7 @@ export const WalletInfo = observer(() => {
               </Text>
             </Tooltip>
           </Box>
-          {god.currentChain.networkKey === 'iotex' && (
+          {god.Coin.symbol === 'iotex' && (
             <>
               <Flex mt="8px">
                 <chakra.img w="1.2rem" h="1.2rem" mr="2" src="/images/enter.svg" />

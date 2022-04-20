@@ -28,15 +28,6 @@ import {
 } from '@chakra-ui/react';
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
-import { Network } from '@/store/god';
-import { IotexMainnetConfig } from '../../config/IotexMainnetConfig';
-import { PolygonMainnetConfig } from '../../config/PolygonMainnetConfig';
-import { BSCMainnetConfig } from '../../config/BSCMainnetConfig';
-import { ETHMainnetConfig } from '../../config/ETHMainnetConfig';
-
-import { BSCTestnetConfig } from '../../config/BSCTestnetConfig';
-import { ETHKovanConfig } from '../../config/ETHKovanConfig';
-import { IotexTestnetConfig } from '../../config/IotexTestnetConfig';
 
 const toast = createStandaloneToast();
 
@@ -49,10 +40,10 @@ export const WalletSelecter = observer(() => {
       return god.eth.connector.showConnector;
     },
     get networks() {
-      return [ETHMainnetConfig, BSCMainnetConfig, IotexMainnetConfig, PolygonMainnetConfig];
+      return god.currentNetwork.chain.set.filter((i) => i.type == 'mainnet');
     },
     get testnet() {
-      return [ETHKovanConfig, BSCTestnetConfig, IotexTestnetConfig];
+      return god.currentNetwork.chain.set.filter((i) => i.type == 'testnet');
     },
     close() {
       god.eth.connector.showConnector = false;
@@ -80,12 +71,10 @@ export const WalletSelecter = observer(() => {
       }
     },
     connectInejct() {
-      god.setNetwork(Network.ETH);
       activate(injected);
       god.eth.connector.latestProvider.save('inject');
     },
     onWalletConnect() {
-      god.setNetwork(Network.ETH);
       // activate(walletconnect);
       god.eth.connector.latestProvider.save('walletConnect');
     }

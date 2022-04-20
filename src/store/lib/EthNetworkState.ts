@@ -11,9 +11,6 @@ import { StorageState } from '../standard/StorageState';
 import BigNumber from 'bignumber.js';
 import { CallParams } from '../../../type';
 import { GodStore } from '../god';
-import { BigNumberState } from '../standard/BigNumberState';
-import { NumberState, StringState } from '../standard/base';
-import { ReadFunction } from './ContractState';
 import { helper } from '../../lib/helper';
 import DataLoader from 'dataloader';
 
@@ -21,7 +18,7 @@ export class EthNetworkState implements NetworkState {
   god: GodStore;
 
   // contract
-  chain: MappingState<ChainState>;
+  chain: MappingState<ChainState> = new MappingState({ currentId: '' });
   signer: Signer;
   provider: BaseProvider;
   account: string = '';

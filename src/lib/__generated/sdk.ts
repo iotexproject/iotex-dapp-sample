@@ -1678,7 +1678,8 @@ export const ReturnTypes: Record<string,any> = {
 		LPToken:"LPToken",
 		WETH:"WETH",
 		ERC20:"ERC20",
-		ERC721:"ERC721"
+		ERC721:"ERC721",
+		networks:"Network"
 	},
 	UniswapFactory:{
 		address:"String",
@@ -1848,6 +1849,18 @@ export const ReturnTypes: Record<string,any> = {
 		ERC20:"ERC20",
 		ERC721:"ERC721"
 	},
+	Network:{
+		name:"String",
+		chainId:"Int",
+		rpcUrl:"String",
+		logoUrl:"String",
+		explorerUrl:"String",
+		explorerName:"String",
+		nativeCoin:"String",
+		blockPerSeconds:"Int",
+		multicallAddr:"String",
+		type:"String"
+	},
 	amount:{
 		amount:"String",
 		path:"ERC20",
@@ -1877,6 +1890,7 @@ LPToken?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueT
 WETH?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["WETH"]],
 ERC20?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["ERC20"]],
 ERC721?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["ERC721"]],
+	networks?:ValueTypes["Network"],
 		__typename?: boolean
 }>;
 	["UniswapFactory"]: AliasType<{
@@ -2069,6 +2083,19 @@ ERC721?: [{	address:string[]},ValueTypes["ERC721"]],
 	address?:string | null,
 	chainId?:number | null
 };
+	["Network"]: AliasType<{
+	name?:boolean,
+	chainId?:boolean,
+	rpcUrl?:boolean,
+	logoUrl?:boolean,
+	explorerUrl?:boolean,
+	explorerName?:boolean,
+	nativeCoin?:boolean,
+	blockPerSeconds?:boolean,
+	multicallAddr?:boolean,
+	type?:boolean,
+		__typename?: boolean
+}>;
 	["AnyDataField"]:AnyDataField;
 	["amount"]: AliasType<{
 	amount?:boolean,
@@ -2097,7 +2124,8 @@ export type ModelTypes = {
 	LPToken?:(ModelTypes["LPToken"] | undefined)[],
 	WETH?:(ModelTypes["WETH"] | undefined)[],
 	ERC20?:(ModelTypes["ERC20"] | undefined)[],
-	ERC721?:(ModelTypes["ERC721"] | undefined)[]
+	ERC721?:(ModelTypes["ERC721"] | undefined)[],
+	networks?:(ModelTypes["Network"] | undefined)[]
 };
 	["UniswapFactory"]: {
 		address?:string,
@@ -2269,6 +2297,18 @@ export type ModelTypes = {
 	ERC721?:(ModelTypes["ERC721"] | undefined)[]
 };
 	["CrossChainCalls"]: GraphQLTypes["CrossChainCalls"];
+	["Network"]: {
+		name?:string,
+	chainId?:number,
+	rpcUrl?:string,
+	logoUrl?:string,
+	explorerUrl?:string,
+	explorerName?:string,
+	nativeCoin?:string,
+	blockPerSeconds?:number,
+	multicallAddr?:string,
+	type?:string
+};
 	["AnyDataField"]: GraphQLTypes["AnyDataField"];
 	["amount"]: {
 		amount?:string,
@@ -2297,7 +2337,8 @@ export type GraphQLTypes = {
 	LPToken?: Array<GraphQLTypes["LPToken"] | undefined>,
 	WETH?: Array<GraphQLTypes["WETH"] | undefined>,
 	ERC20?: Array<GraphQLTypes["ERC20"] | undefined>,
-	ERC721?: Array<GraphQLTypes["ERC721"] | undefined>
+	ERC721?: Array<GraphQLTypes["ERC721"] | undefined>,
+	networks?: Array<GraphQLTypes["Network"] | undefined>
 };
 	["UniswapFactory"]: {
 	__typename: "UniswapFactory",
@@ -2488,6 +2529,19 @@ export type GraphQLTypes = {
 	["CrossChainCalls"]: {
 		address?: string,
 	chainId?: number
+};
+	["Network"]: {
+	__typename: "Network",
+	name?: string,
+	chainId?: number,
+	rpcUrl?: string,
+	logoUrl?: string,
+	explorerUrl?: string,
+	explorerName?: string,
+	nativeCoin?: string,
+	blockPerSeconds?: number,
+	multicallAddr?: string,
+	type?: string
 };
 	["AnyDataField"]: AnyDataField;
 	["amount"]: {

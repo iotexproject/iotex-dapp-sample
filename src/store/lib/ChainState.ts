@@ -7,13 +7,14 @@ import { Provider as MulticallProvider } from 'ethcall';
 export class ChainState {
   name: string;
   network: NetworkState;
-  networkKey: string;
+  // networkKey: string;
   chainId: number;
   logoUrl: string;
   rpcUrl: string;
   explorerName: string;
   explorerURL: string;
   Coin: CoinState;
+  type: 'mainnet' | 'testnet';
   info: {
     blockPerSeconds: number;
     multicallAddr?: string;
