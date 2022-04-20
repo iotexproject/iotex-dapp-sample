@@ -60,6 +60,7 @@
     "dayjs": "^1.11.1",
     "erc-20-abi": "^1.0.0",
     "ethcall": "^4.1.3",
+    "ethereumjs-util": "^7.1.4",
     "ethers": "^5.1.3",
     "events": "^3.3.0",
     "framer-motion": "^4",

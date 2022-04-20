@@ -95,7 +95,7 @@ export default function HeroTitle() {
           </h1>
 
           <Text className={classes.description} color="dimmed">
-            Build fully functional accessible web applications with ease – Mantine includes more than 100 customizable components and hooks to cover you in any situation
+            Build fully functional dapp with graphql and typesafe sdk easy easy and fast
           </Text>
 
           <Group className={classes.controls}>

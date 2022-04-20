@@ -6,13 +6,14 @@ import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { SwitchThemeToggle } from './SwitchTheme';
 import { openSpotlight } from '@mantine/spotlight';
+import { User } from './User';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
     header: {
       paddingBottom: theme.spacing.md,
-      marginBottom: theme.spacing.md * 1.5
+      marginBottom: theme.spacing.md
       // borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`
     },
 
@@ -101,9 +102,11 @@ export const NavbarSimple = observer(() => {
             <Box ml={'md'}>IoTeX Dapp V3</Box>
           </Box>
         </Group>
+
         <TextInput
           placeholder="Search"
           size="xs"
+          mt="lg"
           icon={<Search size={12} />}
           rightSectionWidth={70}
           rightSection={<Code className={classes.searchCode}>⌘ + K</Code>}
@@ -115,6 +118,8 @@ export const NavbarSimple = observer(() => {
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
+        <User />
+
         <a href="#" className={classes.link}>
           <SwitchThemeToggle />
         </a>
