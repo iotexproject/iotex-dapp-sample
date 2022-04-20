@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { createStyles, Navbar, Group, Box, TextInput, Code, Space } from '@mantine/core';
-import { BellRinging, Fingerprint, Key, CodePlus, Settings, TwoFA, DatabaseImport, Receipt2, SwitchHorizontal, Home, Coin, Search, Photo, LayersLinked } from 'tabler-icons-react';
+import { createStyles, Navbar, Group, Box, TextInput, Code, Space, ThemeIcon } from '@mantine/core';
+import { Home, Coin, Search, Photo, LayersLinked } from 'tabler-icons-react';
 import { useStore } from '../../store/index';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
@@ -122,12 +122,7 @@ export const NavbarSimple = observer(() => {
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <Box my={8}>
-          <SwitchThemeToggle />
-          <Space h="xs" />
-          <User />
-          <Space h="xs" />
-        </Box>
+        <User />
 
         {/* <a href="#" className={classes.link}>
         </a> */}

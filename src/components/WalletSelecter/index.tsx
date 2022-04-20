@@ -3,30 +3,23 @@ import { observer, useLocalObservable, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { useWeb3React } from '@web3-react/core';
 import { injected } from '../../lib/web3-react';
-import {
-  AvatarBadge,
-  createStandaloneToast,
-  Divider,
-  useColorModeValue,
-} from '@chakra-ui/react';
 
 import { Box, Group, Modal, Tabs, TabsProps, Text, Avatar, AvatarsGroup, Badge } from '@mantine/core';
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
 
-const toast = createStandaloneToast();
-
 function StyledTabs(props: TabsProps) {
   return (
     <Tabs
       variant="unstyled"
+      tabPadding="xl"
       styles={(theme) => ({
         tabControl: {
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
           color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
           border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[4]}`,
-          fontSize: theme.fontSizes.md,
-          padding: `${theme.spacing.lg}px ${theme.spacing.xl}px`,
+          fontSize: theme.fontSizes.sm,
+          padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
 
           '&:not(:first-of-type)': {
             borderLeft: 0
@@ -87,10 +80,7 @@ export const WalletSelecter = observer(() => {
         });
         god.setChain(val);
       } catch (error) {
-        toast({
-          description: error.message,
-          status: 'warning'
-        });
+        console.log(error);
       }
     },
     connectInejct() {
@@ -154,17 +144,21 @@ export const WalletSelecter = observer(() => {
     }
   ];
   const names = config.map((item) => item.title).join(', ');
-  const bW = useColorModeValue('3px', '1px');
   return (
     <Modal opened={store.visible} overlayOpacity={0.45} centered onClose={store.close} title={lang.t(god.isConnect ? 'switch.network' : 'connect.to.wallet')}>
       <Box>
         <StyledTabs position="center">
           <Tabs.Tab label="Mainnet">
-            <Group position="apart" mb={6} px={4} py={10}>
+            <Group position="apart" p="md">
               {store.networks.map((i) => (
                 <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} key={i.chainId}>
                   <Box style={{ position: 'relative' }}>
-                    <Avatar src={i.logoUrl} style={{ cursor: 'pointer', background: 'transparent' }} size="md" onClick={() => store.setChain(i.chainId)}></Avatar>
+                    <Avatar
+                      src={`//logo.chainbit.xyz/${i.Coin.symbol.toLowerCase()}`}
+                      size={45}
+                      style={{ cursor: 'pointer', background: 'transparent' }}
+                      onClick={() => store.setChain(i.chainId)}
+                    ></Avatar>
                     {god.currentChain.chainId == i.chainId && <Badge style={{ border: '2px solid white', position: 'absolute', right: -4, bottom: -4 }} size="xs" color="green" variant="filled" />}
                   </Box>
                   <Text size="xs" mt={1}>
@@ -175,11 +169,16 @@ export const WalletSelecter = observer(() => {
             </Group>
           </Tabs.Tab>
           <Tabs.Tab label="Testnet">
-            <Group position="apart" mb={6} px={4} py={10}>
+            <Group position="apart" p="md">
               {store.testnet.map((i) => (
                 <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} key={i.chainId}>
                   <Box style={{ position: 'relative' }}>
-                    <Avatar src={i.logoUrl} style={{ cursor: 'pointer', background: 'transparent' }} size="md" onClick={() => store.setChain(i.chainId)}></Avatar>
+                    <Avatar
+                      src={`//logo.chainbit.xyz/${i.Coin.symbol.toLowerCase()}`}
+                      size={45}
+                      style={{ cursor: 'pointer', background: 'transparent' }}
+                      onClick={() => store.setChain(i.chainId)}
+                    ></Avatar>
                     {god.currentChain.chainId == i.chainId && <Badge style={{ border: '2px solid white', position: 'absolute', right: -4, bottom: -4 }} size="xs" color="green" variant="filled" />}
                   </Box>
                   <Text size="xs" mt={1}>
@@ -192,7 +191,6 @@ export const WalletSelecter = observer(() => {
         </StyledTabs>
         {!god.currentNetwork.account && (
           <Box>
-            <Divider />
             <Box onClick={store.connectInejct} my="12px" style={{ cursor: 'pointer', borderRadius: '8px', background: 'rgba(0,0,0,0.1)' }} p="14px" mt="24px">
               <Group spacing={2}>
                 <Group direction="column" spacing={3}>
