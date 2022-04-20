@@ -85,7 +85,7 @@ export class WriteFunction<T> {
     } catch (error) {
       console.log(error);
       this.loading.setValue(false);
-      helper.toast({ title: error.data?.message || error.message, status: 'error' });
+      // helper.toast({ title: error.data?.message || error.message, status: 'error' });
       throw new Error(error.message);
     }
   }

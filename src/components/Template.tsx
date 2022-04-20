@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocalObservable, observer } from 'mobx-react-lite';
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button } from '@mantine/core';
 
 interface Props {}
 

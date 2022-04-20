@@ -1,6 +1,5 @@
 import numeral from 'numeral';
 import BN from 'bignumber.js';
-import { createStandaloneToast } from '@chakra-ui/react';
 import { CallParams } from '../../type';
 import { ContractState, ReadFunction } from '../store/lib/ContractState';
 import { BigNumberState } from '../store/standard/BigNumberState';
@@ -9,7 +8,6 @@ import { NumberState, StringState } from '../store/standard/base';
 import { DynamicMappingState } from '@/store/standard/MappingState';
 import { metamaskUtils } from './metaskUtils';
 import toast from 'react-hot-toast';
-import { theme } from './theme';
 
 export interface RouterParsed {
   pathname: string;
@@ -67,7 +65,6 @@ export const helper = {
         });
     });
   },
-  toast: createStandaloneToast({ theme }),
   promise: {
     async sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));

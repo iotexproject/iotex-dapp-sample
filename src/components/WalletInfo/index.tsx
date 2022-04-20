@@ -4,13 +4,12 @@ import { useStore } from '../../store/index';
 import { eventBus } from '../../lib/event';
 import copy from 'copy-to-clipboard';
 import toast from 'react-hot-toast';
-import { ExternalLinkIcon, CopyIcon } from '@chakra-ui/icons';
 import * as clipboard from 'clipboard-polyfill/text';
 import { helper } from '@/lib/helper';
 import { from } from '@iotexproject/iotex-address-ts';
 import { NetworkState } from '@/store/lib/NetworkState';
 import { Box, Button, Modal, Group, Tooltip, Image, Anchor, Text, Center } from '@mantine/core';
-import { Copy } from 'tabler-icons-react';
+import { Copy, ExternalLink } from 'tabler-icons-react';
 
 export const WalletInfo = observer(() => {
   const { god, lang } = useStore();
@@ -109,7 +108,7 @@ export const WalletInfo = observer(() => {
             >
               {`View On ${god.currentChain.explorerName}`}
             </Anchor>
-            <ExternalLinkIcon ml="4px" w="1rem" h="1rem" />
+            <ExternalLink />
           </Group>
         </Group>
         <Center>
