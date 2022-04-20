@@ -13,16 +13,17 @@ import { ETHProvider } from '../components/EthProvider';
 import { getLibrary } from '../lib/web3-react';
 import { WalletSelecter } from '../components/WalletSelecter/index';
 import { AppRouter } from '@/server/routers/_app';
-import { useLocalStorage } from '@mantine/hooks';
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
-import Head from 'next/head';
-import { observe } from 'mobx';
-import { observer } from 'mobx-react-lite';
+import { observer, useLocalObservable } from 'mobx-react-lite';
+import { helper } from '../lib/helper';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
-  const colorScheme: ColorScheme = user.theme.value;
-  console.log(colorScheme);
+  const store = useLocalObservable(() => ({
+    get colorScheme() {
+      return user.theme.value || ('dark' as ColorScheme);
+    }
+  }));
 
   useEffect(() => {
     lang.init();
@@ -30,24 +31,27 @@ function MyApp({ Component, pageProps }: AppProps) {
       god.pollingData();
     }, 15000);
   }, []);
+  if (!helper.env.isBrower) {
+    return <div></div>;
+  }
+
   // use useMemo to fix issue https://github.com/vercel/next.js/issues/12010
   return (
     <>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={user.toggleTheme}>
-        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <WalletSelecter />
-            <ETHProvider />
-            {/* <Toaster /> */}
-            {/* <Header /> */}
-            <Component {...pageProps} />
-          </Web3ReactProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+      {/* <ColorSchemeProvider colorScheme={store.colorScheme} toggleColorScheme={user.toggleTheme}> */}
+      <MantineProvider theme={{ colorScheme: store.colorScheme }} withGlobalStyles withNormalizeCSS>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <WalletSelecter />
+          <ETHProvider />
+          {/* <Toaster /> */}
+          {/* <Header /> */}
+          <Component {...pageProps} />
+        </Web3ReactProvider>
+      </MantineProvider>
+      {/* </ColorSchemeProvider> */}
     </>
   );
 }
-
 function getBaseUrl() {
   if (process.browser) {
     return '';

@@ -1,23 +1,121 @@
-import React, { useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@/store/index';
+import React from 'react';
+import { createStyles, Container, Text, Button, Group, useMantineTheme } from '@mantine/core';
 import MainLayout from '@/components/Layout';
-import { Box } from '@mantine/core';
 
-export const Home = observer(() => {
-  const { lang } = useStore();
+const BREAKPOINT = '@media (max-width: 755px)';
 
-  const links = [
-    { text: 'GitHub |', url: 'https://github.com/iotexproject/iotex-dapp-sample-v2' },
-    { text: `${lang.t('issues')} |`, url: 'https://github.com/iotexproject/iotex-dapp-sample-v2/issues' },
-    { text: `${lang.t('use.template')}`, url: 'https://github.com/iotexproject/iotex-dapp-sample-v2/generate' }
-  ];
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    position: 'relative',
+    boxSizing: 'border-box',
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
+  },
+
+  inner: {
+    position: 'relative',
+    paddingTop: 200,
+    paddingBottom: 120,
+
+    [BREAKPOINT]: {
+      paddingBottom: 80,
+      paddingTop: 80
+    }
+  },
+
+  title: {
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontSize: 62,
+    fontWeight: 900,
+    lineHeight: 1.1,
+    margin: 0,
+    padding: 0,
+    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+
+    [BREAKPOINT]: {
+      fontSize: 42,
+      lineHeight: 1.2
+    }
+  },
+
+  description: {
+    marginTop: theme.spacing.xl,
+    fontSize: 24,
+
+    [BREAKPOINT]: {
+      fontSize: 18
+    }
+  },
+
+  controls: {
+    marginTop: theme.spacing.xl * 2,
+
+    [BREAKPOINT]: {
+      marginTop: theme.spacing.xl
+    }
+  },
+
+  control: {
+    height: 54,
+    paddingLeft: 38,
+    paddingRight: 38,
+
+    [BREAKPOINT]: {
+      height: 54,
+      paddingLeft: 18,
+      paddingRight: 18,
+      flex: 1
+    }
+  },
+
+  githubControl: {
+    borderWidth: 2,
+    borderColor: theme.colorScheme === 'dark' ? 'transparent' : theme.colors.dark[9],
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : 'transparent',
+
+    '&:hover': {
+      backgroundColor: `${theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0]} !important`
+    }
+  }
+}));
+
+export default function HeroTitle() {
+  const { classes, cx } = useStyles();
+  const theme = useMantineTheme();
 
   return (
-    <Box>
-      <MainLayout />
-    </Box>
-  );
-});
+    <MainLayout>
+      <div className={classes.wrapper}>
+        <Container size={700} className={classes.inner}>
+          <h1 className={classes.title}>
+            A{' '}
+            <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
+              Next Generation
+            </Text>{' '}
+            Dapp Dev Framework
+          </h1>
 
-export default Home;
+          <Text className={classes.description} color="dimmed">
+            Build fully functional accessible web applications with ease – Mantine includes more than 100 customizable components and hooks to cover you in any situation
+          </Text>
+
+          <Group className={classes.controls}>
+            <Button size="xl" className={classes.control} variant="gradient" gradient={{ from: 'blue', to: 'cyan' }}>
+              Get started
+            </Button>
+
+            <Button
+              component="a"
+              href="https://github.com/iotexproject/iotex-dapp-sample"
+              size="xl"
+              variant="outline"
+              className={cx(classes.control, classes.githubControl)}
+              color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
+            >
+              GitHub
+            </Button>
+          </Group>
+        </Container>
+      </div>
+    </MainLayout>
+  );
+}

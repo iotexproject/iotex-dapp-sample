@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { createStyles, Navbar, Group, Box } from '@mantine/core';
-import { BellRinging, Fingerprint, Key, Code, Settings, TwoFA, DatabaseImport, Receipt2, SwitchHorizontal, Logout, Home, Coin, Sun, MoonStars } from 'tabler-icons-react';
+import { createStyles, Navbar, Group, Box, TextInput, Code } from '@mantine/core';
+import { BellRinging, Fingerprint, Key, CodePlus, Settings, TwoFA, DatabaseImport, Receipt2, SwitchHorizontal, Home, Coin, Search } from 'tabler-icons-react';
 import { useStore } from '../../store/index';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
+import { SwitchThemeToggle } from './SwitchTheme';
+import { openSpotlight } from '@mantine/spotlight';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
     header: {
       paddingBottom: theme.spacing.md,
-      marginBottom: theme.spacing.md * 1.5,
-      borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`
+      marginBottom: theme.spacing.md * 1.5
+      // borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`
     },
 
     footer: {
@@ -39,6 +41,13 @@ const useStyles = createStyles((theme, _params, getRef) => {
           color: theme.colorScheme === 'dark' ? theme.white : theme.black
         }
       }
+    },
+
+    searchCode: {
+      fontWeight: 700,
+      fontSize: 10,
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+      border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[2]}`
     },
 
     linkIcon: {
@@ -85,27 +94,29 @@ export const NavbarSimple = observer(() => {
   ));
 
   return (
-    <Navbar height={'100%'} width={{ sm: 300 }} p="md">
+    <Navbar p="md" hiddenBreakpoint="sm" hidden={!user.layout.sidebarOpen.value} width={{ sm: 200, lg: 300 }}>
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Code size="30" />
             <Box ml={'md'}>IoTeX Dapp V3</Box>
           </Box>
         </Group>
+        <TextInput
+          placeholder="Search"
+          size="xs"
+          icon={<Search size={12} />}
+          rightSectionWidth={70}
+          rightSection={<Code className={classes.searchCode}>⌘ + K</Code>}
+          styles={{ rightSection: { pointerEvents: 'none' } }}
+          mb="sm"
+          onClick={() => openSpotlight()}
+        />
         {links}
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <a
-          href="#"
-          className={classes.link}
-          onClick={(event) => {
-            user.toggleTheme();
-          }}
-        >
-          {user.isDark ? <Sun className={classes.linkIcon} /> : <MoonStars className={classes.linkIcon} />}
-          <span>Change Theme</span>
+        <a href="#" className={classes.link}>
+          <SwitchThemeToggle />
         </a>
 
         <a href="#" className={classes.link} onClick={(event) => god.setShowConnecter(true)}>

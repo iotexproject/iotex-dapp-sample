@@ -46,6 +46,7 @@ specifiers:
   class-transformer: ^0.5.1
   clipboard-polyfill: ^3.0.3
   concurrently: ^6.0.0
+  cookies-next: ^2.0.4
   copy-to-clipboard: ^3.3.1
   cypress: ^6.5.0
   dataloader: ^2.0.0
@@ -123,6 +124,7 @@ dependencies:
   bignumber.js: 9.0.2
   class-transformer: 0.5.1
   clipboard-polyfill: 3.0.3
+  cookies-next: 2.0.4
   copy-to-clipboard: 3.3.1
   dataloader: 2.1.0
   dayjs: 1.11.1
@@ -3331,6 +3333,10 @@ packages:
     resolution: {integrity: sha512-MwMVLjXXeTFKdGtFQokI6odGZifMBvMpfaddqg3RJp2wcERzTm1A33MB5mmCxH9opjmPjqMMkT/3tRunRFaitw==}
     dev: false
 
+  /@types/cookie/0.4.1:
+    resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
+    dev: false
+
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: false
@@ -4400,6 +4406,19 @@ packages:
     resolution: {integrity: sha512-+OQdjP49zViI/6i7nIJpA8rAl4sV/JdPfU9nZs3VqOwGIgizICvuN2ru6fMd+4llL0tar18UYJXfZ/TWtmhUjA==}
     dependencies:
       safe-buffer: 5.1.2
+
+  /cookie/0.4.2:
+    resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
+    engines: {node: '>= 0.6'}
+    dev: false
+
+  /cookies-next/2.0.4:
+    resolution: {integrity: sha512-fqjwJNksW/WEu8ou1SEXJCKYyg7nrQRsjlfbIF5tp96SrQq1Fzome1To27tPxhoPN/vgFuzCt573Pri9bE+H+g==}
+    dependencies:
+      '@types/cookie': 0.4.1
+      '@types/node': 16.11.27
+      cookie: 0.4.2
+    dev: false
 
   /copy-descriptor/0.1.1:
     resolution: {integrity: sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=}
