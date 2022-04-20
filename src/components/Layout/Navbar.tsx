@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createStyles, Navbar, Group, Box, TextInput, Code } from '@mantine/core';
+import { createStyles, Navbar, Group, Box, TextInput, Code, MediaQuery } from '@mantine/core';
 import { BellRinging, Fingerprint, Key, CodePlus, Settings, TwoFA, DatabaseImport, Receipt2, SwitchHorizontal, Home, Coin, Search } from 'tabler-icons-react';
 import { useStore } from '../../store/index';
 import { observer } from 'mobx-react-lite';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { SwitchThemeToggle } from './SwitchTheme';
 import { openSpotlight } from '@mantine/spotlight';
 import { User } from './User';
+import { WalletInfo } from '../WalletInfo';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
@@ -118,17 +119,22 @@ export const NavbarSimple = observer(() => {
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <User />
+        <Box my={8}>
+          <Group sx={{ flexDirection: 'row' }}>
+            <SwitchThemeToggle />
+            <User />
+          </Group>
+        </Box>
 
-        <a href="#" className={classes.link}>
-          <SwitchThemeToggle />
-        </a>
+        {/* <a href="#" className={classes.link}>
+        </a> */}
 
-        <a href="#" className={classes.link} onClick={(event) => god.setShowConnecter(true)}>
+        {/* <a href="#" className={classes.link} onClick={(event) => god.setShowConnecter(true)}>
           <SwitchHorizontal className={classes.linkIcon} />
           <span>Change Network</span>
-        </a>
+        </a> */}
       </Navbar.Section>
+      <WalletInfo />
     </Navbar>
   );
 });

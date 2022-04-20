@@ -36,7 +36,8 @@ export class GodStore {
         explorerName: true,
         nativeCoin: true,
         blockPerSeconds: true,
-        multicallAddr: true
+        multicallAddr: true,
+        type: true
       }
     }).then((data) => {
       this.network = new EthNetworkState({
