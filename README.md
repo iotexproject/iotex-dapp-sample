@@ -15,12 +15,12 @@ Technology used in this template are
 - [TRPC](https://trpc.io/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Mobx](https://mobx.js.org/README.html)
-- [Chakra](https://chakra-ui.com/)
+- [Matine](https://mantine.dev/core/theme-icon/)
 - [Cypress](https://www.cypress.io/)
 
 ## Intro
 
-A starter for React with Typescript with the fast Vite and the beautiful Chakra, tested with the powerful Cypress.
+A starter for React with Typescript with the fast Vite and the beautiful Matine, tested with the powerful Cypress.
 
 ## Cheat Sheet
 

@@ -11,9 +11,6 @@ import { StorageState } from '../standard/StorageState';
 import BigNumber from 'bignumber.js';
 import { CallParams } from '../../../type';
 import { GodStore } from '../god';
-import { BigNumberState } from '../standard/BigNumberState';
-import { NumberState, StringState } from '../standard/base';
-import { ReadFunction } from './ContractState';
 import { helper } from '../../lib/helper';
 import DataLoader from 'dataloader';
 
@@ -21,7 +18,7 @@ export class EthNetworkState implements NetworkState {
   god: GodStore;
 
   // contract
-  chain: MappingState<ChainState>;
+  chain: MappingState<ChainState> = new MappingState({ currentId: '' });
   signer: Signer;
   provider: BaseProvider;
   account: string = '';
@@ -73,7 +70,9 @@ export class EthNetworkState implements NetworkState {
   }
 
   async loadBalance() {
-    if (!this.provider || !this.account) return;
+    if (!this.provider || !this.account) {
+      return this.currentChain.Coin.balance.setValue(new BigNumber(0));
+    }
     const balance = await this.provider.getBalance(this.account);
     this.currentChain.Coin.balance.setValue(new BigNumber(balance.toString()));
   }

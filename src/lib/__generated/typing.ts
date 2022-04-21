@@ -24,6 +24,7 @@ export class IQuery {
   WETH?: Maybe<Array<Maybe<IWeth>>>;
   ERC20?: Maybe<Array<Maybe<IErc20>>>;
   ERC721?: Maybe<Array<Maybe<IErc721>>>;
+  networks?: Maybe<Array<Maybe<INetwork>>>;
 };
 
 
@@ -850,6 +851,19 @@ export class IMulticallErc721Args {
 export class ICrossChainCalls {
   address?: InputMaybe<Scalars['String']>;
   chainId?: InputMaybe<Scalars['Int']>;
+};
+
+export class INetwork {
+  name?: Maybe<Scalars['String']>;
+  chainId?: Maybe<Scalars['Int']>;
+  rpcUrl?: Maybe<Scalars['String']>;
+  logoUrl?: Maybe<Scalars['String']>;
+  explorerUrl?: Maybe<Scalars['String']>;
+  explorerName?: Maybe<Scalars['String']>;
+  nativeCoin?: Maybe<Scalars['String']>;
+  blockPerSeconds?: Maybe<Scalars['Int']>;
+  multicallAddr?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export enum IAnyDataField {

@@ -1,8 +1,6 @@
 import 'reflect-metadata';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
-import { ChakraProvider } from '@chakra-ui/react';
-import { Toaster } from 'react-hot-toast';
 import type { AppProps } from 'next/app';
 import superjson from 'superjson';
 
@@ -11,37 +9,49 @@ import { loggerLink } from '@trpc/client/links/loggerLink';
 import { withTRPC } from '@trpc/next';
 
 import { useStore } from '@/store/index';
-import { Header } from '@/components/Header/index';
-import { theme } from '@/lib/theme';
 import { ETHProvider } from '../components/EthProvider';
 import { getLibrary } from '../lib/web3-react';
 import { WalletSelecter } from '../components/WalletSelecter/index';
 import { AppRouter } from '@/server/routers/_app';
+import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
+import { observer, useLocalObservable } from 'mobx-react-lite';
+import { helper } from '../lib/helper';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { lang, god } = useStore();
+  const { lang, god, user } = useStore();
+  const store = useLocalObservable(() => ({
+    get colorScheme() {
+      return user.theme.value || ('dark' as ColorScheme);
+    }
+  }));
+
   useEffect(() => {
     lang.init();
     setInterval(() => {
       god.pollingData();
     }, 15000);
   }, []);
+  if (!helper.env.isBrower) {
+    return <div></div>;
+  }
+
   // use useMemo to fix issue https://github.com/vercel/next.js/issues/12010
-  return useMemo(() => {
-    return (
-      <ChakraProvider theme={theme}>
+  return (
+    <>
+      {/* <ColorSchemeProvider colorScheme={store.colorScheme} toggleColorScheme={user.toggleTheme}> */}
+      <MantineProvider theme={{ colorScheme: store.colorScheme }} withGlobalStyles withNormalizeCSS>
         <Web3ReactProvider getLibrary={getLibrary}>
           <WalletSelecter />
           <ETHProvider />
-          <Toaster />
-          <Header />
+          {/* <Toaster /> */}
+          {/* <Header /> */}
           <Component {...pageProps} />
         </Web3ReactProvider>
-      </ChakraProvider>
-    );
-  }, [Component, pageProps]);
+      </MantineProvider>
+      {/* </ColorSchemeProvider> */}
+    </>
+  );
 }
-
 function getBaseUrl() {
   if (process.browser) {
     return '';
@@ -109,4 +119,4 @@ export default withTRPC<AppRouter>({
 
     return {};
   }
-})(MyApp);
+})(observer(MyApp));

@@ -1,9 +1,7 @@
 import React from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
-import Link from 'next/link';
-import { Box, Container, LinkBox, SimpleGrid, LinkOverlay, Stack, Alert, Image, Link as ChakraLink } from '@chakra-ui/react';
+import { Container } from '@mantine/core';
 import { ToolConfig } from '../config/ToolConfig';
-import { Badge, Flex, Text } from '@chakra-ui/layout';
 import { useStore } from '@/store/index';
 import { useEffect } from 'react';
 import { rpc } from '../lib/smartgraph/gql';
@@ -51,7 +49,7 @@ export const Home = observer(() => {
   }, []);
 
   return (
-    <Container maxW="7xl">
+    <Container size="xl">
       <pre>{JSON.stringify(store.data, null, 2)}</pre>
     </Container>
   );

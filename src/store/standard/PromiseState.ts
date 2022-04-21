@@ -22,7 +22,7 @@ export class PromiseState<T extends (...args: any[]) => Promise<any>, U = Return
       return res;
     } catch (error) {
       console.log(error);
-      helper.toast({ title: error.data?.message || error.message, status: 'error' });
+      // helper.toast({ title: error.data?.message || error.message, status: 'error' });
       throw new Error(error.message);
     } finally {
       this.loading.setValue(false);

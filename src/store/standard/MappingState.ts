@@ -5,9 +5,11 @@ export class MappingState<T> {
   currentId: any;
   map: {
     [key: string]: T;
-  };
+  } = {};
+  set: T[] = [];
   constructor(args: Partial<MappingState<T>>) {
     Object.assign(this, args);
+    this.set = Object.values(this.map);
     makeAutoObservable(this);
   }
   get current(): T {

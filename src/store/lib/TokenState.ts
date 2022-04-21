@@ -3,7 +3,6 @@ import { NetworkState } from './NetworkState';
 import { BigNumberState } from '../standard/BigNumberState';
 import { CallParams } from '../../../type';
 import erc20Abi from '@/constants/abi/erc20.json';
-import { EthNetworkConfig } from '../../config/NetworkConfig';
 import BigNumber from 'bignumber.js';
 import { WriteFunction, ReadFunction } from './ContractState';
 import { rootStore } from '../index';
@@ -18,7 +17,9 @@ class TokenState {
   chainId: number = 0;
   decimals: number = 18;
 
-  network: NetworkState = EthNetworkConfig;
+  get network() {
+    return rootStore.god.network;
+  }
   allowanceForRouter = new ReadFunction<[string, string], BigNumberState>({ name: 'allowance', contract: this, value: new BigNumberState({}) });
 
   _balance: BigNumberState;

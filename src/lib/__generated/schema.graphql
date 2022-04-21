@@ -10,6 +10,7 @@ type Query {
   WETH(calls: [CrossChainCalls] = []): [WETH]
   ERC20(calls: [CrossChainCalls] = []): [ERC20]
   ERC721(calls: [CrossChainCalls] = []): [ERC721]
+  networks: [Network]
 }
 
 type UniswapFactory {
@@ -202,6 +203,19 @@ type Multicall {
 input CrossChainCalls {
   address: String
   chainId: Int
+}
+
+type Network {
+  name: String
+  chainId: Int
+  rpcUrl: String
+  logoUrl: String
+  explorerUrl: String
+  explorerName: String
+  nativeCoin: String
+  blockPerSeconds: Int
+  multicallAddr: String
+  type: String
 }
 
 enum AnyDataField {
