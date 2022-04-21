@@ -10,6 +10,7 @@ import { from } from '@iotexproject/iotex-address-ts';
 import { NetworkState } from '@/store/lib/NetworkState';
 import { Box, Button, Modal, Group, Tooltip, Image, Anchor, Text, Center } from '@mantine/core';
 import { Copy, ExternalLink } from 'tabler-icons-react';
+import Jazzicon from '../Jazzicon/index';
 
 export const WalletInfo = observer(() => {
   const { god, lang } = useStore();
@@ -40,9 +41,10 @@ export const WalletInfo = observer(() => {
   }));
 
   return (
-    <Modal title={lang.t('account')} opened={store.visible} size="lg" onClose={store.close} overlayOpacity={0.45} centered>
+    <Modal title={lang.t('account')} opened={store.visible} size="md" onClose={store.close} overlayOpacity={0.45} centered>
       <Box>
-        <Box>
+        <Group mt="30px">
+          <Jazzicon diameter={30} address={god.currentNetwork.account || '0x......'} />
           <Tooltip label="Copied" position="bottom" opened={store.isTipOpen}>
             <Text
               style={{
@@ -50,6 +52,7 @@ export const WalletInfo = observer(() => {
                 alignItems: 'center',
                 cursor: 'pointer'
               }}
+              size="lg"
               onClick={async () => {
                 const [error] = await helper.promise.runAsync(clipboard.writeText(god.currentNetwork.account));
                 if (!error) {
@@ -60,12 +63,11 @@ export const WalletInfo = observer(() => {
                 }
               }}
             >
-              {god.currentNetwork?.account}
-              {/* <CopyIcon ml="4px" w="1rem" h="1rem" /> */}
+              {helper.string.truncate(god.currentNetwork.account || '0x......', 12, '...')}
               <Copy size={24} style={{ marginLeft: 4 }}></Copy>
             </Text>
           </Tooltip>
-        </Box>
+        </Group>
         {god.Coin.symbol === 'iotex' && (
           <>
             <Group mt="8px" spacing={8}>
@@ -96,23 +98,21 @@ export const WalletInfo = observer(() => {
             </Group>
           </>
         )}
-        <Group mt="20px" position="center">
-          <Group position="center">
-            <Anchor
-              size="sm"
-              // backgroundClip="text"
-              style={{ backgroundImage: god.currentChain.info.theme.bgGradient, display: 'flex' }}
-              align="center"
-              target="_blank"
-              href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}
-            >
-              {`View On ${god.currentChain.explorerName}`}
-            </Anchor>
-            <ExternalLink />
-          </Group>
+        <Group mt="20px">
+          <Anchor
+            size="sm"
+            // backgroundClip="text"
+
+            style={{ display: 'flex' }}
+            target="_blank"
+            href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}
+          >
+            <ExternalLink size="18" style={{ margin: '0px 2px' }} />
+            {`View On ${god.currentChain.explorerName}`}
+          </Anchor>
         </Group>
         <Center>
-          <Button mt="24px" onClick={store.logout} size="md">
+          <Button mt="24px" onClick={store.logout} fullWidth size="md" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
             <Text>Logout</Text>
           </Button>
         </Center>
