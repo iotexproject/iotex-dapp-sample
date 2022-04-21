@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <WalletSelecter />
           <ETHProvider />
           {/* <Toaster /> */}
-          <Header />
+          {/* <Header /> */}
           <Component {...pageProps} />
         </Web3ReactProvider>
       </MantineProvider>
