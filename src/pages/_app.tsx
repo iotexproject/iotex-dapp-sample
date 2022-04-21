@@ -16,6 +16,7 @@ import { AppRouter } from '@/server/routers/_app';
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { helper } from '../lib/helper';
+import Header from '@/components/Header';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
@@ -44,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <WalletSelecter />
           <ETHProvider />
           {/* <Toaster /> */}
-          {/* <Header /> */}
+          <Header />
           <Component {...pageProps} />
         </Web3ReactProvider>
       </MantineProvider>
