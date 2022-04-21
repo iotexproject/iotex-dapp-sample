@@ -9,6 +9,7 @@ import { injected } from '@/lib/web3-react';
 import { eventBus } from '../../lib/event';
 import { _ } from '@/lib/lodash';
 import { Web3Provider } from '@ethersproject/providers';
+import { showNotification } from '@mantine/notifications';
 
 export const ETHProvider = observer(({ children }) => {
   const { god, lang } = useStore();
@@ -25,14 +26,17 @@ export const ETHProvider = observer(({ children }) => {
   }));
 
   useEffect(() => {
-    console.log({ chainId });
+    if (error) {
+      showNotification({
+        title: 'Error',
+        message: error.message,
+        color: 'red'
+      });
+    }
     if (chainId) {
       if (god.currentNetwork.allowChains.includes(chainId)) {
         god.setChain(chainId);
       }
-    } else {
-      // god.currentNetwork.chain.setCurrentId(BSCMainnetConfig.chainId);
-      // store.wrongNetwork();
     }
 
     god.currentNetwork.setAccount(account);
@@ -41,10 +45,6 @@ export const ETHProvider = observer(({ children }) => {
     god.eth.signer = library ? library.getSigner() : null;
 
     god.currentNetwork.loadBalance();
-    // god.eth.multiCall = new MulticallProvider();
-    // god.eth.multiCall.provider = god.eth.provider;
-    // god.eth.multiCall.multicall = { address: god.currentChain.info.multicallAddr, block: 0 };
-    // god.eth.multiCall.multicall2 = { address: god.currentChain.info.multicall2Addr, block: 0 };
 
     if (account) {
       god.setShowConnecter(false);

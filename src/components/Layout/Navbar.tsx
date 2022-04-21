@@ -8,6 +8,7 @@ import { SwitchThemeToggle } from './SwitchTheme';
 import { openSpotlight } from '@mantine/spotlight';
 import { User } from './User';
 import { WalletInfo } from '../WalletInfo';
+import { useRouter } from 'next/router';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
@@ -72,38 +73,44 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
   { link: '/', label: 'Home', icon: Home },
-  { link: '/api/graphql', label: 'Playground', icon: LayersLinked }
+  { link: '/api/graphql', label: 'Playground', icon: LayersLinked, __blank: true }
 ];
 
 export const NavbarSimple = observer(() => {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Home');
   const { user, god } = useStore();
+  const router = useRouter();
 
   const links = data.map((item) => (
-    <Link href={item.link} key={item.label}>
-      <Box
-        className={cx(classes.link, { [classes.linkActive]: item.label === active })}
-        sx={{ cursor: 'pointer' }}
-        onClick={(event) => {
-          setActive(item.label);
-        }}
-      >
-        <item.icon className={classes.linkIcon} />
-        <span>{item.label}</span>
-      </Box>
-    </Link>
+    <Box
+      className={cx(classes.link, { [classes.linkActive]: item.label === active })}
+      sx={{ cursor: 'pointer' }}
+      onClick={(event) => {
+        setActive(item.label);
+        if (item.link) {
+          if (item.__blank) {
+            window.open(item.link, '_blank');
+          } else {
+            router.push(item.link);
+          }
+        }
+      }}
+    >
+      <item.icon className={classes.linkIcon} />
+      <span>{item.label}</span>
+    </Box>
   ));
 
   return (
     <Navbar p="md" hiddenBreakpoint="sm" hidden={!user.layout.sidebarOpen.value} width={{ sm: 200, lg: 300 }}>
       <Navbar.Section grow>
         <Group className={classes.header} position="apart" align={'center'}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <ThemeIcon size="lg" radius="xl" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
               <CodeIcon />
             </ThemeIcon>
-            <Text ml={'sm'} weight="bold">
+            <Text ml={'sm'} weight="bold" size="lg" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
               IoTeX Dapp V3
             </Text>
           </Box>
@@ -125,14 +132,6 @@ export const NavbarSimple = observer(() => {
 
       <Navbar.Section className={classes.footer}>
         <User />
-
-        {/* <a href="#" className={classes.link}>
-        </a> */}
-
-        {/* <a href="#" className={classes.link} onClick={(event) => god.setShowConnecter(true)}>
-          <SwitchHorizontal className={classes.linkIcon} />
-          <span>Change Network</span>
-        </a> */}
       </Navbar.Section>
       <WalletInfo />
     </Navbar>
