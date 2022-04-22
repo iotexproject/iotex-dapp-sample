@@ -6,6 +6,7 @@ import { BooleanState } from '../standard/base';
 import { helper } from '../../lib/helper';
 import { TransactionReceipt } from '@ethersproject/providers';
 import { CacheState } from '../standard/CacheState';
+import { showNotification } from '@mantine/notifications';
 
 export interface ContractState {
   address: string;
@@ -75,7 +76,7 @@ export class WriteFunction<T> {
       res.wait().then(async (receipt) => {
         this.loading.setValue(false);
         if (this.autoRefresh) {
-          this.god.pollingData;
+          this.god.pollingData();
         }
         if (this.onAfterCall) {
           this.onAfterCall({ args, receipt });
@@ -85,7 +86,11 @@ export class WriteFunction<T> {
     } catch (error) {
       console.log(error);
       this.loading.setValue(false);
-      // helper.toast({ title: error.data?.message || error.message, status: 'error' });
+      showNotification({
+        title: 'Error',
+        message: error.data?.message || error.message,
+        color: 'red'
+      });
       throw new Error(error.message);
     }
   }

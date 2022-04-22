@@ -32,6 +32,7 @@
     "@mantine/modals": "^4.1.4",
     "@mantine/next": "^4.1.4",
     "@mantine/notifications": "^4.1.4",
+    "@mantine/prism": "^4.1.4",
     "@mantine/spotlight": "^4.1.4",
     "@metamask/jazzicon": "^2.0.0",
     "@smartgraph/core": "^0.1.2",

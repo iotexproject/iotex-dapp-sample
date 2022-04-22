@@ -1,57 +1,85 @@
 import React from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
-import { Container } from '@mantine/core';
+import { Container, LoadingOverlay, SegmentedControl } from '@mantine/core';
 import { ToolConfig } from '../config/ToolConfig';
 import { useStore } from '@/store/index';
 import { useEffect } from 'react';
-import { rpc } from '../lib/smartgraph/gql';
+import { rpc, gql } from '../lib/smartgraph/gql';
 import { instanceToPlain, plainToClass } from 'class-transformer';
-import { UniswapRouter } from '../store/router';
+import { UniswapRouter } from '../store/rpctest';
+import MainLayout from '../components/Layout/index';
+import { Prism } from '@mantine/prism';
+import { PromiseState } from '@/store/standard/PromiseState';
+import { StringState, ValueState } from '../store/standard/base';
+
+const demoCode = `
+const data = await rpc('query')({
+  UniswapRouter: [ { calls: [{ address: '0x95cB18889B968AbABb9104f30aF5b310bD007Fd8', chainId: 4689 }] }, {
+      swap: [{args: {buyToken: 'IOTX',sellToken: 'BUSD_b',buyAmount: 100000000000000,recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'}}, {
+          amount: true,
+          data: true,
+          router: true,
+          path: {
+            address: true,
+            symbol: true,
+            decimals: true,
+            totalSupply: true
+          }
+        }
+      ]
+    }
+  ]
+});
+`;
 
 export const Home = observer(() => {
-  const { lang } = useStore();
-
   const store = useLocalObservable(() => ({
-    data: null,
-    async loadData() {
-      const data = await rpc('query')({
-        UniswapRouter: [
-          { calls: [{ address: '0x95cB18889B968AbABb9104f30aF5b310bD007Fd8', chainId: 4689 }] },
-          {
-            swap: [
-              {
-                args: {
-                  buyToken: 'IOTX',
-                  sellToken: 'BUSD_b',
-                  buyAmount: `${1000000000000000000 * Math.random()}`,
-                  recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'
+    testQuery: new PromiseState({
+      function: async ({ buyAmount = `${1000000000000000000 * Math.random()}` }: { buyAmount?: string } = {}) => {
+        const data = await rpc('query')({
+          UniswapRouter: [
+            { calls: [{ address: '0x95cB18889B968AbABb9104f30aF5b310bD007Fd8', chainId: 4689 }] },
+            {
+              swap: [
+                {
+                  args: {
+                    buyToken: 'IOTX',
+                    sellToken: 'BUSD_b',
+                    buyAmount,
+                    recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'
+                  }
+                },
+                {
+                  amount: true,
+                  data: true,
+                  router: true,
+                  path: {
+                    address: true,
+                    symbol: true,
+                    decimals: true,
+                    totalSupply: true
+                  }
                 }
-              },
-              {
-                amount: true,
-                data: true,
-                router: true,
-                path: {
-                  address: true,
-                  symbol: true
-                }
-              }
-            ]
-          }
-        ]
-      });
-      const swap = plainToClass(UniswapRouter, data.UniswapRouter[0]);
-      store.data = instanceToPlain(swap);
-    }
+              ]
+            }
+          ]
+        });
+        console.log(data);
+        return plainToClass(UniswapRouter, data.UniswapRouter[0]);
+      }
+    })
   }));
   useEffect(() => {
-    store.loadData();
+    store.testQuery.call();
   }, []);
-
   return (
-    <Container size="xl">
-      <pre>{JSON.stringify(store.data, null, 2)}</pre>
-    </Container>
+    <MainLayout>
+      <Prism language="tsx">{demoCode}</Prism>
+      <pre style={{ position: 'relative', minHeight: '200px' }}>
+        <LoadingOverlay visible={store.testQuery.loading.value} />
+        <Prism language="json">{JSON.stringify(store.testQuery.value, null, 2)}</Prism>
+      </pre>
+    </MainLayout>
   );
 });
 

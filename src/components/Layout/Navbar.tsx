@@ -73,6 +73,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
   { link: '/', label: 'Home', icon: Home },
+  { link: '/rpc', label: 'Example', icon: CodeIcon },
   { link: '/api/graphql', label: 'Playground', icon: LayersLinked, __blank: true }
 ];
 

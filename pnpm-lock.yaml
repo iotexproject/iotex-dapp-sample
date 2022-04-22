@@ -20,6 +20,7 @@ specifiers:
   '@mantine/modals': ^4.1.4
   '@mantine/next': ^4.1.4
   '@mantine/notifications': ^4.1.4
+  '@mantine/prism': ^4.1.4
   '@mantine/spotlight': ^4.1.4
   '@metamask/jazzicon': ^2.0.0
   '@smartgraph/core': ^0.1.2
@@ -102,6 +103,7 @@ dependencies:
   '@mantine/modals': 4.1.4_ea9f688b0492c145e724f242e772c6b2
   '@mantine/next': 4.1.4_3396af7c2dbe9fb3b1efa6ce3beab7c5
   '@mantine/notifications': 4.1.4_ea9f688b0492c145e724f242e772c6b2
+  '@mantine/prism': 4.1.4_ea9f688b0492c145e724f242e772c6b2
   '@mantine/spotlight': 4.1.4_ea9f688b0492c145e724f242e772c6b2
   '@metamask/jazzicon': 2.0.0
   '@smartgraph/core': 0.1.2
@@ -2036,6 +2038,21 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-transition-group: 4.4.2_react-dom@17.0.2+react@17.0.2
+    dev: false
+
+  /@mantine/prism/4.1.4_ea9f688b0492c145e724f242e772c6b2:
+    resolution: {integrity: sha512-JMHLHESbP6H+7xpYxbVawcTauZRCIPYnIVwinUVJCpq+FnkMumZv0TTRcLjhgs5IjHTUDr5/DCvlQBYuVwxIhw==}
+    peerDependencies:
+      '@mantine/core': 4.1.4
+      '@mantine/hooks': 4.1.4
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 4.1.4_a230b78726cd3db1d536ea7b6afb98aa
+      '@mantine/hooks': 4.1.4_react@17.0.2
+      prism-react-renderer: 1.3.1_react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /@mantine/spotlight/4.1.4_ea9f688b0492c145e724f242e772c6b2:
@@ -6204,6 +6221,14 @@ packages:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
     engines: {node: '>=6'}
     dev: true
+
+  /prism-react-renderer/1.3.1_react@17.0.2:
+    resolution: {integrity: sha512-xUeDMEz074d0zc5y6rxiMp/dlC7C+5IDDlaEUlcBOFE2wddz7hz5PNupb087mPwTt7T9BrFmewObfCBuf/LKwQ==}
+    peerDependencies:
+      react: '>=0.14.9'
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
