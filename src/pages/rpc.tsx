@@ -30,6 +30,8 @@ const data = await rpc('query')({
     }
   ]
 });
+return plainToClass(UniswapRouter, data.UniswapRouter[0]);
+
 `;
 
 export const Home = observer(() => {
