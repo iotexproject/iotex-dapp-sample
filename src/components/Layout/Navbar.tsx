@@ -79,16 +79,14 @@ const data = [
 
 export const NavbarSimple = observer(() => {
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState('Home');
   const { user, god } = useStore();
   const router = useRouter();
 
   const links = data.map((item) => (
     <Box
-      className={cx(classes.link, { [classes.linkActive]: item.label === active })}
+      className={cx(classes.link, { [classes.linkActive]: item.link === router.route })}
       sx={{ cursor: 'pointer' }}
       onClick={(event) => {
-        setActive(item.label);
         if (item.link) {
           if (item.__blank) {
             window.open(item.link, '_blank');
