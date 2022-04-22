@@ -49,5 +49,4 @@ export const index = observer(() => {
   );
 })
 
-index.displayName = 'index'
-export default index
+export default Header;

@@ -1,12 +1,12 @@
 import { makeAutoObservable } from 'mobx';
 
-export class StringState {
-  value: string = '';
-  constructor(args: Partial<StringState> = {}) {
+export class StringState<T extends string> {
+  value: T = null;
+  constructor(args: Partial<StringState<T>> = {}) {
     Object.assign(this, args);
     makeAutoObservable(this);
   }
-  setValue(value: string) {
+  setValue(value: T) {
     this.value = value;
   }
 }

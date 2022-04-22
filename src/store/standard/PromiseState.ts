@@ -1,10 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import { BooleanState } from './base';
 import { helper } from '../../lib/helper';
+import { showNotification } from '@mantine/notifications';
 
 export class PromiseState<T extends (...args: any[]) => Promise<any>, U = ReturnType<T>> {
   loading = new BooleanState();
-  value?: Awaited<U>;
+  value?: Awaited<U> = null;
   function: T;
 
   context: any = undefined;
@@ -22,7 +23,11 @@ export class PromiseState<T extends (...args: any[]) => Promise<any>, U = Return
       return res;
     } catch (error) {
       console.log(error);
-      // helper.toast({ title: error.data?.message || error.message, status: 'error' });
+      showNotification({
+        title: 'Error',
+        message: error.data?.message || error.message,
+        color: 'red'
+      });
       throw new Error(error.message);
     } finally {
       this.loading.setValue(false);

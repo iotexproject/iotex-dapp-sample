@@ -13,11 +13,10 @@ import { ETHProvider } from '../components/EthProvider';
 import { getLibrary } from '../lib/web3-react';
 import { WalletSelecter } from '../components/WalletSelecter/index';
 import { AppRouter } from '@/server/routers/_app';
-import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
+import { MantineProvider, ColorSchemeProvider, ColorScheme, Global } from '@mantine/core';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { helper } from '../lib/helper';
-import Header from '@/components/Header';
-
+import { NotificationsProvider } from '@mantine/notifications';
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
   const store = useLocalObservable(() => ({
@@ -40,14 +39,21 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       {/* <ColorSchemeProvider colorScheme={store.colorScheme} toggleColorScheme={user.toggleTheme}> */}
-      <MantineProvider theme={{ colorScheme: store.colorScheme }} withGlobalStyles withNormalizeCSS>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <WalletSelecter />
-          <ETHProvider />
-          {/* <Toaster /> */}
-          {/* <Header /> */}
-          <Component {...pageProps} />
-        </Web3ReactProvider>
+      <MantineProvider theme={{ fontFamily: 'Oxanium, sans-serif;', colorScheme: store.colorScheme }} withGlobalStyles withNormalizeCSS>
+        <Global
+          styles={(theme) => ({
+            body: {}
+          })}
+        />
+        <NotificationsProvider>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <WalletSelecter />
+            <ETHProvider />
+            {/* <Toaster /> */}
+            {/* <Header /> */}
+            <Component {...pageProps} />
+          </Web3ReactProvider>
+        </NotificationsProvider>
       </MantineProvider>
       {/* </ColorSchemeProvider> */}
     </>

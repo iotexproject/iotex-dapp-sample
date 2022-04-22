@@ -19,5 +19,10 @@ export const rpc = Thunder(async (query, variables) => {
     //@ts-ignore
     document: parse(query)
   });
+  if (res.errors) {
+    throw new Error(res.errors[0].message);
+  }
   return res.data;
 });
+
+export const use = (client: 'rpc' | 'graphql') => (client == 'rpc' ? rpc : gql);
