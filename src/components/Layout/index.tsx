@@ -5,6 +5,7 @@ import { Sun, MoonStars, Search } from 'tabler-icons-react';
 import { observer } from 'mobx-react-lite';
 import { NavbarSimple } from './Navbar';
 import { SpotlightProvider } from '@mantine/spotlight';
+import HeaderNav from '@/components/Header';
 
 export const MainLayout = observer(({ children }: { children?: any }) => {
   const theme = useMantineTheme();
@@ -42,6 +43,7 @@ export const MainLayout = observer(({ children }: { children?: any }) => {
               </div>
             </Box>
           </MediaQuery>
+          // <HeaderNav />
         }
       >
         {children}
