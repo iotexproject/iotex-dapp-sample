@@ -15,7 +15,7 @@ import { StringState, ValueState } from '../store/standard/base';
 const demoCode = `
 const data = await rpc('query')({
   UniswapRouter: [ { calls: [{ address: '0x95cB18889B968AbABb9104f30aF5b310bD007Fd8', chainId: 4689 }] }, {
-      swap: [{args: {buyToken: 'IOTX',sellToken: 'BUSD_b',buyAmount: 100000000000000,recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'}}, {
+      swap: [{args: {sellToken: 'BUSD_b',buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0', buyAmount: 100000000000000,recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'}}, {
           amount: true,
           data: true,
           router: true,
@@ -43,8 +43,8 @@ export const Home = observer(() => {
               swap: [
                 {
                   args: {
-                    buyToken: 'IOTX',
                     sellToken: 'BUSD_b',
+                    buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0',
                     buyAmount,
                     recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'
                   }
