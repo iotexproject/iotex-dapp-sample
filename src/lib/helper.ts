@@ -1,7 +1,6 @@
 import numeral from 'numeral';
 import BN from 'bignumber.js';
 import { CallParams } from '../../type';
-import { ContractState, ReadFunction } from '../store/lib/ContractState';
 import { BigNumberState } from '../store/standard/BigNumberState';
 import BigNumber from 'bignumber.js';
 import { NumberState, StringState } from '../store/standard/base';
@@ -177,25 +176,6 @@ export const helper = {
       return value instanceof BN ? value : typeof value === 'string' ? new BN(Number(value)) : new BN(value);
     }
   },
-  c: {
-    preMulticall(contract: ContractState, args: Partial<CallParams>) {
-      if (!contract.address) return;
-      return Object.assign({ address: contract.address, abi: contract.abi, chainId: contract.chainId }, args);
-    },
-    autoLoad(contract: ContractState) {
-      const autoLoads: ReadFunction[] = Object.values(contract).filter((i) => i.autoLoad && !i.cacheLoaded && !i.address);
-      if (contract.cache && contract.cache?.data) {
-        autoLoads.forEach((i) => {
-          const value = contract.cache.data[i.name];
-          if (value) {
-            i.cacheLoaded = true;
-            i.setValue(value);
-          }
-        });
-      }
-      return autoLoads.filter((i) => !i.cacheLoaded).map((i: ReadFunction) => i.preMulticall({}));
-    }
-  },
   state: {
     handleCallBack(callback, val, key?) {
       try {
@@ -206,9 +186,6 @@ export const helper = {
           callback.setValue(Number(val.toString()));
         }
         if (callback instanceof StringState) {
-          callback.setValue(val.toString());
-        }
-        if (callback instanceof ReadFunction) {
           callback.setValue(val.toString());
         }
       } catch (error) {
