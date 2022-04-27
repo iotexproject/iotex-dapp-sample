@@ -5,7 +5,7 @@ import { ToolConfig } from '../config/ToolConfig';
 import { useStore } from '@/store/index';
 import { useEffect } from 'react';
 import { rpc, gql } from '../lib/smartgraph/gql';
-import { instanceToPlain, plainToClass } from 'class-transformer';
+import { plainToInstance, plainToClass, classToPlain, instanceToPlain } from 'class-transformer';
 import { UniswapRouter } from '../store/rpctest';
 import MainLayout from '../components/Layout/index';
 import { Prism } from '@mantine/prism';
@@ -30,7 +30,7 @@ const data = await rpc('query')({
     }
   ]
 });
-return plainToClass(UniswapRouter, data.UniswapRouter[0]);
+return plainToInstance(UniswapRouter, data.UniswapRouter[0]);
 
 `;
 
@@ -48,7 +48,8 @@ export const Home = observer(() => {
                     sellToken: 'BUSD_b',
                     buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0',
                     buyAmount,
-                    recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'
+                    recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2',
+                    offlinePrice: true
                   }
                 },
                 {
@@ -66,8 +67,8 @@ export const Home = observer(() => {
             }
           ]
         });
-        console.log(data);
-        return plainToClass(UniswapRouter, data.UniswapRouter[0]);
+        const instance = plainToInstance(UniswapRouter, data.UniswapRouter[0]);
+        return instanceToPlain(instance);
       }
     })
   }));

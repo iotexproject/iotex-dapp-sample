@@ -21,7 +21,7 @@ specifiers:
   '@mantine/prism': ^4.1.4
   '@mantine/spotlight': ^4.1.4
   '@metamask/jazzicon': ^2.0.0
-  '@smartgraph/core': 0.1.3
+  '@smartgraph/core': 0.1.10
   '@smartgraph/plugins': 0.1.3
   '@trpc/client': ^9.20.3
   '@trpc/next': ^9.20.3
@@ -92,8 +92,8 @@ dependencies:
   '@mantine/prism': 4.1.4_ea9f688b0492c145e724f242e772c6b2
   '@mantine/spotlight': 4.1.4_ea9f688b0492c145e724f242e772c6b2
   '@metamask/jazzicon': 2.0.0
-  '@smartgraph/core': 0.1.3
-  '@smartgraph/plugins': 0.1.3_cc0bc8d7c8e71f4feea26a0854a8c8b2
+  '@smartgraph/core': 0.1.10_@graphql-yoga+node@2.3.0
+  '@smartgraph/plugins': 0.1.3_6b17ad5ac7c35c634ea15c2dda88cb57
   '@trpc/client': 9.22.0_@trpc+server@9.22.0
   '@trpc/next': 9.22.0_a6852fe2e460defa6e9ee70d6affd41f
   '@trpc/react': 9.22.0_3ef64ad46bd29fcc1f8c8f4ab2572094
@@ -2314,12 +2314,14 @@ packages:
       rxjs: 6.6.7
     dev: true
 
-  /@smartgraph/core/0.1.3:
-    resolution: {integrity: sha512-nHQEO2u/CGiEhBh2Zril8UV74NNkGDzpzrBu7AnjHf9Cb7mY2LNgV4/J0iqBjaZwVmg9trxGJwO75uRtdgzv9w==}
+  /@smartgraph/core/0.1.10_@graphql-yoga+node@2.3.0:
+    resolution: {integrity: sha512-qcpe2yq5JSKwq5bDyGlhP+b63i7tmIFC7k8Dj6z/im6qh43LyMHXla12yg2boF02T8RYKD97tLNBdW6w741WjQ==}
     peerDependencies:
+      '@graphql-yoga/node': ^2.1.0
       tslib: ^2.0.0
     dependencies:
       '@ethersproject/providers': 5.6.4
+      '@graphql-yoga/node': 2.3.0_graphql@16.3.0
       '@valo/cache': 0.0.1
       bignumber.js: 9.0.2
       cache-manager: 3.6.1
@@ -2337,7 +2339,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@smartgraph/plugins/0.1.3_cc0bc8d7c8e71f4feea26a0854a8c8b2:
+  /@smartgraph/plugins/0.1.3_6b17ad5ac7c35c634ea15c2dda88cb57:
     resolution: {integrity: sha512-bJcKmZpCoyi9zGZP0eH0F5rOa8llim+r750AHJzOwvEvlvBxtYoVxgDkvNKasNWcCSK2l+9d5EIZhlZbG16NJg==}
     peerDependencies:
       '@smartgraph/core': 0.1.2
@@ -2348,7 +2350,7 @@ packages:
       nexus: ^1.3.0
       tslib: ^2.0.0
     dependencies:
-      '@smartgraph/core': 0.1.3
+      '@smartgraph/core': 0.1.10_@graphql-yoga+node@2.3.0
       bignumber.js: 9.0.2
       ethers: 5.6.4
       graphql: 16.3.0
@@ -6332,7 +6334,7 @@ packages:
     dev: true
 
   /rechoir/0.6.2:
-    resolution: {integrity: sha512-HFM8rkZ+i3zrV+4LQjwQ0W+ez98pApMGM3HUrN04j3CqzPOzl9nmP15Y8YXNm8QHGv/eacOVEjqhmWpkRV0NAw==}
+    resolution: {integrity: sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=}
     engines: {node: '>= 0.10'}
     dependencies:
       resolve: 1.22.0
