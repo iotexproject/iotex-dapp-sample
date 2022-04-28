@@ -21,7 +21,7 @@ specifiers:
   '@mantine/prism': ^4.1.4
   '@mantine/spotlight': ^4.1.4
   '@metamask/jazzicon': ^2.0.0
-  '@smartgraph/core': 0.1.10
+  '@smartgraph/core': 0.1.14
   '@smartgraph/plugins': 0.1.3
   '@trpc/client': ^9.20.3
   '@trpc/next': ^9.20.3
@@ -92,8 +92,8 @@ dependencies:
   '@mantine/prism': 4.1.4_5kpwrcyeslaulzze6jboo4wgwi
   '@mantine/spotlight': 4.1.4_5kpwrcyeslaulzze6jboo4wgwi
   '@metamask/jazzicon': 2.0.0
-  '@smartgraph/core': 0.1.10_@graphql-yoga+node@2.3.0
-  '@smartgraph/plugins': 0.1.3_6b17ad5ac7c35c634ea15c2dda88cb57
+  '@smartgraph/core': 0.1.14_@graphql-yoga+node@2.3.0
+  '@smartgraph/plugins': 0.1.3_360a16db9e92d1641458fcbb7fdad3ec
   '@trpc/client': 9.22.0_@trpc+server@9.22.0
   '@trpc/next': 9.22.0_u2cs7yxemdppu3u644gwv76ud4
   '@trpc/react': 9.22.0_h33evvdl2kp4yh4mr5flevzasq
@@ -2199,8 +2199,8 @@ packages:
       rxjs: 6.6.7
     dev: true
 
-  /@smartgraph/core/0.1.10_@graphql-yoga+node@2.3.0:
-    resolution: {integrity: sha512-qcpe2yq5JSKwq5bDyGlhP+b63i7tmIFC7k8Dj6z/im6qh43LyMHXla12yg2boF02T8RYKD97tLNBdW6w741WjQ==}
+  /@smartgraph/core/0.1.14_@graphql-yoga+node@2.3.0:
+    resolution: {integrity: sha512-cBofiiZIeHoTygVy8wNZREVVUCgPWVczaPijkr0dMoqb5wZdt5I6d5M7K+1IGcsYGDe1oFhGrzPjCcczwGdRWw==}
     peerDependencies:
       '@graphql-yoga/node': ^2.1.0
       tslib: ^2.0.0
@@ -2224,7 +2224,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@smartgraph/plugins/0.1.3_6b17ad5ac7c35c634ea15c2dda88cb57:
+  /@smartgraph/plugins/0.1.3_360a16db9e92d1641458fcbb7fdad3ec:
     resolution: {integrity: sha512-bJcKmZpCoyi9zGZP0eH0F5rOa8llim+r750AHJzOwvEvlvBxtYoVxgDkvNKasNWcCSK2l+9d5EIZhlZbG16NJg==}
     peerDependencies:
       '@smartgraph/core': 0.1.2
@@ -2235,7 +2235,7 @@ packages:
       nexus: ^1.3.0
       tslib: ^2.0.0
     dependencies:
-      '@smartgraph/core': 0.1.10_@graphql-yoga+node@2.3.0
+      '@smartgraph/core': 0.1.14_@graphql-yoga+node@2.3.0
       bignumber.js: 9.0.2
       ethers: 5.6.4
       graphql: 16.3.0
