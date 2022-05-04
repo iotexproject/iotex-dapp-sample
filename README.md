@@ -1,4 +1,4 @@
-# IoTeX dApp Sample V2
+# IoTeX dApp Sample V3
 
 <a href="https://iotex.io/devdiscord" target="_blank">
   <img src="https://github.com/iotexproject/halogrants/blob/880eea4af074b082a75608c7376bd7a8eaa1ac21/img/btn-discord.svg" height="36px">
