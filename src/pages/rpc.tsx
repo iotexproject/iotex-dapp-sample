@@ -1,8 +1,6 @@
 import React from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { Container, LoadingOverlay, SegmentedControl } from '@mantine/core';
-import { ToolConfig } from '../config/ToolConfig';
-import { useStore } from '@/store/index';
 import { useEffect } from 'react';
 import { rpc, gql } from '../lib/smartgraph/gql';
 import { plainToInstance, plainToClass, classToPlain, instanceToPlain, plainToClassFromExist } from 'class-transformer';
