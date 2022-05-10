@@ -5,14 +5,24 @@ import { ToolConfig } from '../config/ToolConfig';
 import { useStore } from '@/store/index';
 import { useEffect } from 'react';
 import { rpc, gql } from '../lib/smartgraph/gql';
-import { plainToInstance, plainToClass, classToPlain, instanceToPlain } from 'class-transformer';
-import { UniswapRouter } from '../store/rpctest';
+import { plainToInstance, plainToClass, classToPlain, instanceToPlain, plainToClassFromExist } from 'class-transformer';
+import { UniswapRouterEntity } from '../store/entity';
 import MainLayout from '../components/Layout/index';
 import { Prism } from '@mantine/prism';
 import { PromiseState } from '@/store/standard/PromiseState';
-import { StringState, ValueState } from '../store/standard/base';
 
 const demoCode = `
+
+// smartgraph.ts
+import { SmartGraph } from '@smartgraph/core';
+export const smartGraph = new SmartGraph({
+  plugins: [plugins.NetworkPlugin(), plugins.ERC20Extension(), plugins.LpTokenExtension(), UniswapPlugin()]
+});
+...
+
+//page.ts
+import {rpc} from "@/src/lib/smartgraph/gql"
+
 const data = await rpc('query')({
   UniswapRouter: [ { calls: [{ address: '0x95cB18889B968AbABb9104f30aF5b310bD007Fd8', chainId: 4689 }] }, {
       swap: [{args: {sellToken: 'BUSD_b',buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0', buyAmount: 100000000000000,recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'}}, {
@@ -67,7 +77,11 @@ export const Home = observer(() => {
             }
           ]
         });
-        const instance = plainToInstance(UniswapRouter, data.UniswapRouter[0]);
+        if (store.testQuery.value) {
+          return plainToClassFromExist(store.testQuery.value, data.UniswapRouter[0]);
+        }
+
+        const instance = plainToInstance(UniswapRouterEntity, data.UniswapRouter[0]);
         return instanceToPlain(instance);
       }
     })

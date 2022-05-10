@@ -1,4 +1,3 @@
-import { NetworkState } from './lib/NetworkState';
 import { makeAutoObservable } from 'mobx';
 import { MappingState } from './standard/MappingState';
 import { ChainState } from './lib/ChainState';

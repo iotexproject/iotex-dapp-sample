@@ -2,7 +2,7 @@ import { Expose, Transform, Type } from 'class-transformer';
 import { IUniswapRouter, IErc20, IAmount } from '../lib/__generated/typing';
 import { computed, makeObservable, observable } from 'mobx';
 
-export class ERC20 extends IErc20 {
+export class ERC20Entity extends IErc20 {
   @Expose()
   get logo() {
     return `https://iotexproject.iotex.io/iotex-token-metadata/master/images/${this.address}.png`;
@@ -10,7 +10,7 @@ export class ERC20 extends IErc20 {
   test() {
     console.log('test');
   }
-  parent: Swap = null;
+  parent: SwapEntity = null;
   constructor() {
     super();
     makeObservable(this, {
@@ -20,15 +20,15 @@ export class ERC20 extends IErc20 {
   }
 }
 
-export class Swap extends IAmount {
+export class SwapEntity extends IAmount {
   foo = 123;
-  @Type(() => ERC20)
-  path: ERC20[] = [];
+  @Type(() => ERC20Entity)
+  path: ERC20Entity[] = [];
   @Expose()
   get bar() {
     return 456;
   }
-  parent: UniswapRouter = null;
+  parent: UniswapRouterEntity = null;
 
   constructor() {
     super();
@@ -40,9 +40,9 @@ export class Swap extends IAmount {
   }
 }
 
-export class UniswapRouter extends IUniswapRouter {
-  @Type(() => Swap)
-  swap: Swap = null;
+export class UniswapRouterEntity extends IUniswapRouter {
+  @Type(() => SwapEntity)
+  swap: SwapEntity = null;
 
   constructor() {
     super();
