@@ -63,7 +63,9 @@ export const helper = {
         })
         .then((res) => {
           god.setChain(chainId);
-          resolve(res);
+          setTimeout(() => {
+            resolve(res);
+          }, 1000);
         })
         .catch((err) => {
           toast.error(err.message);
