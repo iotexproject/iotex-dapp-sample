@@ -225,7 +225,6 @@ export const helper = {
 
       try {
         if (!chainId || !address || !data) throw new Error('chainId, address, data is required');
-        console.log(chainId, address, data);
         if (!rootStore.god.currentNetwork.account) {
           await hooks.waitAccount();
         }
