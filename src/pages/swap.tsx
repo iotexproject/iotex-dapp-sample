@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, useLocalObservable } from 'mobx-react-lite';
-import { Container, LoadingOverlay, SegmentedControl } from '@mantine/core';
+import { Container, LoadingOverlay, SegmentedControl, Button } from '@mantine/core';
 import { useEffect } from 'react';
 import { rpc, gql } from '../lib/smartgraph/gql';
 import { plainToInstance, plainToClass, classToPlain, instanceToPlain, plainToClassFromExist } from 'class-transformer';
@@ -22,11 +22,14 @@ export const smartGraph = new SmartGraph({
 import {rpc} from "@/src/lib/smartgraph/gql"
 
 const data = await rpc('query')({
-  UniswapRouter: [ { calls: [{ address: '0x95cB18889B968AbABb9104f30aF5b310bD007Fd8', chainId: 4689 }] }, {
-      swap: [{args: {sellToken: 'BUSD_b',buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0', buyAmount: 100000000000000,recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'}}, {
+  UniswapRouter: [ { calls: [{ address: '0x147CdAe2BF7e809b9789aD0765899c06B361C5cE', chainId: 4689 }] }, {
+      address: true,
+      chainId: true,
+      swap: [{args: {sellToken: 'IOTX',buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0', buyAmount: 1000000000000000000,recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'}}, {
           amount: true,
           data: true,
           router: true,
+          value: true,
           path: {
             address: true,
             symbol: true,
@@ -40,30 +43,37 @@ const data = await rpc('query')({
 });
 return plainToInstance(UniswapRouter, data.UniswapRouter[0]);
 
+// page.tsx
+ <Button loading={store.swapQuery.loading.value} onClick={() => store.swapQuery.value._swap.call()}>
+  Swap
+</Button>
+
 `;
 
 export const Home = observer(() => {
   const store = useLocalObservable(() => ({
-    testQuery: new PromiseState({
-      function: async ({ buyAmount = `${1000000000000000000 * Math.random()}` }: { buyAmount?: string } = {}) => {
+    swapQuery: new PromiseState({
+      function: async ({ buyAmount = '1000000000000000000' }: { buyAmount?: string } = {}): Promise<UniswapRouterEntity> => {
         const data = await rpc('query')({
           UniswapRouter: [
-            { calls: [{ address: '0x95cB18889B968AbABb9104f30aF5b310bD007Fd8', chainId: 4689 }] },
+            { calls: [{ address: '0x147CdAe2BF7e809b9789aD0765899c06B361C5cE', chainId: 4689 }] },
             {
+              address: true,
+              chainId: true,
               swap: [
                 {
                   args: {
-                    sellToken: 'BUSD_b',
+                    sellToken: 'IOTX',
                     buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0',
                     buyAmount,
-                    recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2',
-                    offlinePrice: true
+                    recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'
                   }
                 },
                 {
                   amount: true,
                   data: true,
                   router: true,
+                  value: true,
                   path: {
                     address: true,
                     symbol: true,
@@ -75,24 +85,27 @@ export const Home = observer(() => {
             }
           ]
         });
-        if (store.testQuery.value) {
-          return plainToClassFromExist(store.testQuery.value, data.UniswapRouter[0]);
+        if (store.swapQuery.value) {
+          return plainToClassFromExist(store.swapQuery.value, data.UniswapRouter[0]);
         }
 
         const instance = plainToInstance(UniswapRouterEntity, data.UniswapRouter[0]);
-        return instanceToPlain(instance);
+        return instance;
       }
     })
   }));
   useEffect(() => {
-    store.testQuery.call();
+    store.swapQuery.call();
   }, []);
   return (
     <MainLayout>
       <Prism language="tsx">{demoCode}</Prism>
+      <Button loading={store.swapQuery.loading.value} onClick={() => store.swapQuery.value._swap.call()}>
+        Swap
+      </Button>
       <pre style={{ position: 'relative', minHeight: '200px' }}>
-        <LoadingOverlay visible={store.testQuery.loading.value} />
-        <Prism language="json">{JSON.stringify(store.testQuery.value, null, 2)}</Prism>
+        <LoadingOverlay visible={store.swapQuery.loading.value} />
+        <Prism language="json">{JSON.stringify(store.swapQuery.value?.swap || {}, null, 2)}</Prism>
       </pre>
     </MainLayout>
   );

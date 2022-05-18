@@ -7,6 +7,7 @@ export const hooks = {
       if (rootStore.god.currentNetwork.account) {
         res();
       } else {
+        rootStore.god.setShowConnecter(true);
         eventBus.once('wallet.onAccount', () => {
           res();
         });

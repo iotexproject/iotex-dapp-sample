@@ -7,6 +7,12 @@ import { NumberState, StringState } from '../store/standard/base';
 import { DynamicMappingState } from '@/store/standard/MappingState';
 import { metamaskUtils } from './metaskUtils';
 import toast from 'react-hot-toast';
+import { TransactionReceipt, TransactionRequest, TransactionResponse } from '@ethersproject/providers';
+import { Deferrable } from 'ethers/lib/utils';
+import { rootStore } from '../store/index';
+import { hooks } from './hooks';
+import { ethers, utils } from 'ethers';
+import { _ } from './lodash';
 
 export interface RouterParsed {
   pathname: string;
@@ -190,6 +196,60 @@ export const helper = {
         }
       } catch (error) {
         throw new Error(error.message);
+      }
+    }
+  },
+  c: {
+    async sendTx({
+      chainId,
+      address,
+      data,
+      gasPrice = '0',
+      value = '0',
+      autoRefresh = true,
+      autoAlert = false,
+      onSuccess,
+      onError
+    }: {
+      chainId: number | string;
+      address: string;
+      data: string;
+      value?: string;
+      gasPrice?: string;
+      autoRefresh?: boolean;
+      autoAlert?: boolean;
+      onSuccess?: ({ res }: { res: TransactionResponse }) => void;
+      onError?: (e: Error) => void;
+    }): Promise<TransactionReceipt> {
+      chainId = Number(chainId);
+
+      try {
+        if (!chainId || !address || !data) throw new Error('chainId, address, data is required');
+        console.log(chainId, address, data);
+        if (!rootStore.god.currentNetwork.account) {
+          await hooks.waitAccount();
+        }
+
+        if (rootStore.god.currentChain.chainId !== chainId) {
+          await helper.setChain(rootStore.god, chainId);
+        }
+        let sendTransactionParam: Deferrable<TransactionRequest> = _.omitBy({ to: address, data, value: ethers.BigNumber.from(value), gasPrice: ethers.BigNumber.from(gasPrice) }, _.isNil);
+        const res = await rootStore.god.eth.signer.sendTransaction(sendTransactionParam);
+        const receipt = await res.wait();
+        if (autoRefresh) {
+          rootStore.god.pollingData();
+        }
+        if (receipt.status) {
+          onSuccess && onSuccess({ res });
+        }
+        return receipt;
+      } catch (error) {
+        console.log(error);
+        if (autoAlert) {
+          toast.error(error.data?.message || error.message);
+        }
+        onError && onError(error);
+        throw new Error(error);
       }
     }
   }

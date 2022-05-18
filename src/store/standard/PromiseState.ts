@@ -8,6 +8,7 @@ export class PromiseState<T extends (...args: any[]) => Promise<any>, U = Return
   value?: Awaited<U> = null;
   function: T;
 
+  autoAlert = true;
   context: any = undefined;
 
   constructor(args: Partial<PromiseState<T, U>> = {}) {
@@ -23,11 +24,13 @@ export class PromiseState<T extends (...args: any[]) => Promise<any>, U = Return
       return res;
     } catch (error) {
       console.log(error);
-      showNotification({
-        title: 'Error',
-        message: error.data?.message || error.message,
-        color: 'red'
-      });
+      if (this.autoAlert) {
+        showNotification({
+          title: 'Error',
+          message: error.data?.message || error.message,
+          color: 'red'
+        });
+      }
       throw new Error(error.message);
     } finally {
       this.loading.setValue(false);

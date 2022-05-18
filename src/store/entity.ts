@@ -1,6 +1,7 @@
 import { Expose, Transform, Type } from 'class-transformer';
 import { IUniswapRouter, IErc20, IAmount } from '../lib/__generated/typing';
-import { computed, makeObservable, observable } from 'mobx';
+import { PromiseState } from './standard/PromiseState';
+import { helper } from '../lib/helper';
 
 export class ERC20Entity extends IErc20 {
   @Expose()
@@ -9,14 +10,6 @@ export class ERC20Entity extends IErc20 {
   }
   test() {
     console.log('test');
-  }
-  parent: SwapEntity = null;
-  constructor() {
-    super();
-    makeObservable(this, {
-      logo: computed,
-      parent: observable
-    });
   }
 }
 
@@ -28,26 +21,21 @@ export class SwapEntity extends IAmount {
   get bar() {
     return 456;
   }
-  parent: UniswapRouterEntity = null;
-
-  constructor() {
-    super();
-    setTimeout(() => {
-      this.path.forEach((i) => {
-        i.parent = this;
-      });
-    });
-  }
 }
 
 export class UniswapRouterEntity extends IUniswapRouter {
   @Type(() => SwapEntity)
   swap: SwapEntity = null;
 
-  constructor() {
-    super();
-    setTimeout(() => {
-      this.swap.parent = this;
-    });
-  }
+  _swap = new PromiseState({
+    function: async () => {
+      const { data, value } = this.swap;
+      await helper.c.sendTx({
+        address: this.address,
+        chainId: this.chainId,
+        data,
+        value
+      });
+    }
+  });
 }

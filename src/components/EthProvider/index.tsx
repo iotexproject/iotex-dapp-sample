@@ -47,6 +47,7 @@ export const ETHProvider = observer(({ children }) => {
     god.currentNetwork.loadBalance();
 
     if (account) {
+      eventBus.emit('wallet.onAccount');
       god.setShowConnecter(false);
     }
     god.updateTicker.setValue(god.updateTicker.value + 1);
