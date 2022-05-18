@@ -18,10 +18,10 @@ export const smartGraph = new SmartGraph({
 });
 ...
 
-//page.ts
+//page.tsx
 import {rpc} from "@/src/lib/smartgraph/gql"
 
-const data = await rpc('query')({
+const swapQuery = await rpc('query')({
   UniswapRouter: [ { calls: [{ address: '0x147CdAe2BF7e809b9789aD0765899c06B361C5cE', chainId: 4689 }] }, {
       address: true,
       chainId: true,
@@ -43,8 +43,7 @@ const data = await rpc('query')({
 });
 return plainToInstance(UniswapRouter, data.UniswapRouter[0]);
 
-// page.tsx
- <Button loading={store.swapQuery.loading.value} onClick={() => store.swapQuery.value._swap.call()}>
+<Button loading={store.swapQuery.loading.value} onClick={() => store.swapQuery.value._swap.call()}>
   Swap
 </Button>
 
