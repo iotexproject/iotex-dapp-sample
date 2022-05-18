@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { BooleanState } from './base';
 import { helper } from '../../lib/helper';
 import { showNotification } from '@mantine/notifications';
+import toast from 'react-hot-toast';
 
 export class PromiseState<T extends (...args: any[]) => Promise<any>, U = ReturnType<T>> {
   loading = new BooleanState();
@@ -30,8 +31,9 @@ export class PromiseState<T extends (...args: any[]) => Promise<any>, U = Return
           message: error.data?.message || error.message,
           color: 'red'
         });
+      } else {
+        throw error;
       }
-      throw new Error(error.message);
     } finally {
       this.loading.setValue(false);
     }

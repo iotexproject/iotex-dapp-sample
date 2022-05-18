@@ -13,6 +13,7 @@ import { rootStore } from '../store/index';
 import { hooks } from './hooks';
 import { ethers, utils } from 'ethers';
 import { _ } from './lodash';
+import { showNotification } from '@mantine/notifications';
 
 export interface RouterParsed {
   pathname: string;
@@ -245,10 +246,14 @@ export const helper = {
       } catch (error) {
         console.log(error);
         if (autoAlert) {
-          toast.error(error.data?.message || error.message);
+          showNotification({
+            title: 'Error',
+            message: error.data?.message || error.message,
+            color: 'red'
+          });
         }
         onError && onError(error);
-        throw new Error(error);
+        throw error;
       }
     }
   }
