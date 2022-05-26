@@ -17,6 +17,8 @@ import { MantineProvider, ColorSchemeProvider, ColorScheme, Global } from '@mant
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { helper } from '../lib/helper';
 import { NotificationsProvider } from '@mantine/notifications';
+import '../i18n/config';
+
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
   const store = useLocalObservable(() => ({
@@ -31,6 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       god.pollingData();
     }, 15000);
   }, []);
+
   if (!helper.env.isBrower) {
     return <div></div>;
   }

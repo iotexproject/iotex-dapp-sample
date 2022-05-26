@@ -1,6 +1,9 @@
 import React from 'react';
 import { createStyles, Container, Text, Button, Group, useMantineTheme } from '@mantine/core';
 import MainLayout from '@/components/Layout';
+import { useTranslation } from 'react-i18next';
+import { useStore } from '../store';
+import { LanguageSwitch } from '@/components/LanguageSwitch';
 
 const BREAKPOINT = '@media (max-width: 755px)';
 
@@ -79,28 +82,32 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function HeroTitle() {
+  const { lang } = useStore();
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
+  const { t } = useTranslation();
 
   return (
     <MainLayout>
       <div className={classes.wrapper}>
         <Container size={700} className={classes.inner}>
           <h1 className={classes.title}>
-            A{' '}
+            {t('a')}
+            {' '}
             <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
-              Next Generation
-            </Text>{' '}
-            Dapp Dev Framework
+              {t('next-generation')}
+            </Text>
+            {' '}
+            {t('dapp-dev-framework')}
           </h1>
 
           <Text className={classes.description} color="dimmed">
-            Build fully functional dapp with graphql and typesafe sdk easy and fast.
+            {t('tip')}
           </Text>
 
           <Group className={classes.controls}>
             <Button size="xl" className={classes.control} variant="gradient" gradient={{ from: 'blue', to: 'cyan' }}>
-              Get started
+              {t('get-started')}
             </Button>
 
             <Button
@@ -111,8 +118,10 @@ export default function HeroTitle() {
               className={cx(classes.control, classes.githubControl)}
               color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
             >
-              GitHub
+              GITHUB
             </Button>
+
+            <LanguageSwitch></LanguageSwitch>
           </Group>
         </Container>
       </div>

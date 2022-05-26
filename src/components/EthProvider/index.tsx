@@ -21,7 +21,7 @@ export const ETHProvider = observer(({ children }) => {
       god.eth.connector.latestProvider.clear();
     },
     wrongNetwork() {
-      toast.error(lang.t('wrong.network'), { id: 'wrong.network' });
+      toast.error(lang.t('wrong-network'), { id: 'wrong-network' });
     }
   }));
 

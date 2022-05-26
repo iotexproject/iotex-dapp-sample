@@ -106,7 +106,7 @@ export const WalletSelecter = observer(() => {
   ];
   const names = config.map((item) => item.title).join(', ');
   return (
-    <Modal opened={store.visible} overlayOpacity={0.45} centered onClose={store.close} title={lang.t(god.isConnect ? 'switch.network' : 'connect.to.wallet')}>
+    <Modal opened={store.visible} overlayOpacity={0.45} centered onClose={store.close} title={lang.t(god.isConnect ? 'switch-network' : 'connect-to-wallet')}>
       <SegmentedControl data={['Mainnet', 'Testnet']} fullWidth onChange={(v) => store.network.setValue(v.toLowerCase() as any)} />
       <Box mt="xl">
         <Group position="apart" p="md">
@@ -131,7 +131,7 @@ export const WalletSelecter = observer(() => {
           <Box onClick={store.connectInejct} my="12px" style={{ cursor: 'pointer', borderRadius: '8px', background: 'rgba(0,0,0,0.1)' }} p="14px" mt="24px">
             <Group spacing={2} position="apart">
               <Group direction="column" spacing={3}>
-                <Text style={{ fontSize: '20px', lineHeight: '26.38px', fontStyle: 'normal', fontWeight: '500' }}>{lang.t('browser.wallet')}</Text>
+                <Text style={{ fontSize: '20px', lineHeight: '26.38px', fontStyle: 'normal', fontWeight: '500' }}>{lang.t('browser-wallet')}</Text>
                 <Text color="gray.500" style={{ fontSize: '12px', lineHeight: '16.38px', fontStyle: 'normal', fontWeight: '500' }}>
                   ({names})
                 </Text>

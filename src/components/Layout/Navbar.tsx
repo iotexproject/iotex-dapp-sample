@@ -9,7 +9,7 @@ import { openSpotlight } from '@mantine/spotlight';
 import { User } from './User';
 import { WalletInfo } from '../WalletInfo';
 import { useRouter } from 'next/router';
-
+import { useTranslation } from 'react-i18next';
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
@@ -71,16 +71,17 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
-const data = [
-  { link: '/', label: 'Home', icon: Home },
-  { link: '/swap', label: 'Example', icon: CodeIcon },
-  { link: '/api/graphql', label: 'Playground', icon: LayersLinked, __blank: true }
-];
-
 export const NavbarSimple = observer(() => {
   const { classes, cx } = useStyles();
+  const { t } = useTranslation();
   const { user, god } = useStore();
   const router = useRouter();
+
+  const data = [
+    { link: '/', label: t('home'), icon: Home },
+    { link: '/swap', label: t('example'), icon: CodeIcon },
+    { link: '/api/graphql', label: t('playground'), icon: LayersLinked, __blank: true }
+  ];
 
   const links = data.map((item) => (
     <Box
@@ -116,7 +117,7 @@ export const NavbarSimple = observer(() => {
         </Group>
 
         <TextInput
-          placeholder="Search"
+          placeholder={t('search')}
           size="xs"
           mt="lg"
           icon={<Search size={12} />}

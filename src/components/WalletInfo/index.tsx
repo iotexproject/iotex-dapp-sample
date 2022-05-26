@@ -11,10 +11,11 @@ import { NetworkState } from '@/store/lib/NetworkState';
 import { Box, Button, Modal, Group, Tooltip, Image, Anchor, Text, Center } from '@mantine/core';
 import { Copy, ExternalLink } from 'tabler-icons-react';
 import Jazzicon from '../Jazzicon/index';
+import { useTranslation } from 'react-i18next';
 
 export const WalletInfo = observer(() => {
   const { god, lang } = useStore();
-
+  const { t } = useTranslation();
   const store = useLocalStore(() => ({
     isTipOpen: false,
     isIOTipOpen: false,
@@ -26,7 +27,7 @@ export const WalletInfo = observer(() => {
     },
     copy() {
       copy(god.currentNetwork.account);
-      toast.success(lang.t('address.copied'));
+      toast.success(lang.t('the-address-is-copied'));
     },
     logout() {
       eventBus.emit('wallet.logout');
@@ -108,12 +109,12 @@ export const WalletInfo = observer(() => {
             href={`${god.currentChain.explorerURL}/address/${(god.currentNetwork as NetworkState).account}`}
           >
             <ExternalLink size="18" style={{ margin: '0px 2px' }} />
-            {`View On ${god.currentChain.explorerName}`}
+            {t('view-on-0')} {`${god.currentChain.explorerName}`}
           </Anchor>
         </Group>
         <Center>
           <Button mt="24px" onClick={store.logout} fullWidth size="md" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-            <Text>Logout</Text>
+            <Text>{t('logout')}</Text>
           </Button>
         </Center>
       </Box>
