@@ -207,8 +207,8 @@ export const helper = {
       chainId,
       address,
       data,
-      gasPrice = '0',
-      value = '0',
+      gasPrice = 0,
+      value = 0,
       autoRefresh = true,
       autoAlert = false,
       onSuccess,
@@ -217,8 +217,8 @@ export const helper = {
       chainId: number | string;
       address: string;
       data: string;
-      value?: string;
-      gasPrice?: string;
+      value?: string | number;
+      gasPrice?: string | number;
       autoRefresh?: boolean;
       autoAlert?: boolean;
       onSuccess?: ({ res }: { res: TransactionResponse }) => void;
@@ -235,7 +235,10 @@ export const helper = {
         if (rootStore.god.currentChain.chainId !== chainId) {
           await helper.setChain(rootStore.god, chainId);
         }
-        let sendTransactionParam: Deferrable<TransactionRequest> = _.omitBy({ to: address, data, value: ethers.BigNumber.from(value), gasPrice: ethers.BigNumber.from(gasPrice) }, _.isNil);
+        let sendTransactionParam: Deferrable<TransactionRequest> = _.omitBy(
+          { to: address, data, value: value ? ethers.BigNumber.from(value) : null, gasPrice: gasPrice ? ethers.BigNumber.from(gasPrice) : null },
+          _.isNil
+        );
         const res = await rootStore.god.eth.signer.sendTransaction(sendTransactionParam);
         const receipt = await res.wait();
         if (autoRefresh) {

@@ -30,12 +30,16 @@ export class UniswapRouterEntity extends IUniswapRouter {
   _swap = new PromiseState({
     function: async () => {
       const { data, value } = this.swap;
-      await helper.c.sendTx({
-        address: this.address,
-        chainId: this.chainId,
-        data,
-        value
-      });
+      await helper.c
+        .sendTx({
+          address: this.address,
+          chainId: this.chainId,
+          data,
+          value
+        })
+        .finally(() => {
+          this.swap = null;
+        });
     }
   });
 }
