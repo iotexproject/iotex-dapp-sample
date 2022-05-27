@@ -83,19 +83,16 @@ await rpc('query')({
 
 ```
 $ npm i @smartgraph/cli -g
-$ yarn dev
+$ pnpm dev
 $ smartgraph codegen -l http://localhost:3000/api/graphql -o ./src/lib
 
 ```
 
 ## Installation
 
-Clone the repo and run `yarn install`
+Clone the repo and run `pnpm install`
 
 ## Start
 
-After the successfull installation of the packages: `yarn start`
+After the successfull installation of the packages: `pnpm dev`
 
-## Tests
-
-You can build tests with Cypress. I wrote a small test to see if it's enabled. You can run it with `yarn test`
