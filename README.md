@@ -4,7 +4,8 @@
   <img src="https://github.com/iotexproject/halogrants/blob/880eea4af074b082a75608c7376bd7a8eaa1ac21/img/btn-discord.svg" height="36px">
 </a>
 
-![7121622212283_ pic](https://user-images.githubusercontent.com/448293/120024975-d2604b80-bfa4-11eb-969c-f6f581fe11bf.jpg)
+![8861650093939_ pic_hd](https://user-images.githubusercontent.com/448293/171796205-937711d1-e336-4770-9388-ec0b02de3b89.jpg)
+
 
 This is a boilerplate template for making your awesome dApp on IoTeX and ETH, BSC, and other possible chains ([request here](https://github.com/iotexproject/iotex-dapp-sample-v2/issues/new))
 
