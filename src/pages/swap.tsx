@@ -91,7 +91,13 @@ export const Home = observer(() => {
         const instance = plainToInstance(UniswapRouterEntity, data.UniswapRouter[0]);
         return instance;
       }
-    })
+    }),
+    async handleSwap() {
+      if (!store.swapQuery.value.swap) {
+        await store.swapQuery.call();
+      }
+      store.swapQuery.value._swap.call();
+    }
   }));
   useEffect(() => {
     store.swapQuery.call();
@@ -99,7 +105,7 @@ export const Home = observer(() => {
   return (
     <MainLayout>
       <Prism language="tsx">{demoCode}</Prism>
-      <Button loading={store.swapQuery.loading.value} onClick={() => store.swapQuery.value._swap.call()}>
+      <Button loading={store.swapQuery.loading.value} onClick={() => store.handleSwap()}>
         Swap
       </Button>
       <pre style={{ position: 'relative', minHeight: '200px' }}>

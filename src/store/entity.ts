@@ -39,6 +39,7 @@ export class UniswapRouterEntity extends IUniswapRouter {
         })
         .finally(() => {
           this.swap = null;
+          console.log(this.swap);
         });
     }
   });
