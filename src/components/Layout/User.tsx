@@ -4,8 +4,9 @@ import { ChevronRight, Search } from 'tabler-icons-react';
 import Jazzicon from '../Jazzicon';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
-import { helper } from '../../lib/helper';
 import { SwitchThemeToggle } from './SwitchTheme';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { helper } from '../../lib/helper';
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -52,17 +53,18 @@ export const User = observer(() => {
           </Group>
         </UnstyledButton>
       ) : (
-        <UnstyledButton
-          onClick={store.showConnecter}
-          className={classes.user}
-          style={{ borderRadius: '50px', flex: 1, background: theme.fn.linearGradient(90, theme.colors.red[8], theme.colors.pink[6]) }}
-        >
-          <Group spacing={10} p="xs">
-            <Text color={'white'} weight="bold" ml="10px">
-              Connect Wallet
-            </Text>
-          </Group>
-        </UnstyledButton>
+        helper.env.isBrower && <ConnectButton />
+        // <UnstyledButton
+        //   onClick={store.showConnecter}
+        //   className={classes.user}
+        //   style={{ borderRadius: '50px', flex: 1, background: theme.fn.linearGradient(90, theme.colors.red[8], theme.colors.pink[6]) }}
+        // >
+        //   <Group spacing={10} p="xs">
+        //     <Text color={'white'} weight="bold" ml="10px">
+        //       Connect Wallet
+        //     </Text>
+        //   </Group>
+        // </UnstyledButton>
       )}
       <UnstyledButton className={classes.user} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Group spacing={10} p="xs" onClick={store.showConnecter}>

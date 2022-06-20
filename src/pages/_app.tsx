@@ -18,6 +18,8 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import { helper } from '../lib/helper';
 import { NotificationsProvider } from '@mantine/notifications';
 import '../i18n/config';
+import { RainbowProvider } from '@/lib/rainbow';
+import '@rainbow-me/rainbowkit/styles.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
@@ -33,10 +35,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       god.pollingData();
     }, 15000);
   }, []);
+  console.log(123);
 
-  if (!helper.env.isBrower) {
-    return <div></div>;
-  }
+  // if (!helper.env.isBrower) {
+  //   return <div></div>;
+  // }
 
   // use useMemo to fix issue https://github.com/vercel/next.js/issues/12010
   return (
@@ -49,13 +52,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           })}
         />
         <NotificationsProvider>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <WalletSelecter />
-            <ETHProvider />
-            {/* <Toaster /> */}
-            {/* <Header /> */}
+          {/* <Web3ReactProvider getLibrary={getLibrary}> */}
+          {/* <WalletSelecter /> */}
+          {/* <ETHProvider /> */}
+          {/* <Toaster /> */}
+          {/* <Header /> */}
+          <RainbowProvider>
             <Component {...pageProps} />
-          </Web3ReactProvider>
+          </RainbowProvider>
+
+          {/* </Web3ReactProvider> */}
         </NotificationsProvider>
       </MantineProvider>
       {/* </ColorSchemeProvider> */}

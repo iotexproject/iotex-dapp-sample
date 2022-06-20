@@ -51,9 +51,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
       }
     }
   };
-})
-
-
+});
 
 interface HeaderSearchProps {
   link: string;

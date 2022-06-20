@@ -8,7 +8,6 @@ import { Box, Group, Modal, Tabs, TabsProps, Text, Avatar, AvatarsGroup, Badge, 
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
 import { StringState } from '../../store/standard/base';
-
 export const WalletSelecter = observer(() => {
   const { god, lang } = useStore();
   const { active, error, activate } = useWeb3React();

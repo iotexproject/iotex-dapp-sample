@@ -92,12 +92,10 @@ export default function HeroTitle() {
       <div className={classes.wrapper}>
         <Container size={700} className={classes.inner}>
           <h1 className={classes.title}>
-            {t('a')}
-            {' '}
+            {t('a')}{' '}
             <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
               {t('next-generation')}
-            </Text>
-            {' '}
+            </Text>{' '}
             {t('dapp-dev-framework')}
           </h1>
 
