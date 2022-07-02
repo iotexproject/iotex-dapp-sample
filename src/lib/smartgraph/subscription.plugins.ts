@@ -20,8 +20,8 @@ export const SubscriptionPlugin = SmartGraph.Plugin(() => {
                   subscribe(root: SmartGraph['ROOT'], args, ctx: SmartGraph['Context']) {
                     return (async function* () {
                       while (true) {
-                        await new Promise((resolve) => setTimeout(resolve, 5000));
                         yield { address: args.address, chainId: args.chainId };
+                        await new Promise((resolve) => setTimeout(resolve, 5000));
                       }
                     })();
                   },
