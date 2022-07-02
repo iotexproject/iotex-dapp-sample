@@ -1,6 +1,7 @@
 import { createPubSub } from '@graphql-yoga/node';
 import { SmartGraph } from '@smartgraph/core';
 import { extendType, subscriptionType, stringArg } from 'nexus';
+import { withFilter } from 'graphql-subscriptions';
 
 export const SubscriptionPlugin = SmartGraph.Plugin(() => {
   return {
@@ -17,17 +18,18 @@ export const SubscriptionPlugin = SmartGraph.Plugin(() => {
                     address: stringArg(),
                     chainId: stringArg()
                   },
-                  subscribe(root: SmartGraph['ROOT'], args, ctx: SmartGraph['Context']) {
-                    return (async function* () {
-                      while (true) {
-                        yield { address: args.address, chainId: args.chainId };
-                        await new Promise((resolve) => setTimeout(resolve, 5000));
-                      }
-                    })();
-                  },
-                  resolve(eventData) {
-                    console.log(eventData);
-                    return eventData;
+                  subscribe: withFilter(
+                    (root: SmartGraph['ROOT'], args, ctx: SmartGraph['Context']) => {
+                      return ctx.smartGraph.pubsub.asyncIterator(SmartGraph.PubSubEvent.CHAIN_UPDATE);
+                    },
+                    (payload, variables) => {
+                      // console.log(123, payload, variables);
+                      return payload.chainId == variables.chainId;
+                    }
+                  ),
+                  resolve(eventData, args) {
+                    // console.log(456, eventData, args);
+                    return { ...eventData, ...args };
                   }
                 });
               });

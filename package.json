@@ -33,7 +33,7 @@
     "@mantine/prism": "^4.1.4",
     "@mantine/spotlight": "^4.1.4",
     "@metamask/jazzicon": "^2.0.0",
-    "@smartgraph/core": "0.1.80",
+    "@smartgraph/core": "0.1.81",
     "@smartgraph/plugins": "0.2.6",
     "@trpc/client": "^9.20.3",
     "@trpc/next": "^9.20.3",
