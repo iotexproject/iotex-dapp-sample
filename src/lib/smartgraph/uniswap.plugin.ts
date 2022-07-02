@@ -1,5 +1,5 @@
 import { SmartGraph } from '@smartgraph/core';
-import { booleanArg, extendType, stringArg, objectType, intArg, floatArg, inputObjectType, arg } from 'nexus';
+import { booleanArg, extendType, stringArg, objectType, intArg, floatArg, inputObjectType, arg, subscriptionType } from 'nexus';
 import { BigNumber } from 'bignumber.js';
 import _ from 'lodash';
 

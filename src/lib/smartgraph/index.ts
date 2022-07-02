@@ -4,9 +4,10 @@ import { plugins } from '@smartgraph/plugins';
 
 import schemaJson from './schema.json';
 import { UniswapPlugin } from './uniswap.plugin';
+import { SubscriptionPlugin } from './subscription.plugins';
 
 export const smartGraph = new SmartGraph({
-  plugins: [plugins.NetworkPlugin(), plugins.ERC20Extension(), plugins.LpTokenExtension(), UniswapPlugin()]
+  plugins: [plugins.NetworkPlugin(), plugins.ERC20Extension(), plugins.LpTokenExtension(), UniswapPlugin(), SubscriptionPlugin()]
 });
 
 export const schema: any = makeSchema({
