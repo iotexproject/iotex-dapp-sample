@@ -18,6 +18,7 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import { helper } from '../lib/helper';
 import { NotificationsProvider } from '@mantine/notifications';
 import '../i18n/config';
+import { smartGraph } from '../lib/smartgraph/index';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
@@ -29,9 +30,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     lang.init();
-    setInterval(() => {
-      god.pollingData();
-    }, 15000);
+    // setInterval(() => {
+    //   god.pollingData();
+    // }, 15000);
+    smartGraph.event.on('provider.newBlock', (chainId, blockNumber) => {
+      console.log('new block', chainId, blockNumber);
+      if (chainId == god.currentChain.chainId) {
+        god.pollingData();
+      }
+    });
   }, []);
 
   if (!helper.env.isBrower) {

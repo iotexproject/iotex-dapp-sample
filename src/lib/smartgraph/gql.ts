@@ -13,7 +13,7 @@ export const gql = Thunder(async (query, variables) => {
 export const rpc = Thunder(async (query, variables) => {
   const res = await execute({
     schema,
-    contextValue: { smartGraph, dataloader: smartGraph.dataloader },
+    contextValue: { smartGraph },
     //@ts-ignore
     variableValues: variables,
     //@ts-ignore
