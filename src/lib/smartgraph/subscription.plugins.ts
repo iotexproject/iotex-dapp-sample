@@ -1,6 +1,7 @@
 import { createPubSub } from '@graphql-yoga/node';
-import { SmartGraph } from '@smartgraph/core';
-import { extendType, subscriptionType, stringArg } from 'nexus';
+import { CrossChainCalls, SmartGraph } from '@smartgraph/core';
+import { extendType, subscriptionType, stringArg, arg, list } from 'nexus';
+import { PubSubAsyncIterator } from 'graphql-subscriptions/dist/pubsub-async-iterator';
 import { withFilter } from 'graphql-subscriptions';
 
 export const SubscriptionPlugin = SmartGraph.Plugin(() => {
@@ -11,56 +12,41 @@ export const SubscriptionPlugin = SmartGraph.Plugin(() => {
         types: [
           subscriptionType({
             definition(t) {
-              Object.values(contractMap).forEach((contract) => {
-                t.field(contract.name, {
-                  type: contract.name,
+              Object.values(contractMap).forEach((c) => {
+                t.field(c.name, {
+                  type: list(c.name),
                   args: {
-                    address: stringArg(),
-                    chainId: stringArg()
+                    calls: arg({
+                      type: CrossChainCalls,
+                      //@ts-ignore
+                      list: true,
+                      default: []
+                    })
                   },
                   subscribe: withFilter(
                     (root: SmartGraph['ROOT'], args, ctx: SmartGraph['Context']) => {
-                      return ctx.smartGraph.pubsub.asyncIterator(SmartGraph.PubSubEvent.CHAIN_UPDATE);
+                      const pubsubInterator = new PubSubAsyncIterator(ctx.smartGraph.pubsub, SmartGraph.PubSubEvent.CHAIN_UPDATE);
+
+                      //@ts-ignore
+                      // pubsubInterator.running = false;
+                      //@ts-ignore
+                      // pubsubInterator.pushQueue.push({ chianId: 4689 });
+                      // console.log(pubsubInterator);
+                      return pubsubInterator;
                     },
                     (payload, variables) => {
-                      // console.log(123, payload, variables);
-                      return payload.chainId == variables.chainId;
+                      return (
+                        variables.calls.findIndex((c) => {
+                          return c.chainId == payload.chainId;
+                        }) > -1
+                      );
                     }
                   ),
-                  resolve(eventData, args) {
-                    // console.log(456, eventData, args);
-                    return { ...eventData, ...args };
+                  resolve(root, args) {
+                    return args.calls.map((i) => ({ ...i, contractName: c.name }));
                   }
                 });
               });
-
-              // t.string('test', {
-              //   args: {
-              //     chainId: stringArg(),
-              //     address: stringArg()
-              //   },
-              //   subscribe(root: SmartGraph['ROOT'], args, ctx: SmartGraph['Context']) {
-              //     //@ts-ignore
-              //     root = { address: args.address, chainId: args.chainId };
-              //     return (async function* () {
-              //       while (true) {
-              //         const res = await SmartGraph.load({ ctx, root }, [
-              //           {
-              //             contractName: 'ERC20',
-              //             method: 'decimals',
-              //             params: [],
-              //             address: root.address
-              //           }
-              //         ]);
-              //         await new Promise((res) => setTimeout(res, 5000));
-              //         yield res[0];
-              //       }
-              //     })();
-              //   },
-              //   resolve(eventData) {
-              //     return eventData;
-              //   }
-              // });
             }
           })
         ]
