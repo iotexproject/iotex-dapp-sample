@@ -8,7 +8,7 @@ const server = createServer<{
 }>({
   schema,
   context: ({ req, res }) => {
-    return { smartGraph, dataloader: smartGraph.dataloader, req, res };
+    return { smartGraph, req, res };
   },
 });
 
