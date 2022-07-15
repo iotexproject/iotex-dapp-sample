@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createStyles, Navbar, Group, Box, TextInput, Code, Space, ThemeIcon, Text } from '@mantine/core';
+import { createStyles, Navbar, Group, Box, TextInput, Code, Space, ThemeIcon, Text, MediaQuery } from '@mantine/core';
 import { Home, Code as CodeIcon, Search, Photo, LayersLinked } from 'tabler-icons-react';
 import { useStore } from '../../store/index';
 import { observer } from 'mobx-react-lite';
@@ -10,12 +10,16 @@ import { User } from './User';
 import { WalletInfo } from '../WalletInfo';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import { Links } from './Links';
+import HeaderTop from './HeaderTop';
+import { UserStore } from '@/store/user';
+import { useMediaQuery } from '@mantine/hooks';
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
     header: {
-      paddingBottom: theme.spacing.md,
-      marginBottom: theme.spacing.md
+      // paddingBottom: theme.spacing.md,
+      // marginBottom: theme.spacing.md
       // borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`
     },
 
@@ -71,51 +75,32 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
-export const NavbarSimple = observer(() => {
+export const Logo = () => {
+  const { classes, cx } = useStyles();
+  return (
+    <Group className={classes.header} position="apart" align={'center'}>
+      <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+        <ThemeIcon size="lg" radius="xl" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+          <CodeIcon />
+        </ThemeIcon>
+        <Text ml={'sm'} weight="bold" size="lg" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+          IoTeX Dapp V3
+        </Text>
+      </Box>
+    </Group>
+  );
+};
+
+export const HeaderLeft = observer(() => {
   const { classes, cx } = useStyles();
   const { t } = useTranslation();
   const { user, god } = useStore();
-  const router = useRouter();
-
-  const data = [
-    { link: '/', label: t('home'), icon: Home },
-    { link: '/swap', label: t('example'), icon: CodeIcon },
-    { link: '/api/graphql', label: t('playground'), icon: LayersLinked, __blank: true }
-  ];
-
-  const links = data.map((item) => (
-    <Box
-      className={cx(classes.link, { [classes.linkActive]: item.link === router.route })}
-      sx={{ cursor: 'pointer' }}
-      onClick={(event) => {
-        if (item.link) {
-          if (item.__blank) {
-            window.open(item.link, '_blank');
-          } else {
-            router.push(item.link);
-          }
-        }
-      }}
-    >
-      <item.icon className={classes.linkIcon} />
-      <span>{item.label}</span>
-    </Box>
-  ));
+  const isPC = useMediaQuery('(min-width: 768px)');
 
   return (
     <Navbar p="md" hiddenBreakpoint="sm" hidden={!user.layout.sidebarOpen.value} width={{ sm: 200, lg: 300 }}>
       <Navbar.Section grow>
-        <Group className={classes.header} position="apart" align={'center'}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <ThemeIcon size="lg" radius="xl" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-              <CodeIcon />
-            </ThemeIcon>
-            <Text ml={'sm'} weight="bold" size="lg" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-              IoTeX Dapp V3
-            </Text>
-          </Box>
-        </Group>
-
+        {isPC && <Logo></Logo>}
         <TextInput
           placeholder={t('search')}
           size="xs"
@@ -127,11 +112,11 @@ export const NavbarSimple = observer(() => {
           mb="sm"
           onClick={() => openSpotlight()}
         />
-        {links}
+        <Links />
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <User />
+        <User type="HeaderLeft" />
       </Navbar.Section>
       <WalletInfo />
     </Navbar>

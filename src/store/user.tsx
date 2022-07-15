@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import RootStore from '@/store/root';
 import { StorageState } from './standard/StorageState';
-import { Home, Dashboard, FileText, Search, Wallet, Paint } from 'tabler-icons-react';
+import { Home, Dashboard, LayersLinked, Code as CodeIcon, Wallet, Paint } from 'tabler-icons-react';
 import { rootStore } from '../store/index';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { BooleanState } from './standard/base';
@@ -13,8 +13,15 @@ export class UserStore {
     default: 'light'
   });
   layout = {
-    sidebarOpen: new BooleanState()
+    sidebarOpen: new BooleanState(),
+    navbarMode: 'top' as 'left' | 'top',
+    router: [
+      { link: '/', label: 'home', icon: Home },
+      { link: '/swap', label: 'example', icon: CodeIcon },
+      { link: '/api/graphql', label: 'playground', icon: LayersLinked, __blank: true }
+    ]
   };
+
   get actions(): SpotlightAction[] {
     return [
       {
@@ -41,6 +48,7 @@ export class UserStore {
       }
     ];
   }
+
   constructor(rootStore: RootStore) {
     makeAutoObservable(this);
   }

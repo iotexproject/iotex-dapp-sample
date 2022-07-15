@@ -21,7 +21,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-export const User = observer(() => {
+export const User = observer(({ type }: { type: 'HeaderLeft' | 'HeaderTop' }) => {
   const { god } = useStore();
   const { classes } = useStyles();
   const theme = useMantineTheme();
@@ -35,9 +35,9 @@ export const User = observer(() => {
     currentAvatar: 1
   }));
   return (
-    <Box>
+    <Box sx={type == 'HeaderLeft' ? {} : { display: 'flex',alignItems:"center" }}>
       {god.currentNetwork.account ? (
-        <UnstyledButton className={classes.user} sx={{ flex: 1 }}>
+        <UnstyledButton className={classes.user} sx={type == 'HeaderLeft' ? { flex: 1 } : {}}>
           <Group spacing={10} p="xs" onClick={store.showWalletInfo}>
             <Jazzicon diameter={30} address={god.currentNetwork.account || '0x......'} />
             <div style={{ flex: 1 }}>
@@ -55,9 +55,14 @@ export const User = observer(() => {
         <UnstyledButton
           onClick={store.showConnecter}
           className={classes.user}
-          style={{ borderRadius: '50px', flex: 1, background: theme.fn.linearGradient(90, theme.colors.red[8], theme.colors.pink[6]) }}
+          size="xs"
+          style={{
+            background: theme.fn.linearGradient(90, theme.colors.red[8], theme.colors.pink[6]),
+            borderRadius: '50px',
+            ...(type == 'HeaderLeft' ? { flex: 1 } : { marginRight: 'sm', height: '60%' })
+          }}
         >
-          <Group spacing={10} p="xs">
+          <Group spacing={10} style={type == 'HeaderLeft' ? { padding: '10px' } : { padding: '5px 10px 5px 5px' }}>
             <Text color={'white'} weight="bold" ml="10px">
               Connect Wallet
             </Text>
@@ -65,7 +70,7 @@ export const User = observer(() => {
         </UnstyledButton>
       )}
       <UnstyledButton className={classes.user} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Group spacing={10} p="xs" onClick={store.showConnecter}>
+        <Group spacing={10} p="xs" onClick={store.showConnecter} sx={{ flexWrap: 'nowrap' }}>
           <Avatar size={30} src={`//logo.chainbit.xyz/${god.Coin.symbol.toLowerCase()}`} />
           <Box>{god.currentNetwork.currentChain.name}</Box>
         </Group>
