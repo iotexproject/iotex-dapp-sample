@@ -19,6 +19,8 @@ import { helper } from '../lib/helper';
 import { NotificationsProvider } from '@mantine/notifications';
 import '../i18n/config';
 import { smartGraph } from '../lib/smartgraph/index';
+import { WrongNetworkDialog } from '@/components/NetworkCheckProvider';
+import { TransactionSubmitDialog } from '@/components/HistoryModal';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
@@ -57,6 +59,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <NotificationsProvider>
           <Web3ReactProvider getLibrary={getLibrary}>
+            <WrongNetworkDialog />
+            <TransactionSubmitDialog />
             <WalletSelecter />
             <ETHProvider />
             {/* <Toaster /> */}

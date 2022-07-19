@@ -31,10 +31,12 @@
   "the-address-is-copied": "The address is copied.",
   "tip": "Build fully functional dapp with graphql and typesafe sdk easy and fast.",
   "token-amount": "Token Amount",
+  "transaction-submitted": "Transaction submitted",
   "transfer": "Transfer",
   "use-template": "Use template",
   "view-on": "View On ${explorerName}",
   "view-on-0": "View On",
+  "view-on-explorername": "View on {{explorerName}}",
   "wallet-connect": "Wallet Connect",
   "wrong-network": "Wrong Network"
 }

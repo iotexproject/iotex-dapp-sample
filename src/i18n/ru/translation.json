@@ -31,10 +31,12 @@
   "the-address-is-copied": "Адрес скопирован.",
   "tip": "Создавайте полнофункциональные децентрализованные приложения с помощью graphql и typesafe sdk легко и быстро.",
   "token-amount": "Сума токена",
+  "transaction-submitted": "",
   "transfer": "Перечислить",
   "use-template": "Выкарыстоўвайце шаблон",
   "view-on": "Прагляд укл ${explorerName}",
   "view-on-0": "Смотреть на",
+  "view-on-explorername": "",
   "wallet-connect": "Кашалёк Connect",
   "wrong-network": "Няправільная сетка"
 }

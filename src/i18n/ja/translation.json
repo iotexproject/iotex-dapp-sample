@@ -31,10 +31,12 @@
   "the-address-is-copied": "アドレスがコピーされます。",
   "tip": "完全に機能するdappをgraphqlとtypesafesdkで簡単かつ迅速に構築します。",
   "token-amount": "トークン量",
+  "transaction-submitted": "",
   "transfer": "移行",
   "use-template": "テンプレートを使用",
   "view-on": "${explorerName}で表示",
   "view-on-0": "チェック",
+  "view-on-explorername": "",
   "wallet-connect": "ウォレットコネクト",
   "wrong-network": "間違ったネットワーク"
 }

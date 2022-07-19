@@ -1,3 +1,4 @@
+import { TransactionItem } from '@/store/history';
 import { EventEmitter } from 'events';
 import TypedEmitter from 'typed-emitter';
 import { publicConfig } from '../config/public';
@@ -15,6 +16,9 @@ interface MessageEvents {
   'wallet.logout': () => void;
   'chain.switch': () => void;
   'global.cacheData': () => void;
+  'history.insert': (transactionItem: TransactionItem) => void;
+  'history.update': (transactionItem: TransactionItem) => void;
+  'history.delete': (transactionItem: Pick<TransactionItem, 'uuid'>) => void;
 }
 
 export const eventBus = new MyEmitter() as TypedEmitter<MessageEvents>;

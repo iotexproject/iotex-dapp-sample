@@ -6,11 +6,12 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
 import { helper } from '../../lib/helper';
 import { SwitchThemeToggle } from './SwitchTheme';
+import { useRouter } from 'next/router';
 
 const useStyles = createStyles((theme) => ({
   user: {
     display: 'block',
-    width: '100%',
+    width: 'fit-content',
     margin: '0',
     padding: '0',
     borderRadius: '10px',
@@ -22,9 +23,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export const User = observer(({ type }: { type: 'HeaderLeft' | 'HeaderTop' }) => {
-  const { god } = useStore();
+  const { god, user } = useStore();
   const { classes } = useStyles();
   const theme = useMantineTheme();
+  const { pathname } = useRouter();
   const store = useLocalObservable(() => ({
     showConnecter() {
       god.setShowConnecter(true);
@@ -35,7 +37,7 @@ export const User = observer(({ type }: { type: 'HeaderLeft' | 'HeaderTop' }) =>
     currentAvatar: 1
   }));
   return (
-    <Box sx={type == 'HeaderLeft' ? {} : { display: 'flex',alignItems:"center" }}>
+    <Box sx={type == 'HeaderLeft' ? {} : { display: 'flex', alignItems: 'center' }}>
       {god.currentNetwork.account ? (
         <UnstyledButton className={classes.user} sx={type == 'HeaderLeft' ? { flex: 1 } : {}}>
           <Group spacing={10} p="xs" onClick={store.showWalletInfo}>
@@ -55,7 +57,6 @@ export const User = observer(({ type }: { type: 'HeaderLeft' | 'HeaderTop' }) =>
         <UnstyledButton
           onClick={store.showConnecter}
           className={classes.user}
-          size="xs"
           style={{
             background: theme.fn.linearGradient(90, theme.colors.red[8], theme.colors.pink[6]),
             borderRadius: '50px',
@@ -70,10 +71,36 @@ export const User = observer(({ type }: { type: 'HeaderLeft' | 'HeaderTop' }) =>
         </UnstyledButton>
       )}
       <UnstyledButton className={classes.user} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Group spacing={10} p="xs" onClick={store.showConnecter} sx={{ flexWrap: 'nowrap' }}>
-          <Avatar size={30} src={`//logo.chainbit.xyz/${god.Coin.symbol.toLowerCase()}`} />
-          <Box>{god.currentNetwork.currentChain.name}</Box>
-        </Group>
+        {user.wetherWrongnetwork(pathname) ? (
+          <Group
+            sx={(theme) => ({
+              background: theme.colorScheme == 'dark' ? '#552323' : '#ffe2e2',
+              flexWrap: 'nowrap',
+              borderRadius: '6px'
+            })}
+            spacing={10}
+            mr={10}
+            p="xs"
+            onClick={() => user.networkChecker.isWrongNetworkDialogOpen.setValue(true)}
+          >
+            <Text
+              sx={(theme) => ({
+                color: theme.colorScheme == 'dark' ? 'white' : '#e53b3b',
+                fontWeight: 'bold'
+              })}
+              size="sm"
+              style={{ whiteSpace: 'nowrap' }}
+            >
+              Wrong network
+            </Text>
+          </Group>
+        ) : (
+          <Group spacing={10} p="xs" onClick={store.showConnecter} sx={{ flexWrap: 'nowrap' }}>
+            <Avatar size={30} src={`//logo.chainbit.xyz/${god.Coin.symbol.toLowerCase()}`} />
+            <Box>{god.currentNetwork.currentChain.name}</Box>
+          </Group>
+        )}
+
         <SwitchThemeToggle />
       </UnstyledButton>
     </Box>

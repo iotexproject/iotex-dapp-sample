@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStyles, Container, Text, Button, Group, useMantineTheme } from '@mantine/core';
 import MainLayout from '@/components/Layout';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '../store';
 import { LanguageSwitch } from '@/components/LanguageSwitch';
+import { helper } from '@/lib/helper';
 
 const BREAKPOINT = '@media (max-width: 755px)';
 
@@ -82,22 +83,35 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function HeroTitle() {
-  const { lang } = useStore();
+  const { user,god } = useStore();
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    user.enableNetworkChecker(window?.location?.pathname, [4689]);
+    // god.showTransactionSubmitDialog.setValue(true);
+    // helper.recordHistory({
+    //   chainId: 4689,
+    //   amount: '1',
+    //   module: 'Swap',
+    //   title: 'Swap',
+    //   //@ts-ignore
+    //   receipt: {
+    //     transactionHash: '0x87e2c10f43309dd47e61551c04ae4232ce4b64966baea076d8aab2e2118d1332'
+    //   }
+    // });
+  }, []);
 
   return (
     <MainLayout>
       <div className={classes.wrapper}>
         <Container size={700} className={classes.inner}>
           <h1 className={classes.title}>
-            {t('a')}
-            {' '}
+            {t('a')}{' '}
             <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
               {t('next-generation')}
-            </Text>
-            {' '}
+            </Text>{' '}
             {t('dapp-dev-framework')}
           </h1>
 

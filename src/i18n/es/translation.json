@@ -31,10 +31,12 @@
   "the-address-is-copied": "Se copia la dirección.",
   "tip": "Cree dapp completamente funcional con graphql y typesafe sdk fácil y rápido.",
   "token-amount": "Cantidad de fichas",
+  "transaction-submitted": "",
   "transfer": "Transferir",
   "use-template": "Usar plantilla",
   "view-on": "Ver en ${explorerName}",
   "view-on-0": "Ver en",
+  "view-on-explorername": "",
   "wallet-connect": "Monedero Conectar",
   "wrong-network": "Red incorrecta"
 }

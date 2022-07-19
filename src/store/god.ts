@@ -3,10 +3,11 @@ import { MappingState } from './standard/MappingState';
 import { ChainState } from './lib/ChainState';
 import { EthNetworkState } from './lib/EthNetworkState';
 import RootStore from './root';
-import { NumberState } from './standard/base';
+import { BooleanState, NumberState } from './standard/base';
 import { eventBus } from '../lib/event';
 import { rpc } from '../lib/smartgraph/gql';
 import { CoinState } from './lib/CoinState';
+import { ethers } from 'ethers';
 
 export enum Network {
   ETH = 'eth',
@@ -18,6 +19,8 @@ export enum Network {
 export class GodStore {
   rootStore: RootStore;
   network: EthNetworkState;
+  showTransactionSubmitDialog = new BooleanState();
+  curTransaction: ethers.providers.TransactionResponse = null;
   updateTicker = new NumberState();
 
   constructor(rootStore: RootStore) {

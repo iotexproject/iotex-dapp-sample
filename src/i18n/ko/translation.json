@@ -31,10 +31,12 @@
   "the-address-is-copied": "주소가 복사됩니다.",
   "tip": "graphql 및 typesafe sdk로 쉽고 빠르게 완전한 기능을 갖춘 dapp을 빌드하십시오.",
   "token-amount": "토큰 금액",
+  "transaction-submitted": "",
   "transfer": "옮기다",
   "use-template": "템플릿 사용",
   "view-on": "${explorerName}에서 보기",
   "view-on-0": "보기에",
+  "view-on-explorername": "",
   "wallet-connect": "지갑 연결",
   "wrong-network": "잘못된 네트워크"
 }

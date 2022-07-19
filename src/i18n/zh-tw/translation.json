@@ -31,10 +31,12 @@
   "the-address-is-copied": "地址被複製。",
   "tip": "使用 graphql 和 typesafe sdk 輕鬆快速地構建功能齊全的 dapp。",
   "token-amount": "代幣數量",
+  "transaction-submitted": "交易已提交",
   "transfer": "轉移",
   "use-template": "使用模板",
   "view-on": "在 ${explorerName} 上查看",
   "view-on-0": "查看",
+  "view-on-explorername": "",
   "wallet-connect": "錢包連接",
   "wrong-network": "錯誤的網絡"
 }

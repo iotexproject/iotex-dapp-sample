@@ -14,6 +14,8 @@ import { hooks } from './hooks';
 import { ethers, utils } from 'ethers';
 import { _ } from './lodash';
 import { showNotification } from '@mantine/notifications';
+import { eventBus } from './event';
+import { TransactionModule } from '@/store/history';
 
 export interface RouterParsed {
   pathname: string;
@@ -22,27 +24,18 @@ export interface RouterParsed {
 }
 
 export const helper = {
-  interceptorNull: (c, option?: { extraValue?: any[]; crossChain?: Boolean }) => {
-    if (option?.crossChain) {
-      if (!(c instanceof Array)) throw new Error('c is not an Array when CrossChain mode');
-      if (!c.every(Boolean)) throw 'interceptor undefined value in crossChain mode';
-    } else {
-      if (!(c instanceof Object)) throw new Error('c is not an Object');
-      if (
-        !Object.values(c)
-          .filter((i) => i instanceof DynamicMappingState)
-          .map((i: any) => i.current)
-          .every(Boolean)
-      ) {
-        throw 'interceptor undefined value';
-      }
-    }
-
-    if (option?.extraValue) {
-      if (!option?.extraValue?.every(Boolean)) {
-        throw 'interceptor undefined value in extra value';
-      }
-    }
+  recordHistory(params: { chainId: number; amount: string; module: TransactionModule; title: string; receipt: TransactionReceipt; coin?: TransctionCoin }) {
+    //If you give the "coin" argument, it will automatically pop up
+    eventBus.emit('history.insert', {
+      uuid: this.uuid,
+      timestamp: Date.now(),
+      from: params.receipt.from,
+      to: params.receipt.to,
+      hash: params.receipt.transactionHash,
+      isRead: false,
+      status: 'success',
+      ...params
+    });
   },
   setChain(god, chainId) {
     if (god.chainId === chainId) return;
@@ -185,6 +178,21 @@ export const helper = {
       return value instanceof BN ? value : typeof value === 'string' ? new BN(Number(value)) : new BN(value);
     }
   },
+  address: {
+    formatAddress(address) {
+      if (!address) return;
+      return address.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+    },
+    validateEthAddress(address: string) {
+      return /^0x[a-fA-F0-9]{40}$/.test(address);
+    },
+    validateIoAddress(address: string) {
+      return /^io[a-zA-Z0-9]{39}$/.test(address);
+    },
+    validateAddress(address: string) {
+      return helper.address.validateEthAddress(address) || helper.address.validateIoAddress(address);
+    }
+  },
   state: {
     handleCallBack(callback, val, key?) {
       try {
@@ -211,6 +219,8 @@ export const helper = {
       value = 0,
       autoRefresh = true,
       autoAlert = false,
+      showTransactionSubmitDialog = true,
+      onSubmit,
       onSuccess,
       onError
     }: {
@@ -221,6 +231,8 @@ export const helper = {
       gasPrice?: string | number;
       autoRefresh?: boolean;
       autoAlert?: boolean;
+      showTransactionSubmitDialog?: boolean;
+      onSubmit?: ({ res }: { res: ethers.providers.TransactionResponse }) => void;
       onSuccess?: ({ res }: { res: TransactionResponse }) => void;
       onError?: (e: Error) => void;
     }): Promise<TransactionReceipt> {
@@ -240,6 +252,11 @@ export const helper = {
           _.isNil
         );
         const res = await rootStore.god.eth.signer.sendTransaction(sendTransactionParam);
+        
+        if (showTransactionSubmitDialog) {
+          rootStore.god.showTransactionSubmitDialog.setValue(true);
+          rootStore.god.curTransaction = res;
+        }
         const receipt = await res.wait();
         if (autoRefresh) {
           rootStore.god.pollingData();

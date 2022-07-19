@@ -31,10 +31,12 @@
   "the-address-is-copied": "Die Adresse wird kopiert.",
   "tip": "Erstellen Sie einfach und schnell eine voll funktionsfähige DAPP mit graphql und typsicherem SDK.",
   "token-amount": "Token Amount",
+  "transaction-submitted": "",
   "transfer": "Transfer",
   "use-template": "Use template",
   "view-on": "View On ${explorerName}",
   "view-on-0": "Ansicht ein",
+  "view-on-explorername": "",
   "wallet-connect": "Wallet Connect",
   "wrong-network": "Wrong Network"
 }

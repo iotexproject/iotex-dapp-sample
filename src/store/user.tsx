@@ -15,13 +15,17 @@ export class UserStore {
   layout = {
     sidebarOpen: new BooleanState(),
     navbarMode: 'top' as 'left' | 'top',
+    showHistoryButton: new BooleanState(),
     router: [
       { link: '/', label: 'home', icon: Home },
       { link: '/swap', label: 'example', icon: CodeIcon },
       { link: '/api/graphql', label: 'playground', icon: LayersLinked, __blank: true }
     ]
   };
-
+  networkChecker = {
+    supportChainIds: {},
+    isWrongNetworkDialogOpen: new BooleanState({ value: false })
+  };
   get actions(): SpotlightAction[] {
     return [
       {
@@ -59,5 +63,23 @@ export class UserStore {
 
   toggleTheme() {
     this.theme.save(this.isDark ? 'light' : 'dark');
+  }
+
+  enableNetworkChecker(path: string, value: number[]) {
+    this.networkChecker.supportChainIds[path] = value;
+  }
+
+  setWrongNetworkDialog(value: boolean) {
+    this.networkChecker.isWrongNetworkDialogOpen.setValue(value);
+  }
+
+  wetherWrongnetwork(key: string) {
+    const supportChainId = this.networkChecker.supportChainIds[key] || [];
+    if (supportChainId.length === 0) return false;
+    if (!rootStore.god.isConnect) return false;
+    if (!supportChainId.some((i) => i === rootStore.god.currentChain.chainId)) {
+      return true;
+    }
+    return false;
   }
 }
