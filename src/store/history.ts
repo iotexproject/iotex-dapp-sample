@@ -123,14 +123,6 @@ export class TransactionHistoryStore {
     this.filterParams.to = to;
   }
 
-  setCurrentPage(page: number) {
-    this.pagenation.currentPage = page;
-  }
-
-  setPageSize(size: number) {
-    this.pagenation.pageSize = size;
-  }
-
   insertHistoryFromParma({ uuid, chainId, amount, module, title }: { uuid: string; chainId: number; amount: string; module: TransactionModule; title: string }) {
     this.insertHistory({
       chainId,
