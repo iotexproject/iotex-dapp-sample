@@ -91,6 +91,10 @@ export class GodStore {
   get Coin() {
     return this.currentChain.Coin;
   }
+  
+  getNetworkByChainId(chainId: number) {
+    return this.currentNetwork.chain.map[chainId];
+  }
 
   setChain(val: number) {
     this.currentNetwork.chain.setCurrentId(val);

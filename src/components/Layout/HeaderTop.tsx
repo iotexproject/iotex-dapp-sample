@@ -45,7 +45,7 @@ export const HeaderTop = observer(() => {
             <Group spacing={5} className={classes.links}>
               <Links />
               <User type="HeaderTop" />
-              <GlobalHistoryIcon />
+              <GlobalHistoryIcon ml={10} />
               <HistoryModal />
               <TransactionResultModal />
             </Group>

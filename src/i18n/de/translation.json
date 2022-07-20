@@ -11,6 +11,7 @@
   "connector-success": "Connected",
   "dapp-dev-framework": "Dapp-Entwicklungsframework",
   "erc20-toolbox": "ERC20-Toolbox",
+  "error": "",
   "example": "Beispiel",
   "get-started": "Get started",
   "hello": "hello ${msg}",
@@ -20,6 +21,7 @@
   "language": "SPRACHE",
   "logout": "Ausloggen",
   "next-generation": "Next Generation",
+  "notification": "",
   "playground": "Spielplatz",
   "receiver-address": "Receiver Address",
   "sample": "Sample",
@@ -38,5 +40,6 @@
   "view-on-0": "Ansicht ein",
   "view-on-explorername": "",
   "wallet-connect": "Wallet Connect",
+  "warning": "",
   "wrong-network": "Wrong Network"
 }

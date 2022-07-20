@@ -48,11 +48,6 @@ export class TransactionHistoryStore {
   isOpen: boolean = false;
   isTransactionDialogOpen: boolean = false;
   curTransactionHistoryItem: TransactionItem;
-  pagenation = {
-    total: 10,
-    pageSize: 5,
-    currentPage: 1
-  };
   filterParams = {
     module: 'Farm',
     to: '',
@@ -65,7 +60,7 @@ export class TransactionHistoryStore {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     this.initEvent();
-    this.filterParams.module = this.moduleList[0]
+    this.filterParams.module = this.moduleList[0];
     makeAutoObservable(this);
   }
 
@@ -105,11 +100,7 @@ export class TransactionHistoryStore {
         if (!this.rootStore.god.currentChain.chainId) return true;
         return this.rootStore.god.currentChain.chainId == item?.chainId;
       });
-    this.pagenation.total = transactionHistory.length;
-    //filter transactionHistory by module
-    const chunkedHistory: TransactionItem[][] = _.chunk(transactionHistory, this.pagenation.pageSize);
-    const currentChunk = chunkedHistory[this.pagenation.currentPage - 1];
-    return currentChunk;
+    return transactionHistory;
   }
 
   get lastestHistory() {

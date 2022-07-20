@@ -83,24 +83,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function HeroTitle() {
-  const { user,god } = useStore();
+  const { user, god } = useStore();
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
   const { t } = useTranslation();
 
   useEffect(() => {
     user.enableNetworkChecker(window?.location?.pathname, [4689]);
-    // god.showTransactionSubmitDialog.setValue(true);
-    // helper.recordHistory({
-    //   chainId: 4689,
-    //   amount: '1',
-    //   module: 'Swap',
-    //   title: 'Swap',
-    //   //@ts-ignore
-    //   receipt: {
-    //     transactionHash: '0x87e2c10f43309dd47e61551c04ae4232ce4b64966baea076d8aab2e2118d1332'
-    //   }
-    // });
   }, []);
 
   return (

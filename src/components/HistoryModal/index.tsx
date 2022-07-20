@@ -6,10 +6,14 @@ import dayjs from 'dayjs';
 import { helper } from '@/lib/helper';
 import { eventBus } from '@/lib/event';
 import { metamaskUtils } from '@/lib/metaskUtils';
-import { Box, Button, Group, Modal, Text, Tooltip, Image, Badge, Tabs, Stack, Center } from '@mantine/core';
+import { Box, Button, Group, Modal, Text, Tooltip, Image, Badge, Tabs, Stack, Center, Anchor } from '@mantine/core';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { ExternalLink } from 'tabler-icons-react';
+import { ColumnDef } from '@tanstack/react-table';
+import { TransactionItem } from '@/store/history';
+import { Table } from '../Common/Table';
+import { Copy } from '../Common/Copy';
 
 export const TransactionResultModal = observer(() => {
   const {
@@ -60,7 +64,10 @@ export const TransactionResultModal = observer(() => {
   );
 });
 
-export const GlobalHistoryIcon = observer(() => {
+interface GlobalHistoryIconProps {
+  [key: string]: any;
+}
+export const GlobalHistoryIcon = observer(({ ...restProps }: GlobalHistoryIconProps) => {
   const {
     history,
     history: { isOpen, transactionHistory }
@@ -87,6 +94,7 @@ export const GlobalHistoryIcon = observer(() => {
     <>
       <Tooltip label="History">
         <Box
+          {...restProps}
           onClick={() => {
             history.toggleOpen();
             history.clearHitoryRead();
@@ -121,210 +129,95 @@ export const GlobalHistoryIcon = observer(() => {
 
 export const HistoryModal = observer(() => {
   const { history, god } = useStore();
-  const searchProps = {
-    placeholder: 'Search by address',
-    validator(value: string) {
-      if (value === '' || helper.address.validateAddress(value)) {
-        return true;
-      }
-      return 'Please enter a valid address!';
+
+  const columns: ColumnDef<TransactionItem>[] = [
+    {
+      header: 'TITLE',
+      accessorKey: 'title',
+      cell: (v) => <Text style={{ width: 'fit-content' }}>{v.getValue()}</Text>
+    },
+    {
+      header: 'TIMESTAMP',
+      accessorKey: 'timestamp',
+      cell: (v) => (
+        <>
+          <Text> {dayjs(v.getValue()).format('DD/MM/YYYY')}</Text>
+          <Text> {dayjs(v.getValue()).format('hh:mm:ss A')}</Text>
+        </>
+      )
+    },
+    {
+      header: 'FROM',
+      accessorKey: 'from',
+      cell: (v) => <Box>{helper.address.formatAddress(v.getValue())}</Box>
+    },
+    {
+      header: 'TO',
+      accessorKey: 'to',
+      cell: (v) => <Box>{helper.address.formatAddress(v.getValue())}</Box>
+    },
+
+    {
+      header: 'HASH',
+      accessorKey: 'hash',
+      cell: ({
+        getValue,
+        row: {
+          original: { chainId }
+        }
+      }) => (
+        <Group>
+          <Anchor target="_blank" href={god.getNetworkByChainId(chainId).explorerURL + '/tx/' + getValue()}>
+            {helper.address.formatAddress(getValue())}
+          </Anchor>
+          <Copy value={getValue()}></Copy>
+        </Group>
+      )
+      //   render: (value, record) => {
+      //     return (
+      //       <>
+      //         {value ? (
+      //           <Stack color="base">
+      //             {/* {record.status === 'loading' && <InfoOutlineIcon mr="0.5rem" color="warning" />} */}
+      //             <Anchor href={god.getNetworkByChainId(record.chainId).explorerURL + '/tx/' + value}>{helper.address.formatAddress(value)}</Anchor>
+      //             {/* <Copy ml="0.26rem" value={value} isConvert /> */}
+      //           </Stack>
+      //         ) : (
+      //           '-'
+      //         )}
+      //       </>
+      //     );
+      //   }
+    },
+    {
+      header: 'AMOUNT',
+      accessorKey: 'amount',
+      cell: (v) => <i>{v.getValue()}</i>
+      //   render: (value, record) => {
+      //     return (
+      //       <>
+      //         <Box ml="6">{value}</Box>
+      //       </>
+      //     );
+      //   }
+    },
+    {
+      header: 'STATUS',
+      accessorKey: 'status',
+      cell: (v) => <i>{v.getValue()}</i>
+      //   render: (value, record) => {
+      //     return (
+      //       <></>
+      //       // <HStack>
+      //       //   {value == 'success' && <CheckCircleIcon color="base" />}
+      //       //   {value == 'loading' && <Spinner color="warning" size={'xs'} />}
+      //       //   <Box color={value == 'success' ? 'base' : 'warning'}>{value.toUpperCase()}</Box>
+      //       // </HStack>
+      //     );
+      //   }
     }
-  };
-  //   const columns: Column[] = [
-  //     {
-  //       title: 'ACTION',
-  //       dataKey: 'title',
-  //       headerProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       cellProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       render: (value, record) => {
-  //         return (
-  //           <Box fontWeight={'bold'} color="base">
-  //             {value.toUpperCase()}
-  //           </Box>
-  //         );
-  //       }
-  //     },
-  //     {
-  //       title: 'TIME',
-  //       dataKey: 'timestamp',
-  //       headerProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       cellProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       render: (value, record) => {
-  //         return (
-  //           <VStack align="start">
-  //             <Box>{dayjs(value).format('DD/MM/YYYY')}</Box>
-  //             <Box>{dayjs(value).format('hh:mm:ss A')}</Box>
-  //           </VStack>
-  //         );
-  //       }
-  //     },
-  //     {
-  //       title: 'FROM',
-  //       dataKey: 'from',
-  //       headerProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       search: true,
-  //       searchProps,
-  //       onSearch(value: string) {
-  //         console.log(value);
-  //       },
-  //       cellProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       render: (value, record) => {
-  //         return (
-  //           <>
-  //             {value ? (
-  //               <HStack>
-  //                 <Box>{helper.address.formatAddress(value)}</Box>
-  //                 <Copy ml="0.26rem" value={value} isConvert />
-  //               </HStack>
-  //             ) : (
-  //               '-'
-  //             )}
-  //           </>
-  //         );
-  //       }
-  //     },
-  //     {
-  //       title: 'TO',
-  //       dataKey: 'to',
-  //       search: true,
-  //       searchProps,
-  //       onSearch(value: string) {
-  //         console.log(value);
-  //         history.setFilterTo(value);
-  //       },
-  //       headerProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       cellProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       render: (value, record) => {
-  //         return (
-  //           <>
-  //             {value ? (
-  //               <HStack>
-  //                 <Box>{helper.address.formatAddress(value)}</Box>
-  //                 <Copy ml="0.26rem" value={value} isConvert />
-  //               </HStack>
-  //             ) : (
-  //               '-'
-  //             )}
-  //           </>
-  //         );
-  //       }
-  //     },
+  ];
 
-  //     {
-  //       title: 'HASH',
-  //       dataKey: 'hash',
-  //       headerProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       cellProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       render: (value, record) => {
-  //         return (
-  //           <>
-  //             {value ? (
-  //               <HStack color="base">
-  //                 {record.status === 'loading' && <InfoOutlineIcon mr="0.5rem" color="warning" />}
-  //                 <Anchor href={god.getNetworkByChainId(record.chainId).explorerURL + '/tx/' + value}>{helper.address.formatAddress(value)}</Anchor>
-  //                 <Copy ml="0.26rem" value={value} isConvert />
-  //               </HStack>
-  //             ) : (
-  //               '-'
-  //             )}
-  //           </>
-  //         );
-  //       }
-  //     },
-  //     {
-  //       title: 'AMOUNT',
-  //       dataKey: 'amount',
-  //       headerProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       cellProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       render: (value, record) => {
-  //         return (
-  //           <>
-  //             <Box ml="6">{value}</Box>
-  //           </>
-  //         );
-  //       }
-  //     },
-  //     {
-  //       title: 'STATUS',
-  //       dataKey: 'status',
-  //       headerProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       cellProps: () => {
-  //         return {
-  //           whiteSpace: 'nowrap'
-  //         };
-  //       },
-  //       render: (value, record) => {
-  //         return (
-  //           <HStack>
-  //             {value == 'success' && <CheckCircleIcon color="base" />}
-  //             {value == 'loading' && <Spinner color="warning" size={'xs'} />}
-  //             <Box color={value == 'success' ? 'base' : 'warning'}>{value.toUpperCase()}</Box>
-  //           </HStack>
-  //         );
-  //       }
-  //     }
-  //   ];
-
-  const tabStyle = {
-    bg: 'input',
-    fontWeight: 'bold',
-    w: '200px',
-    borderRadius: '15px',
-    _selected: { bg: 'backgroundAlt', color: 'base', boxShadow: 'baseShadow' },
-    _focus: { border: 'none' }
-  };
   return (
     <Modal
       size="6xl"
@@ -356,6 +249,7 @@ export const HistoryModal = observer(() => {
             })}
           </TabList>
         </Tabs> */}
+        <Table columns={columns} data={history.history} highlightOnHover></Table>
         {/* <Scroll overflow={'auto'}>
             <Table columns={columns} dataSource={history.history || []}></Table>
             <Paginator

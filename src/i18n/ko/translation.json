@@ -11,6 +11,7 @@
   "connector-success": "연결됨",
   "dapp-dev-framework": "Dapp 개발 프레임워크",
   "erc20-toolbox": "ERC20 도구 상자",
+  "error": "",
   "example": "예시",
   "get-started": "시작하다",
   "hello": "안녕하세요 ${msg}",
@@ -20,6 +21,7 @@
   "language": "언어",
   "logout": "로그 아웃",
   "next-generation": "다음 세대",
+  "notification": "",
   "playground": "운동장",
   "receiver-address": "수신자 주소",
   "sample": "견본",
@@ -38,5 +40,6 @@
   "view-on-0": "보기에",
   "view-on-explorername": "",
   "wallet-connect": "지갑 연결",
+  "warning": "",
   "wrong-network": "잘못된 네트워크"
 }

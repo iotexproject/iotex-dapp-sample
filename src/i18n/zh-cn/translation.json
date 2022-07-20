@@ -11,6 +11,7 @@
   "connector-success": "连接成功",
   "dapp-dev-framework": "Dapp 开发框架",
   "erc20-toolbox": "ERC20 工具箱",
+  "error": "",
   "example": "例子",
   "get-started": "开始使用",
   "hello": "你好 ${msg}",
@@ -20,6 +21,7 @@
   "language": "语言",
   "logout": "登出",
   "next-generation": "下一代",
+  "notification": "",
   "playground": "操场",
   "receiver-address": "接收地址",
   "sample": "示例",
@@ -38,5 +40,6 @@
   "view-on-0": "查看",
   "view-on-explorername": "在 {{explorerName}} 查看",
   "wallet-connect": "钱包连接",
+  "warning": "",
   "wrong-network": "网络错误"
 }

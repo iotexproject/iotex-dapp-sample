@@ -11,6 +11,7 @@
   "connector-success": "Падключаны",
   "dapp-dev-framework": "Платформа разработки децентрализованных приложений",
   "erc20-toolbox": "ERC20 набор інструментаў",
+  "error": "",
   "example": "Пример",
   "get-started": "Начать",
   "hello": "добры дзень ${msg}",
@@ -20,6 +21,7 @@
   "language": "ЯЗЫК",
   "logout": "Выйти",
   "next-generation": "Следующее поколение",
+  "notification": "",
   "playground": "Детская площадка",
   "receiver-address": "Адрас атрымальніка",
   "sample": "Узор",
@@ -38,5 +40,6 @@
   "view-on-0": "Смотреть на",
   "view-on-explorername": "",
   "wallet-connect": "Кашалёк Connect",
+  "warning": "",
   "wrong-network": "Няправільная сетка"
 }

@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js';
 import { NumberState, StringState } from '../store/standard/base';
 import { DynamicMappingState } from '@/store/standard/MappingState';
 import { metamaskUtils } from './metaskUtils';
-import toast from 'react-hot-toast';
 import { TransactionReceipt, TransactionRequest, TransactionResponse } from '@ethersproject/providers';
 import { Deferrable } from 'ethers/lib/utils';
 import { rootStore } from '../store/index';
@@ -15,13 +14,37 @@ import { ethers, utils } from 'ethers';
 import { _ } from './lodash';
 import { showNotification } from '@mantine/notifications';
 import { eventBus } from './event';
-import { TransactionModule } from '@/store/history';
+import { TransactionModule, TransctionCoin } from '@/store/history';
 
 export interface RouterParsed {
   pathname: string;
   hash: string;
   query: Record<string, string | string[] | undefined>;
 }
+
+export const toast = {
+  success: (msg: string) => {
+    showNotification({
+      title: rootStore.lang.t('notification'),
+      color: 'green',
+      message: msg
+    });
+  },
+  error: (msg: string) => {
+    showNotification({
+      title: rootStore.lang.t('error'),
+      color: 'red',
+      message: msg
+    });
+  },
+  warning: (msg: string) => {
+    showNotification({
+      title: rootStore.lang.t('warning'),
+      color: 'yellow',
+      message: msg
+    });
+  }
+};
 
 export const helper = {
   recordHistory(params: { chainId: number; amount: string; module: TransactionModule; title: string; receipt: TransactionReceipt; coin?: TransctionCoin }) {
@@ -36,6 +59,7 @@ export const helper = {
       status: 'success',
       ...params
     });
+    return this.uuid;
   },
   setChain(god, chainId) {
     if (god.chainId === chainId) return;
@@ -252,7 +276,7 @@ export const helper = {
           _.isNil
         );
         const res = await rootStore.god.eth.signer.sendTransaction(sendTransactionParam);
-        
+
         if (showTransactionSubmitDialog) {
           rootStore.god.showTransactionSubmitDialog.setValue(true);
           rootStore.god.curTransaction = res;

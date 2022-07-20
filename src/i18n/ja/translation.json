@@ -11,6 +11,7 @@
   "connector-success": "接続済み",
   "dapp-dev-framework": "Dapp開発フレームワーク",
   "erc20-toolbox": "ERC20ツールボックス",
+  "error": "",
   "example": "例",
   "get-started": "始めましょう",
   "hello": "こんにちは${msg}",
@@ -20,6 +21,7 @@
   "language": "言語",
   "logout": "ログアウト",
   "next-generation": "次世代",
+  "notification": "",
   "playground": "遊び場",
   "receiver-address": "受信者アドレス",
   "sample": "サンプル",
@@ -38,5 +40,6 @@
   "view-on-0": "チェック",
   "view-on-explorername": "",
   "wallet-connect": "ウォレットコネクト",
+  "warning": "",
   "wrong-network": "間違ったネットワーク"
 }
