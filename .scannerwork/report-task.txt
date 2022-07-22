@@ -1,0 +1,6 @@
+projectKey=iotexproject_iotex-dapp-sample_AYIUd-EYR19V6OdmXlbO
+serverUrl=https://sonar.iotex.me
+serverVersion=9.5.0.56709
+dashboardUrl=https://sonar.iotex.me/dashboard?id=iotexproject_iotex-dapp-sample_AYIUd-EYR19V6OdmXlbO
+ceTaskId=AYIUfmq4R19V6OdmXlbg
+ceTaskUrl=https://sonar.iotex.me/api/ce/task?id=AYIUfmq4R19V6OdmXlbg

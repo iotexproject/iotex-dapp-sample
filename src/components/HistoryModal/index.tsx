@@ -141,8 +141,8 @@ export const HistoryModal = observer(() => {
       accessorKey: 'timestamp',
       cell: (v) => (
         <>
-          <Text> {dayjs(v.getValue()).format('DD/MM/YYYY')}</Text>
-          <Text> {dayjs(v.getValue()).format('hh:mm:ss A')}</Text>
+          <Text> {dayjs(v.getValue() as any).format('DD/MM/YYYY')}</Text>
+          <Text> {dayjs(v.getValue() as any).format('hh:mm:ss A')}</Text>
         </>
       )
     },
