@@ -157,7 +157,7 @@ export const UniswapPlugin = SmartGraph.Plugin(({ RouterType = 'UniswapRouter', 
               let swapParams = isSell ? [amountIn, amountOut, bestPath, recipient, deadline] : [amountOut, amountIn, bestPath, recipient, deadline];
               if (eTokens.map[sellToken]?.isNativeToken) {
                 swapMethod = isSell ? 'swapExactETHForTokens' : 'swapETHForExactTokens';
-                swapParams = isSell ? [amountOut, bestPath, recipient, deadline] : [amountOut, bestPath, recipient, deadline];
+                swapParams = isSell ? [amountOut, bestPath, recipient, deadline] : [amountIn, bestPath, recipient, deadline];
               }
               if (eTokens.map[buyToken]?.isNativeToken) {
                 swapMethod = isSell ? 'swapExactTokensForETH' : 'swapTokensForExactETH';
