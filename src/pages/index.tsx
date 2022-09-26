@@ -5,129 +5,97 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '../store';
 import { LanguageSwitch } from '@/components/LanguageSwitch';
 import { helper } from '@/lib/helper';
+import Form, { FormState, IChangeEvent } from '@rjsf/core';
+import validator from '@rjsf/validator-ajv6';
+import { FromSchema } from 'json-schema-to-ts';
+import { UiSchema, RJSFSchema } from '@rjsf/utils';
+import { makeAutoObservable } from 'mobx';
 
-const BREAKPOINT = '@media (max-width: 755px)';
-
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    position: 'relative',
-    boxSizing: 'border-box',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
-  },
-
-  inner: {
-    position: 'relative',
-    paddingTop: 200,
-    paddingBottom: 120,
-
-    [BREAKPOINT]: {
-      paddingBottom: 80,
-      paddingTop: 80
-    }
-  },
-
-  title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    fontSize: 62,
-    fontWeight: 900,
-    lineHeight: 1.1,
-    margin: 0,
-    padding: 0,
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-
-    [BREAKPOINT]: {
-      fontSize: 42,
-      lineHeight: 1.2
-    }
-  },
-
-  description: {
-    marginTop: theme.spacing.xl,
-    fontSize: 24,
-
-    [BREAKPOINT]: {
-      fontSize: 18
-    }
-  },
-
-  controls: {
-    marginTop: theme.spacing.xl * 2,
-
-    [BREAKPOINT]: {
-      marginTop: theme.spacing.xl
-    }
-  },
-
-  control: {
-    height: 54,
-    paddingLeft: 38,
-    paddingRight: 38,
-
-    [BREAKPOINT]: {
-      height: 54,
-      paddingLeft: 18,
-      paddingRight: 18,
-      flex: 1
-    }
-  },
-
-  githubControl: {
-    borderWidth: 2,
-    borderColor: theme.colorScheme === 'dark' ? 'transparent' : theme.colors.dark[9],
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : 'transparent',
-
-    '&:hover': {
-      backgroundColor: `${theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0]} !important`
+const schemaData = {
+  title: 'Property dependencies',
+  description: 'These samples are best viewed without live validation.',
+  type: 'object',
+  properties: {
+    unidirectional: {
+      title: 'Unidirectional',
+      src: 'https://spacetelescope.github.io/understanding-json-schema/reference/object.html#dependencies',
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string'
+        },
+        credit_card: {
+          type: 'number'
+        },
+        billing_address: {
+          type: 'string'
+        }
+      },
+      required: ['name'],
+      dependencies: {
+        credit_card: ['billing_address']
+      }
+    },
+    bidirectional: {
+      title: 'Bidirectional',
+      src: 'https://spacetelescope.github.io/understanding-json-schema/reference/object.html#dependencies',
+      description: 'Dependencies are not bidirectional, you can, of course, define the bidirectional dependencies explicitly.',
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string'
+        },
+        credit_card: {
+          type: 'number'
+        },
+        billing_address: {
+          type: 'string'
+        }
+      },
+      required: ['name'],
+      dependencies: {
+        credit_card: ['billing_address'],
+        billing_address: ['credit_card']
+      }
     }
   }
-}));
+} as const;
+type SchemaType = FromSchema<typeof schemaData>;
+
+class JSONSchemaState<T> {
+  data: {};
+  schema: RJSFSchema;
+  uiSchema: UiSchema;
+  reactive: boolean;
+  onSubmit: (e: IChangeEvent<T>) => void;
+  renderForm() {
+    return <Form schema={this.schema} uiSchema={this.uiSchema} validator={validator} onSubmit={this.onSubmit} />;
+  }
+  renderModal() {
+    return <Form schema={this.schema} uiSchema={this.uiSchema} validator={validator} onSubmit={this.onSubmit} />;
+  }
+
+  constructor(args: Partial<JSONSchemaState<T>> = {}) {
+    Object.assign(this, args);
+    if (this.reactive) {
+      makeAutoObservable(this);
+    }
+  }
+}
+
+const schema = new JSONSchemaState<SchemaType>({
+  schema: schemaData,
+  onSubmit(e) {
+    console.log(e.formData);
+  }
+});
 
 export default function HeroTitle() {
-  const { user, god } = useStore();
-  const { classes, cx } = useStyles();
-  const theme = useMantineTheme();
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    user.enableNetworkChecker(window?.location?.pathname, [4689]);
-  }, []);
-
   return (
-    <MainLayout>
-      <div className={classes.wrapper}>
-        <Container size={700} className={classes.inner}>
-          <h1 className={classes.title}>
-            {t('a')}{' '}
-            <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
-              {t('next-generation')}
-            </Text>{' '}
-            {t('dapp-dev-framework')}
-          </h1>
-
-          <Text className={classes.description} color="dimmed">
-            {t('tip')}
-          </Text>
-
-          <Group className={classes.controls}>
-            <Button size="xl" className={classes.control} variant="gradient" gradient={{ from: 'blue', to: 'cyan' }}>
-              {t('get-started')}
-            </Button>
-
-            <Button
-              component="a"
-              href="https://github.com/iotexproject/iotex-dapp-sample"
-              size="xl"
-              variant="outline"
-              className={cx(classes.control, classes.githubControl)}
-              color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
-            >
-              GITHUB
-            </Button>
-
-            <LanguageSwitch></LanguageSwitch>
-          </Group>
-        </Container>
+    <div>
+      <div>
+        <Container>{schema.renderForm()}</Container>
       </div>
-    </MainLayout>
+    </div>
   );
 }

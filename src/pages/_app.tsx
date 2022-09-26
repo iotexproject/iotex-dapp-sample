@@ -35,17 +35,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     // setInterval(() => {
     //   god.pollingData();
     // }, 15000);
-    smartGraph.event.on('provider.newBlock', (chainId, blockNumber) => {
-      console.log('new block', chainId, blockNumber);
-      if (chainId == god.currentChain.chainId) {
-        god.pollingData();
-      }
-    });
   }, []);
 
-  if (!helper.env.isBrower) {
-    return <div></div>;
-  }
+  // if (!helper.env.isBrower) {
+  //   return <div></div>;
+  // }
 
   // use useMemo to fix issue https://github.com/vercel/next.js/issues/12010
   return (
@@ -58,15 +52,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           })}
         />
         <NotificationsProvider>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <WrongNetworkDialog />
-            <TransactionSubmitDialog />
-            <WalletSelecter />
-            <ETHProvider />
-            {/* <Toaster /> */}
-            {/* <Header /> */}
-            <Component {...pageProps} />
-          </Web3ReactProvider>
+          {/* <Web3ReactProvider getLibrary={getLibrary}> */}
+          {/* <WrongNetworkDialog /> */}
+          {/* <TransactionSubmitDialog /> */}
+          {/* <WalletSelecter /> */}
+          {/* <ETHProvider /> */}
+          {/* <Toaster /> */}
+          {/* <Header /> */}
+          <Component {...pageProps} />
+          {/* </Web3ReactProvider> */}
         </NotificationsProvider>
       </MantineProvider>
       {/* </ColorSchemeProvider> */}
