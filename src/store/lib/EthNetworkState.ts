@@ -22,12 +22,8 @@ export class EthNetworkState implements NetworkState {
   signer: Signer;
   provider: BaseProvider;
   account: string = '';
-  // multiCall: MulticallProvider;
   allowChains: number[];
 
-  get multiCall() {
-    return this.currentChain.multiCall;
-  }
   info = {};
 
   dataloader: Record<number, DataLoader<CallParams, any, any>> = {};
@@ -47,18 +43,8 @@ export class EthNetworkState implements NetworkState {
     makeAutoObservable(this);
     Object.values(this.chain.map).forEach((chain) => {
       chain.provider = new JsonRpcProvider(chain.rpcUrl);
-      chain.multiCall = new MulticallProvider();
-      chain.multiCall.provider = chain.provider;
-      chain.multiCall.multicall = { address: chain.info.multicallAddr, block: 0 };
-      chain.multiCall.multicall2 = { address: chain.info.multicall2Addr, block: 0 };
-      //@ts-ignore
-      this.dataloader[chain.chainId] = new DataLoader(
-        async (calls) => {
-          return chain.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
-        },
-        { maxBatchSize: 100 }
-      );
     });
+    this.allowChains = Object.values(this.chain.map).map((i) => i.chainId);
   }
 
   get defaultEthers() {
@@ -79,42 +65,6 @@ export class EthNetworkState implements NetworkState {
 
   setAccount(account: string) {
     this.account = account;
-  }
-
-  readMultiContract({ address, abi, method, params = [] }: CallParams) {
-    const contract = new MuticallContract(address, abi);
-    return contract[method](...params);
-  }
-
-  execContract({ address, abi, method, params = [], options = {} }: CallParams): Promise<Partial<TransactionResponse>> {
-    const contract = new Contract(address, abi, this.signer || this.provider);
-    return contract[method](...params, options);
-  }
-
-  async multicall(calls: CallParams[], args: { crosschain?: boolean } = {}): Promise<any[]> {
-    //@ts-ignore
-    calls = calls.filter(Boolean);
-    let res;
-    if (args.crosschain) {
-      res = await Promise.all(
-        calls.map((i) => {
-          return this.dataloader[i.chainId].load(i);
-        })
-      );
-    } else {
-      res = await this.multiCall.tryAll(calls.map((i) => this.readMultiContract(i)));
-    }
-
-    res.forEach((v, i) => {
-      const callback = calls[i].handler;
-      if (typeof callback == 'function') {
-        //@ts-ignore
-        callback(v);
-      } else {
-        helper.state.handleCallBack(callback, v, calls[i].method);
-      }
-    });
-    return res;
   }
 
   isAddress(address: string): boolean {

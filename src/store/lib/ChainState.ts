@@ -16,9 +16,9 @@ export class ChainState {
   Coin: CoinState;
   type: 'mainnet' | 'testnet';
   info: {
-    blockPerSeconds: number;
-    multicallAddr?: string;
-    multicall2Addr?: string;
+    // blockPerSeconds: number;
+    // multicallAddr?: string;
+    // multicall2Addr?: string;
     theme?: {
       bgGradient: string;
     };

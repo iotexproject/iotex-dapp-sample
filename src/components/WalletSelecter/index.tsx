@@ -113,12 +113,7 @@ export const WalletSelecter = observer(() => {
           {store.networks.map((i) => (
             <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} key={i.chainId}>
               <Box style={{ position: 'relative' }}>
-                <Avatar
-                  src={`//logo.chainbit.xyz/${i.Coin.symbol.toLowerCase()}`}
-                  size={45}
-                  style={{ cursor: 'pointer', background: 'transparent' }}
-                  onClick={() => store.setChain(i.chainId)}
-                ></Avatar>
+                <Avatar src={i.logoUrl} size={45} style={{ cursor: 'pointer', background: 'transparent' }} onClick={() => store.setChain(i.chainId)}></Avatar>
                 {god.currentChain.chainId == i.chainId && <Badge style={{ border: '2px solid white', position: 'absolute', right: -4, bottom: -4 }} size="xs" color="green" variant="filled" />}
               </Box>
               <Text size="xs" mt={1}>

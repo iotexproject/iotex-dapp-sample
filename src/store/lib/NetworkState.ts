@@ -17,9 +17,9 @@ export interface NetworkState {
     [key: string]: any;
   };
 
-  multicall(calls: Partial<CallParams>[], args?: { crosschain?: boolean }): Promise<any[]>;
+  // multicall(calls: Partial<CallParams>[], args?: { crosschain?: boolean }): Promise<any[]>;
   setAccount: Function;
   loadBalance: Function;
-  execContract(call: { address: string; abi: any; method: string; params?: any[]; options?: any }): Promise<Partial<TransactionResponse>>;
+  // execContract(call: { address: string; abi: any; method: string; params?: any[]; options?: any }): Promise<Partial<TransactionResponse>>;
   isAddress(address: string): boolean;
 }

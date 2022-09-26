@@ -19,6 +19,8 @@ interface MessageEvents {
   'history.insert': (transactionItem: TransactionItem) => void;
   'history.update': (transactionItem: TransactionItem) => void;
   'history.delete': (transactionItem: Pick<TransactionItem, 'uuid'>) => void;
+  signer: (signer: any) => void;
+  provider: (signer: any) => void;
 }
 
 export const eventBus = new MyEmitter() as TypedEmitter<MessageEvents>;

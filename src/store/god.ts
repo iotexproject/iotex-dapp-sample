@@ -8,13 +8,7 @@ import { eventBus } from '../lib/event';
 import { rpc } from '../lib/smartgraph/gql';
 import { CoinState } from './lib/CoinState';
 import { ethers } from 'ethers';
-
-export enum Network {
-  ETH = 'eth',
-  BSC = 'bsc',
-  IOTEX = 'iotex',
-  POLYGON = 'polygon'
-}
+import { defaultNetworks } from '../config/chain';
 
 export class GodStore {
   rootStore: RootStore;
@@ -28,50 +22,35 @@ export class GodStore {
     makeAutoObservable(this, {
       rootStore: false
     });
-    rpc('query')({
-      networks: {
-        name: true,
-        chainId: true,
-        rpcUrl: true,
-        logoUrl: true,
-        explorerUrl: true,
-        explorerName: true,
-        nativeCoin: true,
-        blockPerSeconds: true,
-        multicallAddr: true,
-        type: true
-      }
-    }).then((data) => {
-      this.network = new EthNetworkState({
-        allowChains: data.networks.map((i) => i.chainId),
-        god: this,
-        chain: new MappingState({
-          currentId: 4689,
-          map: data.networks
-            .map(
-              (i) =>
-                new ChainState({
-                  name: i.name,
-                  chainId: i.chainId,
-                  explorerName: i.explorerName,
-                  explorerURL: i.explorerUrl,
-                  info: { multicallAddr: i.multicallAddr, multicall2Addr: i.multicallAddr, blockPerSeconds: i.blockPerSeconds, theme: { bgGradient: '' } },
-                  logoUrl: i.logoUrl,
-                  rpcUrl: i.rpcUrl,
-                  //@ts-ignore
-                  type: i.type,
-                  Coin: new CoinState({
-                    symbol: i.nativeCoin,
-                    decimals: 18
-                  })
+    this.network = new EthNetworkState({
+      // allowChains: data.networks.map((i) => i.chainId),
+      god: this,
+      chain: new MappingState({
+        currentId: 4689,
+        map: defaultNetworks
+          .map(
+            (i) =>
+              new ChainState({
+                name: i.name,
+                chainId: i.chainId,
+                explorerName: i.explorerName,
+                explorerURL: i.explorerUrl,
+                info: { theme: { bgGradient: '' } },
+                logoUrl: i.logoUrl,
+                rpcUrl: i.rpcUrl,
+                //@ts-ignore
+                type: i.type,
+                Coin: new CoinState({
+                  symbol: i.nativeCoin,
+                  decimals: 18
                 })
-            )
-            .reduce((p, c) => {
-              p[c.chainId] = c;
-              return p;
-            }, {})
-        })
-      });
+              })
+          )
+          .reduce((p, c) => {
+            p[c.chainId] = c;
+            return p;
+          }, {})
+      })
     });
   }
 
@@ -91,7 +70,7 @@ export class GodStore {
   get Coin() {
     return this.currentChain.Coin;
   }
-  
+
   getNetworkByChainId(chainId: number) {
     return this.currentNetwork.chain.map[chainId];
   }
