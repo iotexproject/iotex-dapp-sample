@@ -17,7 +17,7 @@ export const defaultNetworks: NetworkObject[] = [
   {
     name: 'ETH',
     chainId: 1,
-    rpcUrl: `https://www.ankr.com/rpc/eth`,
+    rpcUrl: `https://rpc.ankr.com/eth`,
     logoUrl: 'https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/icon/eth.svg',
     explorerUrl: 'https://etherscan.io',
     explorerName: 'EtherScan',
@@ -28,7 +28,7 @@ export const defaultNetworks: NetworkObject[] = [
     name: 'Polygon',
     chainId: 137,
     logoUrl: 'https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/icon/matic.svg',
-    rpcUrl: 'https://www.ankr.com/rpc/polygon',
+    rpcUrl: 'https://polygon-rpc.com/',
     explorerUrl: 'https://explorer-mainnet.maticvigil.com/',
     explorerName: 'PolygonScan',
     nativeCoin: 'MATIC',
@@ -37,7 +37,7 @@ export const defaultNetworks: NetworkObject[] = [
   {
     name: 'BSC',
     chainId: 56,
-    rpcUrl: 'https://www.ankr.com/rpc/bsc',
+    rpcUrl: 'https://rpc.ankr.com/bsc',
     logoUrl: 'https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/icon/bnb.svg',
     explorerUrl: 'https://bscscan.com',
     explorerName: 'BscScan',

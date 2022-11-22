@@ -1,18 +1,21 @@
 import React from 'react';
 import { observer, useLocalObservable, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '../../store/index';
-import { useWeb3React } from '@web3-react/core';
+// import { useWeb3React } from '@web3-react/core';
 import { injected } from '../../lib/web3-react';
 
 import { Box, Group, Modal, Tabs, TabsProps, Text, Avatar, AvatarsGroup, Badge, SegmentedControl } from '@mantine/core';
 import { metamaskUtils } from '../../lib/metaskUtils';
 import { useEffect } from 'react';
 import { StringState } from '../../store/standard/base';
+import { useConnect } from 'wagmi';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 
 export const WalletSelecter = observer(() => {
   const { god, lang } = useStore();
-  const { active, error, activate } = useWeb3React();
-
+  // const { active, error, activate } = useWeb3React();
+  const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+  
   const store = useLocalObservable(() => ({
     network: new StringState<'mainnet' | 'testnet'>({ value: 'mainnet' }),
     get visible() {
@@ -45,7 +48,8 @@ export const WalletSelecter = observer(() => {
       }
     },
     connectInejct() {
-      activate(injected);
+      // activate(injected);
+      connect({ connector: connectors[0] });
       god.eth.connector.latestProvider.save('inject');
     },
     onWalletConnect() {
@@ -54,33 +58,7 @@ export const WalletSelecter = observer(() => {
     }
   }));
 
-  useEffect(() => {
-    //@ts-ignore
-    const { ethereum } = window;
-    if (ethereum && ethereum.on && !active && !error) {
-      const handleChainChanged = () => {
-        store.connectInejct();
-      };
-      const handleAccountsChanged = (accounts: string[]) => {
-        if (accounts.length > 0) {
-          store.connectInejct();
-        }
-      };
-      ethereum.on('networkChanged', handleChainChanged);
-      ethereum.on('close', handleChainChanged);
-      ethereum.on('chainChanged', handleChainChanged);
-      ethereum.on('accountsChanged', handleAccountsChanged);
 
-      return () => {
-        if (ethereum.removeListener) {
-          ethereum.removeListener('networkChanged', handleChainChanged);
-          ethereum.removeListener('close', handleChainChanged);
-          ethereum.removeListener('chainChanged', handleChainChanged);
-          ethereum.removeListener('accountsChanged', handleAccountsChanged);
-        }
-      };
-    }
-  }, [active, error, activate]);
 
   const config = [
     {
@@ -109,6 +87,18 @@ export const WalletSelecter = observer(() => {
     <Modal opened={store.visible} overlayOpacity={0.45} centered onClose={store.close} title={lang.t(god.isConnect ? 'switch-network' : 'connect-to-wallet')}>
       <SegmentedControl data={['Mainnet', 'Testnet']} fullWidth onChange={(v) => store.network.setValue(v.toLowerCase() as any)} />
       <Box mt="xl">
+        {/* <div>
+          {connectors.map((connector) => (
+            <button disabled={!connector.ready} key={connector.id} onClick={() => connect({ connector })}>
+              {connector.name}
+              {!connector.ready && ' (unsupported)'}
+              {isLoading && connector.id === pendingConnector?.id && ' (connecting)'}
+            </button>
+          ))}
+
+          {error && <div>{error.message}</div>}
+        </div> */}
+
         <Group position="apart" p="md">
           {store.networks.map((i) => (
             <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} key={i.chainId}>
