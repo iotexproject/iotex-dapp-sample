@@ -21,6 +21,7 @@ import '../i18n/config';
 import { smartGraph } from '../lib/smartgraph/index';
 import { WrongNetworkDialog } from '@/components/NetworkCheckProvider';
 import { TransactionSubmitDialog } from '@/components/HistoryModal';
+import { WagmiProvider } from '@/components/WagmiProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { lang, god, user } = useStore();
@@ -61,11 +62,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Web3ReactProvider getLibrary={getLibrary}>
             <WrongNetworkDialog />
             <TransactionSubmitDialog />
-            <WalletSelecter />
-            <ETHProvider />
+            {/* <ETHProvider /> */}
+            <WagmiProvider>
+              <WalletSelecter />
+              <Component {...pageProps} />
+            </WagmiProvider>
             {/* <Toaster /> */}
             {/* <Header /> */}
-            <Component {...pageProps} />
+
           </Web3ReactProvider>
         </NotificationsProvider>
       </MantineProvider>

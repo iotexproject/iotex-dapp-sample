@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '../store';
 import { LanguageSwitch } from '@/components/LanguageSwitch';
 import { helper } from '@/lib/helper';
+import { WagmiProvider } from '@/components/WagmiProvider';
 
 const BREAKPOINT = '@media (max-width: 755px)';
 
@@ -89,7 +90,7 @@ export default function HeroTitle() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    user.enableNetworkChecker(window?.location?.pathname, [4689]);
+    user.enableNetworkChecker(window?.location?.pathname, Object.keys(god.network.chain.map).map(i=>Number(i)));
   }, []);
 
   return (
