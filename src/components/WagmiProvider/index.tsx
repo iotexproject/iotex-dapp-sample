@@ -74,10 +74,10 @@ const Wallet = observer(() => {
   const { god } = useStore();
   const { chain } = useNetwork();
   const { address, connector, isConnected } = useAccount();
-  const provider = useProvider();
-  const { data: signer } = useSigner();
-  const { data: ensAvatar } = useEnsAvatar({ address });
-  const { data: ensName } = useEnsName({ address });
+  // const provider = useProvider();
+  // const { data: signer } = useSigner();
+  // const { data: ensAvatar } = useEnsAvatar({ address });
+  // const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
 
@@ -85,7 +85,7 @@ const Wallet = observer(() => {
     logout() {
       console.log('logggout');
       disconnect();
-      god.currentNetwork.setAccount('');
+      god.currentNetwork.set({ account: '' });
       god.eth.connector.latestProvider.clear();
     }
   }));
@@ -101,23 +101,22 @@ const Wallet = observer(() => {
     }
     if (connector) {
       connector.getChainId().then((chainId) => {
-        console.log('chain.switch', chain?.id);
+        console.log('chain.switch', chainId);
         if (god.currentNetwork.allowChains.includes(chainId)) {
           god.setChain(chainId);
+
+          connector.getSigner().then((signer) => {
+            console.log('connected!', address);
+            console.log(signer);
+            god.eth.signer = signer;
+            god.currentNetwork.set({ account: address });
+            god.currentNetwork.loadBalance();
+            eventBus.emit('wallet.onAccount');
+          });
         }
       });
-      god.eth.provider = provider;
-      god.eth.signer = signer;
-      god.currentNetwork.loadBalance();
     }
-
     if (isConnected) {
-      console.log('connected!', address);
-      god.currentNetwork.setAccount(address);
-      try {
-        god.currentNetwork.loadBalance();
-      } catch (err) {}
-      eventBus.emit('wallet.onAccount');
       god.setShowConnecter(false);
     }
   }, [isConnected, error, connector, address, chain]);

@@ -9,7 +9,6 @@ import { loggerLink } from '@trpc/client/links/loggerLink';
 import { withTRPC } from '@trpc/next';
 
 import { useStore } from '@/store/index';
-import { ETHProvider } from '../components/EthProvider';
 import { getLibrary } from '../lib/web3-react';
 import { WalletSelecter } from '../components/WalletSelecter/index';
 import { AppRouter } from '@/server/routers/_app';
@@ -69,7 +68,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             </WagmiProvider>
             {/* <Toaster /> */}
             {/* <Header /> */}
-
           </Web3ReactProvider>
         </NotificationsProvider>
       </MantineProvider>

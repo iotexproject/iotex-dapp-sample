@@ -15,7 +15,7 @@ export const WalletSelecter = observer(() => {
   const { god, lang } = useStore();
   // const { active, error, activate } = useWeb3React();
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
-  
+
   const store = useLocalObservable(() => ({
     network: new StringState<'mainnet' | 'testnet'>({ value: 'mainnet' }),
     get visible() {
@@ -50,15 +50,13 @@ export const WalletSelecter = observer(() => {
     connectInejct() {
       // activate(injected);
       connect({ connector: connectors[0] });
-      god.eth.connector.latestProvider.save('inject');
+      // god.eth.connector.latestProvider.save('inject');
     },
     onWalletConnect() {
       // activate(walletconnect);
-      god.eth.connector.latestProvider.save('walletConnect');
+      // god.eth.connector.latestProvider.save('walletConnect');
     }
   }));
-
-
 
   const config = [
     {

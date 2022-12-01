@@ -13,12 +13,8 @@ export interface NetworkState {
   connector: { latestProvider: StorageState<string>; showConnector: boolean };
   walletInfo: { visible: boolean };
   currentChain: ChainState;
-  info: {
-    [key: string]: any;
-  };
-
   // multicall(calls: Partial<CallParams>[], args?: { crosschain?: boolean }): Promise<any[]>;
-  setAccount: Function;
+  set: (args: Partial<NetworkState>) => void;
   loadBalance: Function;
   // execContract(call: { address: string; abi: any; method: string; params?: any[]; options?: any }): Promise<Partial<TransactionResponse>>;
   isAddress(address: string): boolean;
