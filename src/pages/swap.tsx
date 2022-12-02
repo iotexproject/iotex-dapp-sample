@@ -8,6 +8,7 @@ import { UniswapRouterEntity } from '../store/entity';
 import MainLayout from '../components/Layout/index';
 import { Prism } from '@mantine/prism';
 import { PromiseState } from '@/store/standard/PromiseState';
+import { useStore } from '../store/index';
 
 const demoCode = `
 
@@ -50,12 +51,15 @@ return plainToInstance(UniswapRouter, data.UniswapRouter[0]);
 `;
 
 export const Home = observer(() => {
+  const { god, ledger } = useStore();
   const store = useLocalObservable(() => ({
     swapQuery: new PromiseState({
       function: async ({ buyAmount = '1000000000000000000' }: { buyAmount?: string } = {}): Promise<UniswapRouterEntity> => {
+        console.log(ledger.ledger.value);
+
         const data = await rpc('query')({
           UniswapRouter: [
-            { calls: [{ address: '0x147CdAe2BF7e809b9789aD0765899c06B361C5cE', chainId: 4689 }] },
+            { calls: [{ address: '0x147CdAe2BF7e809b9789aD0765899c06B361C5cE', chainId: 4689, antenna: ledger.ledger.value }] },
             {
               address: true,
               chainId: true,
@@ -65,7 +69,7 @@ export const Home = observer(() => {
                     sellToken: 'IOTX',
                     buyToken: '0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0',
                     buyAmount,
-                    recipient: '0x2AcB8663B18d8c8180783C18b88D60b86de26dF2'
+                    recipient: '0xd023cfc198718bf1133ed99beadc227e340fd6d3'
                   }
                 },
                 {

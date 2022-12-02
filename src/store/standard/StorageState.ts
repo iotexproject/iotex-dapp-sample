@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { makeAutoObservable } from 'mobx';
-import { helper } from '@/lib/helper';
 
 export class StorageState<T> {
   key: string;
@@ -12,9 +11,17 @@ export class StorageState<T> {
     this.load();
   }
 
+  static safeParse(val: any) {
+    try {
+      return JSON.parse(val);
+    } catch (error) {
+      return val;
+    }
+  }
+
   load() {
     const value = global?.localStorage?.getItem(this.key);
-    this.value = helper.json.safeParse(value);
+    this.value = StorageState.safeParse(value);
     if (this.value == null) {
       this.value = this.default;
     }

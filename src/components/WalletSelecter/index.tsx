@@ -12,7 +12,7 @@ import { useConnect } from 'wagmi';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 
 export const WalletSelecter = observer(() => {
-  const { god, lang } = useStore();
+  const { god, lang, ledger } = useStore();
   // const { active, error, activate } = useWeb3React();
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
 
@@ -29,23 +29,7 @@ export const WalletSelecter = observer(() => {
       god.eth.connector.showConnector = false;
     },
     async setChain(val) {
-      const chain = god.currentNetwork.chain.map[val];
-      try {
-        await metamaskUtils.setupNetwork({
-          chainId: chain.chainId,
-          blockExplorerUrls: [chain.explorerURL],
-          chainName: chain.name,
-          nativeCurrency: {
-            decimals: chain.Coin.decimals || 18,
-            name: chain.Coin.symbol,
-            symbol: chain.Coin.symbol
-          },
-          rpcUrls: [chain.rpcUrl]
-        });
-        god.setChain(val);
-      } catch (error) {
-        console.log(error);
-      }
+      god.switchChain(val);
     },
     connectInejct() {
       // activate(injected);
@@ -55,6 +39,9 @@ export const WalletSelecter = observer(() => {
     onWalletConnect() {
       // activate(walletconnect);
       // god.eth.connector.latestProvider.save('walletConnect');
+    },
+    connectIotexLedger() {
+      ledger.ledger.call();
     }
   }));
 
@@ -129,6 +116,13 @@ export const WalletSelecter = observer(() => {
             </Group>
           </Box>
         )}
+        <Box onClick={store.connectIotexLedger} my="12px" style={{ cursor: 'pointer', borderRadius: '8px', background: 'rgba(0,0,0,0.1)' }} p="14px" mt="24px">
+          <Group spacing={2} position="apart">
+            <Group direction="column" spacing={3}>
+              <Text style={{ fontSize: '20px', lineHeight: '26.38px', fontStyle: 'normal', fontWeight: '500' }}>{lang.t('ledger')}</Text>
+            </Group>
+          </Group>
+        </Box>
       </Box>
     </Modal>
   );
