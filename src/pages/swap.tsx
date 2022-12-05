@@ -79,9 +79,9 @@ export const Home = observer(() => {
                   value: true,
                   path: {
                     address: true,
-                    symbol: true,
-                    decimals: true,
-                    totalSupply: true
+                    symbol: [{}, true],
+                    decimals: [{}, true],
+                    totalSupply: [{}, true]
                   }
                 }
               ]

@@ -73,6 +73,7 @@ export class LedgerPlugin implements SignerPlugin {
   }
 }
 
+//@ts-ignore
 import type Transport from '@ledgerhq/hw-transport';
 
 import { publicKeyToAddress } from 'iotex-antenna/lib/crypto/crypto';

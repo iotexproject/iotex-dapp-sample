@@ -77,6 +77,7 @@ export const LanguageSwitch = observer(() => {
             value={v.value}
             onClick={(e) => {
               // console.log(e.target.innerText)
+              //@ts-ignore
               let index = langList.findIndex((item) => item.label === e.target.innerText);
               console.log(langList[index].value);
               lang.setLang(langList[index].value);
