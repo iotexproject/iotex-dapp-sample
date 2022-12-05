@@ -2,11 +2,7 @@ import { WagmiConfig, createClient, useProvider, configureChains, useSigner, cha
 
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { observer, useLocalObservable, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '@/store/index';
 import { useEffect } from 'react';
@@ -44,6 +40,7 @@ export const WagmiProvider = observer(({ children }) => {
           shimDisconnect: false
         }
       })
+
       // new MetaMaskConnector({ chains }),
       // new CoinbaseWalletConnector({
       //   chains,
@@ -103,13 +100,11 @@ const Wallet = observer(() => {
       connector.getChainId().then((chainId) => {
         console.log('chain.switch', chainId);
         if (god.currentNetwork.allowChains.includes(chainId)) {
-          god.setChain(chainId);
+          god.setChainId(chainId);
 
           connector.getSigner().then((signer) => {
             console.log('connected!', address);
-            console.log(signer);
-            god.eth.signer = signer;
-            god.currentNetwork.set({ account: address });
+            god.currentNetwork.set({ account: address, signer });
             god.currentNetwork.loadBalance();
             eventBus.emit('wallet.onAccount');
           });

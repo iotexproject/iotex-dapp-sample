@@ -3,8 +3,10 @@ export const metamaskUtils = {
     //@ts-ignore
 
     const tokenAdded = await window.ethereum.request({
+      //@ts-ignore
       method: 'wallet_watchAsset',
       params: {
+        //@ts-ignore
         type: 'ERC20',
         options: {
           address: tokenAddress,

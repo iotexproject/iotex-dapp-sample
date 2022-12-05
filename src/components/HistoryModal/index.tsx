@@ -170,7 +170,8 @@ export const HistoryModal = observer(() => {
           <Anchor target="_blank" href={god.getNetworkByChainId(chainId).explorerURL + '/tx/' + getValue()}>
             {helper.address.formatAddress(getValue())}
           </Anchor>
-          <Copy value={getValue()}></Copy>
+
+          <Copy value={getValue() as string}></Copy>
         </Group>
       )
       //   render: (value, record) => {

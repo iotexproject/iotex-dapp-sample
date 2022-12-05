@@ -120,6 +120,25 @@ export const helper = {
       return flag;
     }
   },
+  object: {
+    crawlObject(object, options) {
+      const newObj = JSON.parse(JSON.stringify(object));
+      return helper.object.crawl(newObj, options);
+    },
+    crawl(object, options) {
+      Object.keys(object).forEach((i) => {
+        if (typeof object[i] === 'object') {
+          helper.object.crawl(object[i], options);
+        } else {
+          const handler = options[typeof object[i]];
+          if (handler) {
+            object[i] = handler(object[i]);
+          }
+        }
+      });
+      return object;
+    }
+  },
   json: {
     safeParse(val: any) {
       try {

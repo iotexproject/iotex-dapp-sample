@@ -104,7 +104,7 @@ export const UniswapPlugin = SmartGraph.Plugin(({ RouterType = 'UniswapRouter', 
             },
             resolve: async (root: SmartGraph['ROOT'], args, ctx: SmartGraph['Context']) => {
               const { sellToken, buyToken, sellAmount, buyAmount, noDecimals, recipient, maxDelay, slippagePercentage, offlinePrice, lpFee, isFeeToken } = args.args;
-              console.log(args);
+              // console.log(args);
               const { eTokens } = UniswapService.config[root.chainId];
 
               const isSell = sellAmount ? true : false;
@@ -171,7 +171,9 @@ export const UniswapPlugin = SmartGraph.Plugin(({ RouterType = 'UniswapRouter', 
               const data = ctx.smartGraph.encodeFunction({
                 contract: root.contractName,
                 method: swapMethod,
-                params: swapParams
+                params: swapParams,
+                //@ts-ignore
+                root
               });
 
               // const [ValueInput, ValueOutput] = await Promise.all([
@@ -421,7 +423,9 @@ export const UniswapPlugin = SmartGraph.Plugin(({ RouterType = 'UniswapRouter', 
               const data = ctx.smartGraph.encodeFunction({
                 contract: 'UniswapRouter',
                 method: swapMethod,
-                params: swapParams
+                params: swapParams,
+                //@ts-ignore
+                root
               });
 
               const midPrice = await UniswapService.getMidPrice({ ctx, root: { ...root, chainId }, address: bestPair.provider.address, path: bestPair.path });

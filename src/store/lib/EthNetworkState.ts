@@ -10,6 +10,8 @@ import { NetworkState } from './NetworkState';
 import { StorageState } from '../standard/StorageState';
 import BigNumber from 'bignumber.js';
 import { GodStore } from '../god';
+import { metamaskUtils } from '../../lib/metaskUtils';
+import { smartGraph } from '../../lib/smartgraph/index';
 
 export class EthNetworkState implements NetworkState {
   god: GodStore;
@@ -46,11 +48,15 @@ export class EthNetworkState implements NetworkState {
     return this.chain.current;
   }
 
+  get provider() {
+    return smartGraph.chain[this.currentChain.chainId].caller.provider;
+  }
+
   async loadBalance() {
     if (!this.signer || !this.account) {
       return this.currentChain.Coin.balance.setValue(new BigNumber(0));
     }
-    const balance = await this.signer.provider.getBalance(this.account);
+    const balance = await this.provider.getBalance(this.account);
     this.currentChain.Coin.balance.setValue(new BigNumber(balance.toString()));
   }
 

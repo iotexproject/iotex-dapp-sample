@@ -10,6 +10,14 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		Kovan:{
+			rpcURL:{
+				type:"String",
+				array:true,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		BSC:{
 			rpcURL:{
 				type:"String",
@@ -26,7 +34,7 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
-		IoTeX_Mainnet:{
+		IoTeX:{
 			rpcURL:{
 				type:"String",
 				array:true,
@@ -35,6 +43,14 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		IoTeX_Testnet:{
+			rpcURL:{
+				type:"String",
+				array:true,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		Polis:{
 			rpcURL:{
 				type:"String",
 				array:true,
@@ -89,10 +105,32 @@ export const AllTypesProps: Record<string,any> = {
 				arrayRequired:false,
 				required:false
 			}
+		},
+		swap:{
+			args:{
+				type:"SwapArgsType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
 		}
 	},
 	UniswapFactory:{
+		INIT_CODE_PAIR_HASH:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		allPairs:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			args0:{
 				type:"String",
 				array:false,
@@ -100,7 +138,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		allPairsLength:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		createPair:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tokenA:{
 				type:"String",
 				array:false,
@@ -114,7 +166,29 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		feeTo:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		feeToSetter:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		getPair:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			args0:{
 				type:"String",
 				array:false,
@@ -129,6 +203,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		setFeeTo:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			_feeTo:{
 				type:"String",
 				array:false,
@@ -137,8 +217,52 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		setFeeToSetter:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			_feeToSetter:{
 				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		getPairs:{
+			address:{
+				type:"String",
+				array:true,
+				arrayRequired:false,
+				required:false
+			},
+			addresses:{
+				type:"String",
+				array:true,
+				arrayRequired:false,
+				required:false
+			},
+			preload:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			token0Address:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			token1Address:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			cache:{
+				type:"CacheInputType",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -146,7 +270,21 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UniswapRouter:{
+		WETH:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		addLiquidity:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tokenA:{
 				type:"String",
 				array:false,
@@ -197,6 +335,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		addLiquidityETH:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			token:{
 				type:"String",
 				array:false,
@@ -234,7 +378,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		factory:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		getAmountIn:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountOut:{
 				type:"String",
 				array:false,
@@ -255,6 +413,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		getAmountOut:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountIn:{
 				type:"String",
 				array:false,
@@ -275,6 +439,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		getAmountsIn:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountOut:{
 				type:"String",
 				array:false,
@@ -283,12 +453,18 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			}
 		},
 		getAmountsOut:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountIn:{
 				type:"String",
 				array:false,
@@ -297,12 +473,18 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			}
 		},
 		quote:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountA:{
 				type:"String",
 				array:false,
@@ -323,6 +505,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		removeLiquidity:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tokenA:{
 				type:"String",
 				array:false,
@@ -367,6 +555,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		removeLiquidityETH:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			token:{
 				type:"String",
 				array:false,
@@ -405,6 +599,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		removeLiquidityETHSupportingFeeOnTransferTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			token:{
 				type:"String",
 				array:false,
@@ -443,6 +643,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapETHForExactTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountOut:{
 				type:"String",
 				array:false,
@@ -451,7 +657,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -469,6 +675,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapExactETHForTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountOutMin:{
 				type:"String",
 				array:false,
@@ -477,7 +689,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -495,6 +707,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapExactETHForTokensSupportingFeeOnTransferTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountOutMin:{
 				type:"String",
 				array:false,
@@ -503,7 +721,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -521,6 +739,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapExactTokensForETH:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountIn:{
 				type:"String",
 				array:false,
@@ -535,7 +759,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -553,6 +777,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapExactTokensForETHSupportingFeeOnTransferTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountIn:{
 				type:"String",
 				array:false,
@@ -567,7 +797,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -585,6 +815,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapExactTokensForTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountIn:{
 				type:"String",
 				array:false,
@@ -599,7 +835,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -617,6 +853,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapExactTokensForTokensSupportingFeeOnTransferTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountIn:{
 				type:"String",
 				array:false,
@@ -631,7 +873,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -649,6 +891,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapTokensForExactETH:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountOut:{
 				type:"String",
 				array:false,
@@ -663,7 +911,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -681,6 +929,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swapTokensForExactTokens:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amountOut:{
 				type:"String",
 				array:false,
@@ -695,7 +949,7 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			path:{
 				type:"String",
-				array:false,
+				array:true,
 				arrayRequired:false,
 				required:false
 			},
@@ -719,10 +973,32 @@ export const AllTypesProps: Record<string,any> = {
 				arrayRequired:false,
 				required:false
 			}
+		},
+		preload:{
+			address:{
+				type:"String",
+				array:true,
+				arrayRequired:false,
+				required:false
+			}
 		}
 	},
 	LPToken:{
+		MINIMUM_LIQUIDITY:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		allowance:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			args0:{
 				type:"String",
 				array:false,
@@ -737,6 +1013,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		approve:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			spender:{
 				type:"String",
 				array:false,
@@ -751,6 +1033,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		balanceOf:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			args0:{
 				type:"String",
 				array:false,
@@ -759,6 +1047,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		burn:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -766,7 +1060,37 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		decimals:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		factory:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		getReserves:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		initialize:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			_token0:{
 				type:"String",
 				array:false,
@@ -780,7 +1104,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		kLast:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		mint:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -788,7 +1126,37 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		name:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		price0CumulativeLast:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		price1CumulativeLast:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		skim:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -797,6 +1165,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		swap:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amount0Out:{
 				type:"String",
 				array:false,
@@ -822,7 +1196,53 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		symbol:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		sync:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		token0:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		token1:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		totalSupply:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		transfer:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -837,6 +1257,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		transferFrom:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			from:{
 				type:"String",
 				array:false,
@@ -858,7 +1284,29 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	WETH:{
+		CALLBACK_SUCCESS:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		PERMIT_TYPEHASH:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		allowance:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			args0:{
 				type:"String",
 				array:false,
@@ -873,6 +1321,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		approve:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			spender:{
 				type:"String",
 				array:false,
@@ -887,6 +1341,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		approveAndCall:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			spender:{
 				type:"String",
 				array:false,
@@ -907,6 +1367,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		balanceOf:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			args0:{
 				type:"String",
 				array:false,
@@ -914,7 +1380,29 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		decimals:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		deposit:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		depositTo:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -923,6 +1411,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		depositToAndCall:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -937,6 +1431,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		flashFee:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			token:{
 				type:"String",
 				array:false,
@@ -951,6 +1451,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		flashLoan:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			receiver:{
 				type:"String",
 				array:false,
@@ -976,7 +1482,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		flashMinted:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		maxFlashLoan:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			token:{
 				type:"String",
 				array:false,
@@ -984,7 +1504,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		name:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		nonces:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			args0:{
 				type:"String",
 				array:false,
@@ -993,6 +1527,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		permit:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			owner:{
 				type:"String",
 				array:false,
@@ -1036,7 +1576,29 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		symbol:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		totalSupply:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		transfer:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -1051,6 +1613,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		transferAndCall:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -1071,6 +1639,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		transferFrom:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			from:{
 				type:"String",
 				array:false,
@@ -1091,6 +1665,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		withdraw:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			value:{
 				type:"String",
 				array:false,
@@ -1099,6 +1679,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		withdrawFrom:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			from:{
 				type:"String",
 				array:false,
@@ -1119,6 +1705,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		withdrawTo:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -1135,6 +1727,12 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	ERC20:{
 		allowance:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			owner:{
 				type:"String",
 				array:false,
@@ -1149,6 +1747,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		approve:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			spender:{
 				type:"String",
 				array:false,
@@ -1163,6 +1767,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		balanceOf:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			account:{
 				type:"String",
 				array:false,
@@ -1171,6 +1781,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		burn:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			amount:{
 				type:"String",
 				array:false,
@@ -1179,6 +1795,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		burnFrom:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			account:{
 				type:"String",
 				array:false,
@@ -1192,7 +1814,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		decimals:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		decreaseAllowance:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			spender:{
 				type:"String",
 				array:false,
@@ -1207,6 +1843,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		increaseAllowance:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			spender:{
 				type:"String",
 				array:false,
@@ -1220,7 +1862,37 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		name:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		symbol:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		totalSupply:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		transfer:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			recipient:{
 				type:"String",
 				array:false,
@@ -1235,6 +1907,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		transferFrom:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			sender:{
 				type:"String",
 				array:false,
@@ -1296,7 +1974,37 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	ERC721:{
+		DEFAULT_ADMIN_ROLE:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		MINTER_ROLE:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		PAUSER_ROLE:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		approve:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -1311,6 +2019,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		balanceOf:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			owner:{
 				type:"String",
 				array:false,
@@ -1319,6 +2033,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		burn:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tokenId:{
 				type:"String",
 				array:false,
@@ -1327,6 +2047,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		getApproved:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tokenId:{
 				type:"String",
 				array:false,
@@ -1335,6 +2061,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		getRoleAdmin:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			role:{
 				type:"String",
 				array:false,
@@ -1343,6 +2075,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		getRoleMember:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			role:{
 				type:"String",
 				array:false,
@@ -1357,6 +2095,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		getRoleMemberCount:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			role:{
 				type:"String",
 				array:false,
@@ -1365,6 +2109,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		grantRole:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			role:{
 				type:"String",
 				array:false,
@@ -1379,6 +2129,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		hasRole:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			role:{
 				type:"String",
 				array:false,
@@ -1393,6 +2149,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		isApprovedForAll:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			owner:{
 				type:"String",
 				array:false,
@@ -1407,6 +2169,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		mint:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			to:{
 				type:"String",
 				array:false,
@@ -1414,7 +2182,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		name:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		ownerOf:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tokenId:{
 				type:"String",
 				array:false,
@@ -1422,7 +2204,29 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		pause:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		paused:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		renounceRole:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			role:{
 				type:"String",
 				array:false,
@@ -1437,6 +2241,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		revokeRole:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			role:{
 				type:"String",
 				array:false,
@@ -1451,6 +2261,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		safeTransferFrom:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			from:{
 				type:"String",
 				array:false,
@@ -1477,6 +2293,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		setApprovalForAll:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			operator:{
 				type:"String",
 				array:false,
@@ -1491,6 +2313,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		supportsInterface:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			interfaceId:{
 				type:"String",
 				array:false,
@@ -1498,7 +2326,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		symbol:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		tokenByIndex:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			index:{
 				type:"String",
 				array:false,
@@ -1507,6 +2349,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		tokenOfOwnerByIndex:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			owner:{
 				type:"String",
 				array:false,
@@ -1521,6 +2369,12 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		},
 		tokenURI:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			tokenId:{
 				type:"String",
 				array:false,
@@ -1528,7 +2382,21 @@ export const AllTypesProps: Record<string,any> = {
 				required:false
 			}
 		},
+		totalSupply:{
+			cache:{
+				type:"CacheInputType",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
 		transferFrom:{
+			antenna:{
+				type:"Boolean",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
 			from:{
 				type:"String",
 				array:false,
@@ -1543,6 +2411,14 @@ export const AllTypesProps: Record<string,any> = {
 			},
 			tokenId:{
 				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:false
+			}
+		},
+		unpause:{
+			antenna:{
+				type:"Boolean",
 				array:false,
 				arrayRequired:false,
 				required:false
@@ -1586,6 +2462,12 @@ export const AllTypesProps: Record<string,any> = {
 			arrayRequired:false,
 			required:false
 		},
+		lpFee:{
+			type:"Float",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
 		slippagePercentage:{
 			type:"Float",
 			array:false,
@@ -1594,6 +2476,18 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		offlinePrice:{
 			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		isFeeToken:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		chainId:{
+			type:"Int",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1661,25 +2555,55 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		antenna:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
-	AnyDataField: "enum"
+	CacheInputType:{
+		ttl:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		mode:{
+			type:"CacheMode",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		refresh:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	AnyDataField: "enum",
+	CacheMode: "enum"
 }
 
 export const ReturnTypes: Record<string,any> = {
 	Query:{
 		ETH:"Multicall",
+		Kovan:"Multicall",
 		BSC:"Multicall",
 		Polygon:"Multicall",
-		IoTeX_Mainnet:"Multicall",
+		IoTeX:"Multicall",
 		IoTeX_Testnet:"Multicall",
+		Polis:"Multicall",
 		UniswapFactory:"UniswapFactory",
 		UniswapRouter:"UniswapRouter",
 		LPToken:"LPToken",
 		WETH:"WETH",
 		ERC20:"ERC20",
 		ERC721:"ERC721",
-		networks:"Network"
+		networks:"Network",
+		swap:"amount"
 	},
 	UniswapFactory:{
 		address:"String",
@@ -1692,7 +2616,8 @@ export const ReturnTypes: Record<string,any> = {
 		feeToSetter:"String",
 		getPair:"String",
 		setFeeTo:"String",
-		setFeeToSetter:"String"
+		setFeeToSetter:"String",
+		getPairs:"LPToken"
 	},
 	UniswapRouter:{
 		address:"String",
@@ -1718,7 +2643,8 @@ export const ReturnTypes: Record<string,any> = {
 		swapExactTokensForTokensSupportingFeeOnTransferTokens:"String",
 		swapTokensForExactETH:"String",
 		swapTokensForExactTokens:"String",
-		swap:"amount"
+		swap:"amount",
+		preload:"Boolean"
 	},
 	LPToken:{
 		address:"String",
@@ -1863,15 +2789,24 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	amount:{
 		amount:"String",
+		withSlippageAmount:"String",
 		path:"ERC20",
+		provider:"ProviderResponseType",
+		allProvider:"ProviderResponseType",
 		from:"String",
 		to:"String",
 		router:"String",
 		data:"String",
 		value:"String",
 		slippagePercentage:"Float",
+		priceImpact:"Float",
 		sellToken:"ERC20",
 		buyToken:"ERC20"
+	},
+	ProviderResponseType:{
+		name:"String",
+		address:"String",
+		chainId:"Int"
 	}
 }
 type ZEUS_INTERFACES = never
@@ -1880,10 +2815,12 @@ type ZEUS_UNIONS = never
 export type ValueTypes = {
     ["Query"]: AliasType<{
 ETH?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
+Kovan?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
 BSC?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
 Polygon?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
-IoTeX_Mainnet?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
+IoTeX?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
 IoTeX_Testnet?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
+Polis?: [{	rpcURL?:(string | undefined | null)[]},ValueTypes["Multicall"]],
 UniswapFactory?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["UniswapFactory"]],
 UniswapRouter?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["UniswapRouter"]],
 LPToken?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["LPToken"]],
@@ -1891,75 +2828,78 @@ WETH?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueType
 ERC20?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["ERC20"]],
 ERC721?: [{	calls?:(ValueTypes["CrossChainCalls"] | undefined | null)[]},ValueTypes["ERC721"]],
 	networks?:ValueTypes["Network"],
+swap?: [{	args?:ValueTypes["SwapArgsType"] | null},ValueTypes["amount"]],
 		__typename?: boolean
 }>;
 	["UniswapFactory"]: AliasType<{
 	address?:boolean,
 	chainId?:boolean,
-	INIT_CODE_PAIR_HASH?:boolean,
-allPairs?: [{	args0?:string | null},boolean],
-	allPairsLength?:boolean,
-createPair?: [{	tokenA?:string | null,	tokenB?:string | null},boolean],
-	feeTo?:boolean,
-	feeToSetter?:boolean,
-getPair?: [{	args0?:string | null,	args1?:string | null},boolean],
-setFeeTo?: [{	_feeTo?:string | null},boolean],
-setFeeToSetter?: [{	_feeToSetter?:string | null},boolean],
+INIT_CODE_PAIR_HASH?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+allPairs?: [{	cache?:ValueTypes["CacheInputType"] | null,	args0?:string | null},boolean],
+allPairsLength?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+createPair?: [{	antenna?:boolean | null,	tokenA?:string | null,	tokenB?:string | null},boolean],
+feeTo?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+feeToSetter?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+getPair?: [{	cache?:ValueTypes["CacheInputType"] | null,	args0?:string | null,	args1?:string | null},boolean],
+setFeeTo?: [{	antenna?:boolean | null,	_feeTo?:string | null},boolean],
+setFeeToSetter?: [{	antenna?:boolean | null,	_feeToSetter?:string | null},boolean],
+getPairs?: [{	address?:(string | undefined | null)[],	addresses?:(string | undefined | null)[],	preload?:boolean | null,	token0Address?:string | null,	token1Address?:string | null,	cache?:ValueTypes["CacheInputType"] | null},ValueTypes["LPToken"]],
 		__typename?: boolean
 }>;
 	["UniswapRouter"]: AliasType<{
 	address?:boolean,
 	chainId?:boolean,
-	WETH?:boolean,
-addLiquidity?: [{	tokenA?:string | null,	tokenB?:string | null,	amountADesired?:string | null,	amountBDesired?:string | null,	amountAMin?:string | null,	amountBMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-addLiquidityETH?: [{	token?:string | null,	amountTokenDesired?:string | null,	amountTokenMin?:string | null,	amountETHMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-	factory?:boolean,
-getAmountIn?: [{	amountOut?:string | null,	reserveIn?:string | null,	reserveOut?:string | null},boolean],
-getAmountOut?: [{	amountIn?:string | null,	reserveIn?:string | null,	reserveOut?:string | null},boolean],
-getAmountsIn?: [{	amountOut?:string | null,	path?:string | null},boolean],
-getAmountsOut?: [{	amountIn?:string | null,	path?:string | null},boolean],
-quote?: [{	amountA?:string | null,	reserveA?:string | null,	reserveB?:string | null},boolean],
-removeLiquidity?: [{	tokenA?:string | null,	tokenB?:string | null,	liquidity?:string | null,	amountAMin?:string | null,	amountBMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-removeLiquidityETH?: [{	token?:string | null,	liquidity?:string | null,	amountTokenMin?:string | null,	amountETHMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-removeLiquidityETHSupportingFeeOnTransferTokens?: [{	token?:string | null,	liquidity?:string | null,	amountTokenMin?:string | null,	amountETHMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapETHForExactTokens?: [{	amountOut?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapExactETHForTokens?: [{	amountOutMin?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapExactETHForTokensSupportingFeeOnTransferTokens?: [{	amountOutMin?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapExactTokensForETH?: [{	amountIn?:string | null,	amountOutMin?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapExactTokensForETHSupportingFeeOnTransferTokens?: [{	amountIn?:string | null,	amountOutMin?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapExactTokensForTokens?: [{	amountIn?:string | null,	amountOutMin?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapExactTokensForTokensSupportingFeeOnTransferTokens?: [{	amountIn?:string | null,	amountOutMin?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapTokensForExactETH?: [{	amountOut?:string | null,	amountInMax?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
-swapTokensForExactTokens?: [{	amountOut?:string | null,	amountInMax?:string | null,	path?:string | null,	to?:string | null,	deadline?:string | null},boolean],
+WETH?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+addLiquidity?: [{	antenna?:boolean | null,	tokenA?:string | null,	tokenB?:string | null,	amountADesired?:string | null,	amountBDesired?:string | null,	amountAMin?:string | null,	amountBMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
+addLiquidityETH?: [{	antenna?:boolean | null,	token?:string | null,	amountTokenDesired?:string | null,	amountTokenMin?:string | null,	amountETHMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
+factory?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+getAmountIn?: [{	antenna?:boolean | null,	amountOut?:string | null,	reserveIn?:string | null,	reserveOut?:string | null},boolean],
+getAmountOut?: [{	antenna?:boolean | null,	amountIn?:string | null,	reserveIn?:string | null,	reserveOut?:string | null},boolean],
+getAmountsIn?: [{	cache?:ValueTypes["CacheInputType"] | null,	amountOut?:string | null,	path?:(string | undefined | null)[]},boolean],
+getAmountsOut?: [{	cache?:ValueTypes["CacheInputType"] | null,	amountIn?:string | null,	path?:(string | undefined | null)[]},boolean],
+quote?: [{	antenna?:boolean | null,	amountA?:string | null,	reserveA?:string | null,	reserveB?:string | null},boolean],
+removeLiquidity?: [{	antenna?:boolean | null,	tokenA?:string | null,	tokenB?:string | null,	liquidity?:string | null,	amountAMin?:string | null,	amountBMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
+removeLiquidityETH?: [{	antenna?:boolean | null,	token?:string | null,	liquidity?:string | null,	amountTokenMin?:string | null,	amountETHMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
+removeLiquidityETHSupportingFeeOnTransferTokens?: [{	antenna?:boolean | null,	token?:string | null,	liquidity?:string | null,	amountTokenMin?:string | null,	amountETHMin?:string | null,	to?:string | null,	deadline?:string | null},boolean],
+swapETHForExactTokens?: [{	antenna?:boolean | null,	amountOut?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapExactETHForTokens?: [{	antenna?:boolean | null,	amountOutMin?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapExactETHForTokensSupportingFeeOnTransferTokens?: [{	antenna?:boolean | null,	amountOutMin?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapExactTokensForETH?: [{	antenna?:boolean | null,	amountIn?:string | null,	amountOutMin?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapExactTokensForETHSupportingFeeOnTransferTokens?: [{	antenna?:boolean | null,	amountIn?:string | null,	amountOutMin?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapExactTokensForTokens?: [{	antenna?:boolean | null,	amountIn?:string | null,	amountOutMin?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapExactTokensForTokensSupportingFeeOnTransferTokens?: [{	antenna?:boolean | null,	amountIn?:string | null,	amountOutMin?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapTokensForExactETH?: [{	antenna?:boolean | null,	amountOut?:string | null,	amountInMax?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
+swapTokensForExactTokens?: [{	antenna?:boolean | null,	amountOut?:string | null,	amountInMax?:string | null,	path?:(string | undefined | null)[],	to?:string | null,	deadline?:string | null},boolean],
 swap?: [{	args?:ValueTypes["SwapArgsType"] | null},ValueTypes["amount"]],
+preload?: [{	address?:(string | undefined | null)[]},boolean],
 		__typename?: boolean
 }>;
 	["LPToken"]: AliasType<{
 	address?:boolean,
 	chainId?:boolean,
-	MINIMUM_LIQUIDITY?:boolean,
-allowance?: [{	args0?:string | null,	args1?:string | null},boolean],
-approve?: [{	spender?:string | null,	value?:string | null},boolean],
-balanceOf?: [{	args0?:string | null},boolean],
-burn?: [{	to?:string | null},boolean],
-	decimals?:boolean,
-	factory?:boolean,
-	getReserves?:boolean,
-initialize?: [{	_token0?:string | null,	_token1?:string | null},boolean],
-	kLast?:boolean,
-mint?: [{	to?:string | null},boolean],
-	name?:boolean,
-	price0CumulativeLast?:boolean,
-	price1CumulativeLast?:boolean,
-skim?: [{	to?:string | null},boolean],
-swap?: [{	amount0Out?:string | null,	amount1Out?:string | null,	to?:string | null,	data?:string | null},boolean],
-	symbol?:boolean,
-	sync?:boolean,
-	token0?:boolean,
-	token1?:boolean,
-	totalSupply?:boolean,
-transfer?: [{	to?:string | null,	value?:string | null},boolean],
-transferFrom?: [{	from?:string | null,	to?:string | null,	value?:string | null},boolean],
+MINIMUM_LIQUIDITY?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+allowance?: [{	cache?:ValueTypes["CacheInputType"] | null,	args0?:string | null,	args1?:string | null},boolean],
+approve?: [{	antenna?:boolean | null,	spender?:string | null,	value?:string | null},boolean],
+balanceOf?: [{	cache?:ValueTypes["CacheInputType"] | null,	args0?:string | null},boolean],
+burn?: [{	antenna?:boolean | null,	to?:string | null},boolean],
+decimals?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+factory?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+getReserves?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+initialize?: [{	antenna?:boolean | null,	_token0?:string | null,	_token1?:string | null},boolean],
+kLast?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+mint?: [{	antenna?:boolean | null,	to?:string | null},boolean],
+name?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+price0CumulativeLast?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+price1CumulativeLast?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+skim?: [{	antenna?:boolean | null,	to?:string | null},boolean],
+swap?: [{	antenna?:boolean | null,	amount0Out?:string | null,	amount1Out?:string | null,	to?:string | null,	data?:string | null},boolean],
+symbol?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+sync?: [{	antenna?:boolean | null},boolean],
+token0?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+token1?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+totalSupply?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+transfer?: [{	antenna?:boolean | null,	to?:string | null,	value?:string | null},boolean],
+transferFrom?: [{	antenna?:boolean | null,	from?:string | null,	to?:string | null,	value?:string | null},boolean],
 	Token0?:ValueTypes["ERC20"],
 	Token1?:ValueTypes["ERC20"],
 	priceUSD?:boolean,
@@ -1969,49 +2909,49 @@ transferFrom?: [{	from?:string | null,	to?:string | null,	value?:string | null},
 	["WETH"]: AliasType<{
 	address?:boolean,
 	chainId?:boolean,
-	CALLBACK_SUCCESS?:boolean,
-	PERMIT_TYPEHASH?:boolean,
-allowance?: [{	args0?:string | null,	args1?:string | null},boolean],
-approve?: [{	spender?:string | null,	value?:string | null},boolean],
-approveAndCall?: [{	spender?:string | null,	value?:string | null,	data?:string | null},boolean],
-balanceOf?: [{	args0?:string | null},boolean],
-	decimals?:boolean,
-	deposit?:boolean,
-depositTo?: [{	to?:string | null},boolean],
-depositToAndCall?: [{	to?:string | null,	data?:string | null},boolean],
-flashFee?: [{	token?:string | null,	args1?:string | null},boolean],
-flashLoan?: [{	receiver?:string | null,	token?:string | null,	value?:string | null,	data?:string | null},boolean],
-	flashMinted?:boolean,
-maxFlashLoan?: [{	token?:string | null},boolean],
-	name?:boolean,
-nonces?: [{	args0?:string | null},boolean],
-permit?: [{	owner?:string | null,	spender?:string | null,	value?:string | null,	deadline?:string | null,	v?:string | null,	r?:string | null,	s?:string | null},boolean],
-	symbol?:boolean,
-	totalSupply?:boolean,
-transfer?: [{	to?:string | null,	value?:string | null},boolean],
-transferAndCall?: [{	to?:string | null,	value?:string | null,	data?:string | null},boolean],
-transferFrom?: [{	from?:string | null,	to?:string | null,	value?:string | null},boolean],
-withdraw?: [{	value?:string | null},boolean],
-withdrawFrom?: [{	from?:string | null,	to?:string | null,	value?:string | null},boolean],
-withdrawTo?: [{	to?:string | null,	value?:string | null},boolean],
+CALLBACK_SUCCESS?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+PERMIT_TYPEHASH?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+allowance?: [{	cache?:ValueTypes["CacheInputType"] | null,	args0?:string | null,	args1?:string | null},boolean],
+approve?: [{	antenna?:boolean | null,	spender?:string | null,	value?:string | null},boolean],
+approveAndCall?: [{	antenna?:boolean | null,	spender?:string | null,	value?:string | null,	data?:string | null},boolean],
+balanceOf?: [{	cache?:ValueTypes["CacheInputType"] | null,	args0?:string | null},boolean],
+decimals?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+deposit?: [{	antenna?:boolean | null},boolean],
+depositTo?: [{	antenna?:boolean | null,	to?:string | null},boolean],
+depositToAndCall?: [{	antenna?:boolean | null,	to?:string | null,	data?:string | null},boolean],
+flashFee?: [{	cache?:ValueTypes["CacheInputType"] | null,	token?:string | null,	args1?:string | null},boolean],
+flashLoan?: [{	antenna?:boolean | null,	receiver?:string | null,	token?:string | null,	value?:string | null,	data?:string | null},boolean],
+flashMinted?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+maxFlashLoan?: [{	cache?:ValueTypes["CacheInputType"] | null,	token?:string | null},boolean],
+name?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+nonces?: [{	cache?:ValueTypes["CacheInputType"] | null,	args0?:string | null},boolean],
+permit?: [{	antenna?:boolean | null,	owner?:string | null,	spender?:string | null,	value?:string | null,	deadline?:string | null,	v?:string | null,	r?:string | null,	s?:string | null},boolean],
+symbol?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+totalSupply?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+transfer?: [{	antenna?:boolean | null,	to?:string | null,	value?:string | null},boolean],
+transferAndCall?: [{	antenna?:boolean | null,	to?:string | null,	value?:string | null,	data?:string | null},boolean],
+transferFrom?: [{	antenna?:boolean | null,	from?:string | null,	to?:string | null,	value?:string | null},boolean],
+withdraw?: [{	antenna?:boolean | null,	value?:string | null},boolean],
+withdrawFrom?: [{	antenna?:boolean | null,	from?:string | null,	to?:string | null,	value?:string | null},boolean],
+withdrawTo?: [{	antenna?:boolean | null,	to?:string | null,	value?:string | null},boolean],
 		__typename?: boolean
 }>;
 	["ERC20"]: AliasType<{
 	address?:boolean,
 	chainId?:boolean,
-allowance?: [{	owner?:string | null,	spender?:string | null},boolean],
-approve?: [{	spender?:string | null,	amount?:string | null},boolean],
-balanceOf?: [{	account?:string | null},boolean],
-burn?: [{	amount?:string | null},boolean],
-burnFrom?: [{	account?:string | null,	amount?:string | null},boolean],
-	decimals?:boolean,
-decreaseAllowance?: [{	spender?:string | null,	subtractedValue?:string | null},boolean],
-increaseAllowance?: [{	spender?:string | null,	addedValue?:string | null},boolean],
-	name?:boolean,
-	symbol?:boolean,
-	totalSupply?:boolean,
-transfer?: [{	recipient?:string | null,	amount?:string | null},boolean],
-transferFrom?: [{	sender?:string | null,	recipient?:string | null,	amount?:string | null},boolean],
+allowance?: [{	cache?:ValueTypes["CacheInputType"] | null,	owner?:string | null,	spender?:string | null},boolean],
+approve?: [{	antenna?:boolean | null,	spender?:string | null,	amount?:string | null},boolean],
+balanceOf?: [{	cache?:ValueTypes["CacheInputType"] | null,	account?:string | null},boolean],
+burn?: [{	antenna?:boolean | null,	amount?:string | null},boolean],
+burnFrom?: [{	antenna?:boolean | null,	account?:string | null,	amount?:string | null},boolean],
+decimals?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+decreaseAllowance?: [{	antenna?:boolean | null,	spender?:string | null,	subtractedValue?:string | null},boolean],
+increaseAllowance?: [{	antenna?:boolean | null,	spender?:string | null,	addedValue?:string | null},boolean],
+name?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+symbol?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+totalSupply?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+transfer?: [{	antenna?:boolean | null,	recipient?:string | null,	amount?:string | null},boolean],
+transferFrom?: [{	antenna?:boolean | null,	sender?:string | null,	recipient?:string | null,	amount?:string | null},boolean],
 checkApproval?: [{	user:string,	spender:string,	amount:string,	withData?:boolean | null},ValueTypes["ApprovalReturnType"]],
 any?: [{	field?:ValueTypes["AnyDataField"] | null,	params?:(string | undefined | null)[]},boolean],
 		__typename?: boolean
@@ -2019,36 +2959,36 @@ any?: [{	field?:ValueTypes["AnyDataField"] | null,	params?:(string | undefined |
 	["ERC721"]: AliasType<{
 	address?:boolean,
 	chainId?:boolean,
-	DEFAULT_ADMIN_ROLE?:boolean,
-	MINTER_ROLE?:boolean,
-	PAUSER_ROLE?:boolean,
-approve?: [{	to?:string | null,	tokenId?:string | null},boolean],
-balanceOf?: [{	owner?:string | null},boolean],
-burn?: [{	tokenId?:string | null},boolean],
-getApproved?: [{	tokenId?:string | null},boolean],
-getRoleAdmin?: [{	role?:string | null},boolean],
-getRoleMember?: [{	role?:string | null,	index?:string | null},boolean],
-getRoleMemberCount?: [{	role?:string | null},boolean],
-grantRole?: [{	role?:string | null,	account?:string | null},boolean],
-hasRole?: [{	role?:string | null,	account?:string | null},boolean],
-isApprovedForAll?: [{	owner?:string | null,	operator?:string | null},boolean],
-mint?: [{	to?:string | null},boolean],
-	name?:boolean,
-ownerOf?: [{	tokenId?:string | null},boolean],
-	pause?:boolean,
-	paused?:boolean,
-renounceRole?: [{	role?:string | null,	account?:string | null},boolean],
-revokeRole?: [{	role?:string | null,	account?:string | null},boolean],
-safeTransferFrom?: [{	from?:string | null,	to?:string | null,	tokenId?:string | null,	_data?:string | null},boolean],
-setApprovalForAll?: [{	operator?:string | null,	approved?:string | null},boolean],
-supportsInterface?: [{	interfaceId?:string | null},boolean],
-	symbol?:boolean,
-tokenByIndex?: [{	index?:string | null},boolean],
-tokenOfOwnerByIndex?: [{	owner?:string | null,	index?:string | null},boolean],
-tokenURI?: [{	tokenId?:string | null},boolean],
-	totalSupply?:boolean,
-transferFrom?: [{	from?:string | null,	to?:string | null,	tokenId?:string | null},boolean],
-	unpause?:boolean,
+DEFAULT_ADMIN_ROLE?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+MINTER_ROLE?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+PAUSER_ROLE?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+approve?: [{	antenna?:boolean | null,	to?:string | null,	tokenId?:string | null},boolean],
+balanceOf?: [{	cache?:ValueTypes["CacheInputType"] | null,	owner?:string | null},boolean],
+burn?: [{	antenna?:boolean | null,	tokenId?:string | null},boolean],
+getApproved?: [{	cache?:ValueTypes["CacheInputType"] | null,	tokenId?:string | null},boolean],
+getRoleAdmin?: [{	cache?:ValueTypes["CacheInputType"] | null,	role?:string | null},boolean],
+getRoleMember?: [{	cache?:ValueTypes["CacheInputType"] | null,	role?:string | null,	index?:string | null},boolean],
+getRoleMemberCount?: [{	cache?:ValueTypes["CacheInputType"] | null,	role?:string | null},boolean],
+grantRole?: [{	antenna?:boolean | null,	role?:string | null,	account?:string | null},boolean],
+hasRole?: [{	cache?:ValueTypes["CacheInputType"] | null,	role?:string | null,	account?:string | null},boolean],
+isApprovedForAll?: [{	cache?:ValueTypes["CacheInputType"] | null,	owner?:string | null,	operator?:string | null},boolean],
+mint?: [{	antenna?:boolean | null,	to?:string | null},boolean],
+name?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+ownerOf?: [{	cache?:ValueTypes["CacheInputType"] | null,	tokenId?:string | null},boolean],
+pause?: [{	antenna?:boolean | null},boolean],
+paused?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+renounceRole?: [{	antenna?:boolean | null,	role?:string | null,	account?:string | null},boolean],
+revokeRole?: [{	antenna?:boolean | null,	role?:string | null,	account?:string | null},boolean],
+safeTransferFrom?: [{	antenna?:boolean | null,	from?:string | null,	to?:string | null,	tokenId?:string | null,	_data?:string | null},boolean],
+setApprovalForAll?: [{	antenna?:boolean | null,	operator?:string | null,	approved?:string | null},boolean],
+supportsInterface?: [{	cache?:ValueTypes["CacheInputType"] | null,	interfaceId?:string | null},boolean],
+symbol?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+tokenByIndex?: [{	cache?:ValueTypes["CacheInputType"] | null,	index?:string | null},boolean],
+tokenOfOwnerByIndex?: [{	cache?:ValueTypes["CacheInputType"] | null,	owner?:string | null,	index?:string | null},boolean],
+tokenURI?: [{	cache?:ValueTypes["CacheInputType"] | null,	tokenId?:string | null},boolean],
+totalSupply?: [{	cache?:ValueTypes["CacheInputType"] | null},boolean],
+transferFrom?: [{	antenna?:boolean | null,	from?:string | null,	to?:string | null,	tokenId?:string | null},boolean],
+unpause?: [{	antenna?:boolean | null},boolean],
 		__typename?: boolean
 }>;
 	["ApprovalReturnType"]: AliasType<{
@@ -2065,8 +3005,11 @@ transferFrom?: [{	from?:string | null,	to?:string | null,	tokenId?:string | null
 	buyAmount?:string | null,
 	recipient?:string | null,
 	maxDelay?:number | null,
+	lpFee?:number | null,
 	slippagePercentage?:number | null,
-	offlinePrice?:boolean | null
+	offlinePrice?:boolean | null,
+	isFeeToken?:boolean | null,
+	chainId?:number | null
 };
 	["Multicall"]: AliasType<{
 	name?:boolean,
@@ -2081,7 +3024,13 @@ ERC721?: [{	address:string[]},ValueTypes["ERC721"]],
 }>;
 	["CrossChainCalls"]: {
 	address?:string | null,
-	chainId?:number | null
+	chainId?:number | null,
+	antenna?:boolean | null
+};
+	["CacheInputType"]: {
+	ttl?:number | null,
+	mode?:ValueTypes["CacheMode"] | null,
+	refresh?:boolean | null
 };
 	["Network"]: AliasType<{
 	name?:boolean,
@@ -2099,15 +3048,26 @@ ERC721?: [{	address:string[]},ValueTypes["ERC721"]],
 	["AnyDataField"]:AnyDataField;
 	["amount"]: AliasType<{
 	amount?:boolean,
+	withSlippageAmount?:boolean,
 	path?:ValueTypes["ERC20"],
+	provider?:ValueTypes["ProviderResponseType"],
+	allProvider?:ValueTypes["ProviderResponseType"],
 	from?:boolean,
 	to?:boolean,
 	router?:boolean,
 	data?:boolean,
 	value?:boolean,
 	slippagePercentage?:boolean,
+	priceImpact?:boolean,
 	sellToken?:ValueTypes["ERC20"],
 	buyToken?:ValueTypes["ERC20"],
+		__typename?: boolean
+}>;
+	["CacheMode"]:CacheMode;
+	["ProviderResponseType"]: AliasType<{
+	name?:boolean,
+	address?:boolean,
+	chainId?:boolean,
 		__typename?: boolean
 }>
   }
@@ -2115,17 +3075,20 @@ ERC721?: [{	address:string[]},ValueTypes["ERC721"]],
 export type ModelTypes = {
     ["Query"]: {
 		ETH?:ModelTypes["Multicall"],
+	Kovan?:ModelTypes["Multicall"],
 	BSC?:ModelTypes["Multicall"],
 	Polygon?:ModelTypes["Multicall"],
-	IoTeX_Mainnet?:ModelTypes["Multicall"],
+	IoTeX?:ModelTypes["Multicall"],
 	IoTeX_Testnet?:ModelTypes["Multicall"],
+	Polis?:ModelTypes["Multicall"],
 	UniswapFactory?:(ModelTypes["UniswapFactory"] | undefined)[],
 	UniswapRouter?:(ModelTypes["UniswapRouter"] | undefined)[],
 	LPToken?:(ModelTypes["LPToken"] | undefined)[],
 	WETH?:(ModelTypes["WETH"] | undefined)[],
 	ERC20?:(ModelTypes["ERC20"] | undefined)[],
 	ERC721?:(ModelTypes["ERC721"] | undefined)[],
-	networks?:(ModelTypes["Network"] | undefined)[]
+	networks?:(ModelTypes["Network"] | undefined)[],
+	swap?:ModelTypes["amount"]
 };
 	["UniswapFactory"]: {
 		address?:string,
@@ -2138,7 +3101,8 @@ export type ModelTypes = {
 	feeToSetter?:string,
 	getPair?:string,
 	setFeeTo?:string,
-	setFeeToSetter?:string
+	setFeeToSetter?:string,
+	getPairs?:(ModelTypes["LPToken"] | undefined)[]
 };
 	["UniswapRouter"]: {
 		address?:string,
@@ -2164,7 +3128,8 @@ export type ModelTypes = {
 	swapExactTokensForTokensSupportingFeeOnTransferTokens?:string,
 	swapTokensForExactETH?:string,
 	swapTokensForExactTokens?:string,
-	swap?:ModelTypes["amount"]
+	swap?:ModelTypes["amount"],
+	preload?:boolean
 };
 	["LPToken"]: {
 		address?:string,
@@ -2297,6 +3262,7 @@ export type ModelTypes = {
 	ERC721?:(ModelTypes["ERC721"] | undefined)[]
 };
 	["CrossChainCalls"]: GraphQLTypes["CrossChainCalls"];
+	["CacheInputType"]: GraphQLTypes["CacheInputType"];
 	["Network"]: {
 		name?:string,
 	chainId?:number,
@@ -2312,15 +3278,25 @@ export type ModelTypes = {
 	["AnyDataField"]: GraphQLTypes["AnyDataField"];
 	["amount"]: {
 		amount?:string,
+	withSlippageAmount?:string,
 	path?:(ModelTypes["ERC20"] | undefined)[],
+	provider?:ModelTypes["ProviderResponseType"],
+	allProvider?:(ModelTypes["ProviderResponseType"] | undefined)[],
 	from?:string,
 	to?:string,
 	router?:string,
 	data?:string,
 	value?:string,
 	slippagePercentage?:number,
+	priceImpact?:number,
 	sellToken?:ModelTypes["ERC20"],
 	buyToken?:ModelTypes["ERC20"]
+};
+	["CacheMode"]: GraphQLTypes["CacheMode"];
+	["ProviderResponseType"]: {
+		name?:string,
+	address?:string,
+	chainId?:number
 }
     }
 
@@ -2328,17 +3304,20 @@ export type GraphQLTypes = {
     ["Query"]: {
 	__typename: "Query",
 	ETH?: GraphQLTypes["Multicall"],
+	Kovan?: GraphQLTypes["Multicall"],
 	BSC?: GraphQLTypes["Multicall"],
 	Polygon?: GraphQLTypes["Multicall"],
-	IoTeX_Mainnet?: GraphQLTypes["Multicall"],
+	IoTeX?: GraphQLTypes["Multicall"],
 	IoTeX_Testnet?: GraphQLTypes["Multicall"],
+	Polis?: GraphQLTypes["Multicall"],
 	UniswapFactory?: Array<GraphQLTypes["UniswapFactory"] | undefined>,
 	UniswapRouter?: Array<GraphQLTypes["UniswapRouter"] | undefined>,
 	LPToken?: Array<GraphQLTypes["LPToken"] | undefined>,
 	WETH?: Array<GraphQLTypes["WETH"] | undefined>,
 	ERC20?: Array<GraphQLTypes["ERC20"] | undefined>,
 	ERC721?: Array<GraphQLTypes["ERC721"] | undefined>,
-	networks?: Array<GraphQLTypes["Network"] | undefined>
+	networks?: Array<GraphQLTypes["Network"] | undefined>,
+	swap?: GraphQLTypes["amount"]
 };
 	["UniswapFactory"]: {
 	__typename: "UniswapFactory",
@@ -2352,7 +3331,8 @@ export type GraphQLTypes = {
 	feeToSetter?: string,
 	getPair?: string,
 	setFeeTo?: string,
-	setFeeToSetter?: string
+	setFeeToSetter?: string,
+	getPairs?: Array<GraphQLTypes["LPToken"] | undefined>
 };
 	["UniswapRouter"]: {
 	__typename: "UniswapRouter",
@@ -2379,7 +3359,8 @@ export type GraphQLTypes = {
 	swapExactTokensForTokensSupportingFeeOnTransferTokens?: string,
 	swapTokensForExactETH?: string,
 	swapTokensForExactTokens?: string,
-	swap?: GraphQLTypes["amount"]
+	swap?: GraphQLTypes["amount"],
+	preload?: boolean
 };
 	["LPToken"]: {
 	__typename: "LPToken",
@@ -2512,8 +3493,11 @@ export type GraphQLTypes = {
 	buyAmount?: string,
 	recipient?: string,
 	maxDelay?: number,
+	lpFee?: number,
 	slippagePercentage?: number,
-	offlinePrice?: boolean
+	offlinePrice?: boolean,
+	isFeeToken?: boolean,
+	chainId?: number
 };
 	["Multicall"]: {
 	__typename: "Multicall",
@@ -2528,7 +3512,13 @@ export type GraphQLTypes = {
 };
 	["CrossChainCalls"]: {
 		address?: string,
-	chainId?: number
+	chainId?: number,
+	antenna?: boolean
+};
+	["CacheInputType"]: {
+		ttl?: number,
+	mode?: GraphQLTypes["CacheMode"],
+	refresh?: boolean
 };
 	["Network"]: {
 	__typename: "Network",
@@ -2547,21 +3537,36 @@ export type GraphQLTypes = {
 	["amount"]: {
 	__typename: "amount",
 	amount?: string,
+	withSlippageAmount?: string,
 	path?: Array<GraphQLTypes["ERC20"] | undefined>,
+	provider?: GraphQLTypes["ProviderResponseType"],
+	allProvider?: Array<GraphQLTypes["ProviderResponseType"] | undefined>,
 	from?: string,
 	to?: string,
 	router?: string,
 	data?: string,
 	value?: string,
 	slippagePercentage?: number,
+	priceImpact?: number,
 	sellToken?: GraphQLTypes["ERC20"],
 	buyToken?: GraphQLTypes["ERC20"]
+};
+	["CacheMode"]: CacheMode;
+	["ProviderResponseType"]: {
+	__typename: "ProviderResponseType",
+	name?: string,
+	address?: string,
+	chainId?: number
 }
     }
 export const enum AnyDataField {
 	price = "price",
 	market_cap = "market_cap",
 	balance = "balance"
+}
+export const enum CacheMode {
+	async = "async",
+	sync = "sync"
 }
 export class GraphQLError extends Error {
     constructor(public response: GraphQLResponse) {

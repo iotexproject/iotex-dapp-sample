@@ -1,9 +1,11 @@
 type Query {
-  ETH(rpcURL: [String]): Multicall
-  BSC(rpcURL: [String]): Multicall
-  Polygon(rpcURL: [String]): Multicall
-  IoTeX_Mainnet(rpcURL: [String]): Multicall
-  IoTeX_Testnet(rpcURL: [String]): Multicall
+  ETH(rpcURL: [String]): Multicall @deprecated(reason: "This API is deprecated. Please use 'crosschain multicall' instead.")
+  Kovan(rpcURL: [String]): Multicall @deprecated(reason: "This API is deprecated. Please use 'crosschain multicall' instead.")
+  BSC(rpcURL: [String]): Multicall @deprecated(reason: "This API is deprecated. Please use 'crosschain multicall' instead.")
+  Polygon(rpcURL: [String]): Multicall @deprecated(reason: "This API is deprecated. Please use 'crosschain multicall' instead.")
+  IoTeX(rpcURL: [String]): Multicall @deprecated(reason: "This API is deprecated. Please use 'crosschain multicall' instead.")
+  IoTeX_Testnet(rpcURL: [String]): Multicall @deprecated(reason: "This API is deprecated. Please use 'crosschain multicall' instead.")
+  Polis(rpcURL: [String]): Multicall @deprecated(reason: "This API is deprecated. Please use 'crosschain multicall' instead.")
   UniswapFactory(calls: [CrossChainCalls] = []): [UniswapFactory]
   UniswapRouter(calls: [CrossChainCalls] = []): [UniswapRouter]
   LPToken(calls: [CrossChainCalls] = []): [LPToken]
@@ -11,75 +13,78 @@ type Query {
   ERC20(calls: [CrossChainCalls] = []): [ERC20]
   ERC721(calls: [CrossChainCalls] = []): [ERC721]
   networks: [Network]
+  swap(args: SwapArgsType): amount
 }
 
 type UniswapFactory {
   address: String
   chainId: String
-  INIT_CODE_PAIR_HASH: String
-  allPairs(args0: String): String
-  allPairsLength: String
-  createPair(tokenA: String, tokenB: String): String
-  feeTo: String
-  feeToSetter: String
-  getPair(args0: String, args1: String): String
-  setFeeTo(_feeTo: String): String
-  setFeeToSetter(_feeToSetter: String): String
+  INIT_CODE_PAIR_HASH(cache: CacheInputType): String
+  allPairs(cache: CacheInputType, args0: String): String
+  allPairsLength(cache: CacheInputType): String
+  createPair(antenna: Boolean, tokenA: String, tokenB: String): String
+  feeTo(cache: CacheInputType): String
+  feeToSetter(cache: CacheInputType): String
+  getPair(cache: CacheInputType, args0: String, args1: String): String
+  setFeeTo(antenna: Boolean, _feeTo: String): String
+  setFeeToSetter(antenna: Boolean, _feeToSetter: String): String
+  getPairs(address: [String], addresses: [String], preload: Boolean, token0Address: String, token1Address: String, cache: CacheInputType): [LPToken]
 }
 
 type UniswapRouter {
   address: String
   chainId: String
-  WETH: String
-  addLiquidity(tokenA: String, tokenB: String, amountADesired: String, amountBDesired: String, amountAMin: String, amountBMin: String, to: String, deadline: String): String
-  addLiquidityETH(token: String, amountTokenDesired: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
-  factory: String
-  getAmountIn(amountOut: String, reserveIn: String, reserveOut: String): String
-  getAmountOut(amountIn: String, reserveIn: String, reserveOut: String): String
-  getAmountsIn(amountOut: String, path: String): String
-  getAmountsOut(amountIn: String, path: String): String
-  quote(amountA: String, reserveA: String, reserveB: String): String
-  removeLiquidity(tokenA: String, tokenB: String, liquidity: String, amountAMin: String, amountBMin: String, to: String, deadline: String): String
-  removeLiquidityETH(token: String, liquidity: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
-  removeLiquidityETHSupportingFeeOnTransferTokens(token: String, liquidity: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
-  swapETHForExactTokens(amountOut: String, path: String, to: String, deadline: String): String
-  swapExactETHForTokens(amountOutMin: String, path: String, to: String, deadline: String): String
-  swapExactETHForTokensSupportingFeeOnTransferTokens(amountOutMin: String, path: String, to: String, deadline: String): String
-  swapExactTokensForETH(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
-  swapExactTokensForETHSupportingFeeOnTransferTokens(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
-  swapExactTokensForTokens(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
-  swapExactTokensForTokensSupportingFeeOnTransferTokens(amountIn: String, amountOutMin: String, path: String, to: String, deadline: String): String
-  swapTokensForExactETH(amountOut: String, amountInMax: String, path: String, to: String, deadline: String): String
-  swapTokensForExactTokens(amountOut: String, amountInMax: String, path: String, to: String, deadline: String): String
+  WETH(cache: CacheInputType): String
+  addLiquidity(antenna: Boolean, tokenA: String, tokenB: String, amountADesired: String, amountBDesired: String, amountAMin: String, amountBMin: String, to: String, deadline: String): String
+  addLiquidityETH(antenna: Boolean, token: String, amountTokenDesired: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
+  factory(cache: CacheInputType): String
+  getAmountIn(antenna: Boolean, amountOut: String, reserveIn: String, reserveOut: String): String
+  getAmountOut(antenna: Boolean, amountIn: String, reserveIn: String, reserveOut: String): String
+  getAmountsIn(cache: CacheInputType, amountOut: String, path: [String]): String
+  getAmountsOut(cache: CacheInputType, amountIn: String, path: [String]): String
+  quote(antenna: Boolean, amountA: String, reserveA: String, reserveB: String): String
+  removeLiquidity(antenna: Boolean, tokenA: String, tokenB: String, liquidity: String, amountAMin: String, amountBMin: String, to: String, deadline: String): String
+  removeLiquidityETH(antenna: Boolean, token: String, liquidity: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
+  removeLiquidityETHSupportingFeeOnTransferTokens(antenna: Boolean, token: String, liquidity: String, amountTokenMin: String, amountETHMin: String, to: String, deadline: String): String
+  swapETHForExactTokens(antenna: Boolean, amountOut: String, path: [String], to: String, deadline: String): String
+  swapExactETHForTokens(antenna: Boolean, amountOutMin: String, path: [String], to: String, deadline: String): String
+  swapExactETHForTokensSupportingFeeOnTransferTokens(antenna: Boolean, amountOutMin: String, path: [String], to: String, deadline: String): String
+  swapExactTokensForETH(antenna: Boolean, amountIn: String, amountOutMin: String, path: [String], to: String, deadline: String): String
+  swapExactTokensForETHSupportingFeeOnTransferTokens(antenna: Boolean, amountIn: String, amountOutMin: String, path: [String], to: String, deadline: String): String
+  swapExactTokensForTokens(antenna: Boolean, amountIn: String, amountOutMin: String, path: [String], to: String, deadline: String): String
+  swapExactTokensForTokensSupportingFeeOnTransferTokens(antenna: Boolean, amountIn: String, amountOutMin: String, path: [String], to: String, deadline: String): String
+  swapTokensForExactETH(antenna: Boolean, amountOut: String, amountInMax: String, path: [String], to: String, deadline: String): String
+  swapTokensForExactTokens(antenna: Boolean, amountOut: String, amountInMax: String, path: [String], to: String, deadline: String): String
   swap(args: SwapArgsType): amount
+  preload(address: [String]): Boolean
 }
 
 type LPToken {
   address: String
   chainId: String
-  MINIMUM_LIQUIDITY: String
-  allowance(args0: String, args1: String): String
-  approve(spender: String, value: String): String
-  balanceOf(args0: String): String
-  burn(to: String): String
-  decimals: String
-  factory: String
-  getReserves: String
-  initialize(_token0: String, _token1: String): String
-  kLast: String
-  mint(to: String): String
-  name: String
-  price0CumulativeLast: String
-  price1CumulativeLast: String
-  skim(to: String): String
-  swap(amount0Out: String, amount1Out: String, to: String, data: String): String
-  symbol: String
-  sync: String
-  token0: String
-  token1: String
-  totalSupply: String
-  transfer(to: String, value: String): String
-  transferFrom(from: String, to: String, value: String): String
+  MINIMUM_LIQUIDITY(cache: CacheInputType): String
+  allowance(cache: CacheInputType, args0: String, args1: String): String
+  approve(antenna: Boolean, spender: String, value: String): String
+  balanceOf(cache: CacheInputType, args0: String): String
+  burn(antenna: Boolean, to: String): String
+  decimals(cache: CacheInputType): String
+  factory(cache: CacheInputType): String
+  getReserves(cache: CacheInputType): String
+  initialize(antenna: Boolean, _token0: String, _token1: String): String
+  kLast(cache: CacheInputType): String
+  mint(antenna: Boolean, to: String): String
+  name(cache: CacheInputType): String
+  price0CumulativeLast(cache: CacheInputType): String
+  price1CumulativeLast(cache: CacheInputType): String
+  skim(antenna: Boolean, to: String): String
+  swap(antenna: Boolean, amount0Out: String, amount1Out: String, to: String, data: String): String
+  symbol(cache: CacheInputType): String
+  sync(antenna: Boolean): String
+  token0(cache: CacheInputType): String
+  token1(cache: CacheInputType): String
+  totalSupply(cache: CacheInputType): String
+  transfer(antenna: Boolean, to: String, value: String): String
+  transferFrom(antenna: Boolean, from: String, to: String, value: String): String
   Token0: ERC20
   Token1: ERC20
   priceUSD: String
@@ -89,49 +94,49 @@ type LPToken {
 type WETH {
   address: String
   chainId: String
-  CALLBACK_SUCCESS: String
-  PERMIT_TYPEHASH: String
-  allowance(args0: String, args1: String): String
-  approve(spender: String, value: String): String
-  approveAndCall(spender: String, value: String, data: String): String
-  balanceOf(args0: String): String
-  decimals: String
-  deposit: String
-  depositTo(to: String): String
-  depositToAndCall(to: String, data: String): String
-  flashFee(token: String, args1: String): String
-  flashLoan(receiver: String, token: String, value: String, data: String): String
-  flashMinted: String
-  maxFlashLoan(token: String): String
-  name: String
-  nonces(args0: String): String
-  permit(owner: String, spender: String, value: String, deadline: String, v: String, r: String, s: String): String
-  symbol: String
-  totalSupply: String
-  transfer(to: String, value: String): String
-  transferAndCall(to: String, value: String, data: String): String
-  transferFrom(from: String, to: String, value: String): String
-  withdraw(value: String): String
-  withdrawFrom(from: String, to: String, value: String): String
-  withdrawTo(to: String, value: String): String
+  CALLBACK_SUCCESS(cache: CacheInputType): String
+  PERMIT_TYPEHASH(cache: CacheInputType): String
+  allowance(cache: CacheInputType, args0: String, args1: String): String
+  approve(antenna: Boolean, spender: String, value: String): String
+  approveAndCall(antenna: Boolean, spender: String, value: String, data: String): String
+  balanceOf(cache: CacheInputType, args0: String): String
+  decimals(cache: CacheInputType): String
+  deposit(antenna: Boolean): String
+  depositTo(antenna: Boolean, to: String): String
+  depositToAndCall(antenna: Boolean, to: String, data: String): String
+  flashFee(cache: CacheInputType, token: String, args1: String): String
+  flashLoan(antenna: Boolean, receiver: String, token: String, value: String, data: String): String
+  flashMinted(cache: CacheInputType): String
+  maxFlashLoan(cache: CacheInputType, token: String): String
+  name(cache: CacheInputType): String
+  nonces(cache: CacheInputType, args0: String): String
+  permit(antenna: Boolean, owner: String, spender: String, value: String, deadline: String, v: String, r: String, s: String): String
+  symbol(cache: CacheInputType): String
+  totalSupply(cache: CacheInputType): String
+  transfer(antenna: Boolean, to: String, value: String): String
+  transferAndCall(antenna: Boolean, to: String, value: String, data: String): String
+  transferFrom(antenna: Boolean, from: String, to: String, value: String): String
+  withdraw(antenna: Boolean, value: String): String
+  withdrawFrom(antenna: Boolean, from: String, to: String, value: String): String
+  withdrawTo(antenna: Boolean, to: String, value: String): String
 }
 
 type ERC20 {
   address: String
   chainId: String
-  allowance(owner: String, spender: String): String
-  approve(spender: String, amount: String): String
-  balanceOf(account: String): String
-  burn(amount: String): String
-  burnFrom(account: String, amount: String): String
-  decimals: String
-  decreaseAllowance(spender: String, subtractedValue: String): String
-  increaseAllowance(spender: String, addedValue: String): String
-  name: String
-  symbol: String
-  totalSupply: String
-  transfer(recipient: String, amount: String): String
-  transferFrom(sender: String, recipient: String, amount: String): String
+  allowance(cache: CacheInputType, owner: String, spender: String): String
+  approve(antenna: Boolean, spender: String, amount: String): String
+  balanceOf(cache: CacheInputType, account: String): String
+  burn(antenna: Boolean, amount: String): String
+  burnFrom(antenna: Boolean, account: String, amount: String): String
+  decimals(cache: CacheInputType): String
+  decreaseAllowance(antenna: Boolean, spender: String, subtractedValue: String): String
+  increaseAllowance(antenna: Boolean, spender: String, addedValue: String): String
+  name(cache: CacheInputType): String
+  symbol(cache: CacheInputType): String
+  totalSupply(cache: CacheInputType): String
+  transfer(antenna: Boolean, recipient: String, amount: String): String
+  transferFrom(antenna: Boolean, sender: String, recipient: String, amount: String): String
   checkApproval(user: String!, spender: String!, amount: String!, withData: Boolean = false): ApprovalReturnType
   any(field: AnyDataField, params: [String]): String
 }
@@ -139,36 +144,36 @@ type ERC20 {
 type ERC721 {
   address: String
   chainId: String
-  DEFAULT_ADMIN_ROLE: String
-  MINTER_ROLE: String
-  PAUSER_ROLE: String
-  approve(to: String, tokenId: String): String
-  balanceOf(owner: String): String
-  burn(tokenId: String): String
-  getApproved(tokenId: String): String
-  getRoleAdmin(role: String): String
-  getRoleMember(role: String, index: String): String
-  getRoleMemberCount(role: String): String
-  grantRole(role: String, account: String): String
-  hasRole(role: String, account: String): String
-  isApprovedForAll(owner: String, operator: String): String
-  mint(to: String): String
-  name: String
-  ownerOf(tokenId: String): String
-  pause: String
-  paused: String
-  renounceRole(role: String, account: String): String
-  revokeRole(role: String, account: String): String
-  safeTransferFrom(from: String, to: String, tokenId: String, _data: String): String
-  setApprovalForAll(operator: String, approved: String): String
-  supportsInterface(interfaceId: String): String
-  symbol: String
-  tokenByIndex(index: String): String
-  tokenOfOwnerByIndex(owner: String, index: String): String
-  tokenURI(tokenId: String): String
-  totalSupply: String
-  transferFrom(from: String, to: String, tokenId: String): String
-  unpause: String
+  DEFAULT_ADMIN_ROLE(cache: CacheInputType): String
+  MINTER_ROLE(cache: CacheInputType): String
+  PAUSER_ROLE(cache: CacheInputType): String
+  approve(antenna: Boolean, to: String, tokenId: String): String
+  balanceOf(cache: CacheInputType, owner: String): String
+  burn(antenna: Boolean, tokenId: String): String
+  getApproved(cache: CacheInputType, tokenId: String): String
+  getRoleAdmin(cache: CacheInputType, role: String): String
+  getRoleMember(cache: CacheInputType, role: String, index: String): String
+  getRoleMemberCount(cache: CacheInputType, role: String): String
+  grantRole(antenna: Boolean, role: String, account: String): String
+  hasRole(cache: CacheInputType, role: String, account: String): String
+  isApprovedForAll(cache: CacheInputType, owner: String, operator: String): String
+  mint(antenna: Boolean, to: String): String
+  name(cache: CacheInputType): String
+  ownerOf(cache: CacheInputType, tokenId: String): String
+  pause(antenna: Boolean): String
+  paused(cache: CacheInputType): String
+  renounceRole(antenna: Boolean, role: String, account: String): String
+  revokeRole(antenna: Boolean, role: String, account: String): String
+  safeTransferFrom(antenna: Boolean, from: String, to: String, tokenId: String, _data: String): String
+  setApprovalForAll(antenna: Boolean, operator: String, approved: String): String
+  supportsInterface(cache: CacheInputType, interfaceId: String): String
+  symbol(cache: CacheInputType): String
+  tokenByIndex(cache: CacheInputType, index: String): String
+  tokenOfOwnerByIndex(cache: CacheInputType, owner: String, index: String): String
+  tokenURI(cache: CacheInputType, tokenId: String): String
+  totalSupply(cache: CacheInputType): String
+  transferFrom(antenna: Boolean, from: String, to: String, tokenId: String): String
+  unpause(antenna: Boolean): String
 }
 
 type ApprovalReturnType {
@@ -185,8 +190,11 @@ input SwapArgsType {
   buyAmount: String
   recipient: String
   maxDelay: Int = 120
+  lpFee: Float = 0.003
   slippagePercentage: Float = 0.005
   offlinePrice: Boolean = false
+  isFeeToken: Boolean = false
+  chainId: Int = 4689
 }
 
 type Multicall {
@@ -203,6 +211,13 @@ type Multicall {
 input CrossChainCalls {
   address: String
   chainId: Int
+  antenna: Boolean
+}
+
+input CacheInputType {
+  ttl: Int
+  mode: CacheMode = async
+  refresh: Boolean = false
 }
 
 type Network {
@@ -226,15 +241,30 @@ enum AnyDataField {
 
 type amount {
   amount: String
+  withSlippageAmount: String
   path: [ERC20]
+  provider: ProviderResponseType
+  allProvider: [ProviderResponseType]
   from: String
   to: String
   router: String
   data: String
   value: String
   slippagePercentage: Float
+  priceImpact: Float
   sellToken: ERC20
   buyToken: ERC20
+}
+
+enum CacheMode {
+  async
+  sync
+}
+
+type ProviderResponseType {
+  name: String
+  address: String
+  chainId: Int
 }
 
 schema{

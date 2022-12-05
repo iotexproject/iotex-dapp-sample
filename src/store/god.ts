@@ -9,6 +9,7 @@ import { rpc } from '../lib/smartgraph/gql';
 import { CoinState } from './lib/CoinState';
 import { ethers } from 'ethers';
 import { defaultNetworks } from '../config/chain';
+import { metamaskUtils } from '../lib/metaskUtils';
 
 export class GodStore {
   rootStore: RootStore;
@@ -75,9 +76,28 @@ export class GodStore {
     return this.currentNetwork.chain.map[chainId];
   }
 
-  setChain(val: number) {
-    this.currentNetwork.chain.setCurrentId(val);
-    eventBus.emit('chain.switch');
+  async switchChain(chianId: number) {
+    const chain = this.currentNetwork.chain.map[chianId];
+    try {
+      await metamaskUtils.setupNetwork({
+        chainId: chain.chainId,
+        blockExplorerUrls: [chain.explorerURL],
+        chainName: chain.name,
+        nativeCurrency: {
+          decimals: chain.Coin.decimals || 18,
+          name: chain.Coin.symbol,
+          symbol: chain.Coin.symbol
+        },
+        rpcUrls: [chain.rpcUrl]
+      });
+      this.setChainId(chianId);
+      eventBus.emit('chain.switch');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  setChainId(chianId) {
+    this.currentNetwork.chain.setCurrentId(chianId);
   }
   setShowConnecter(value: boolean) {
     this.eth.connector.showConnector = value;
