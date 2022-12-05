@@ -24,7 +24,7 @@ specifiers:
   '@mantine/prism': ^4.1.4
   '@mantine/spotlight': ^4.1.4
   '@metamask/jazzicon': ^2.0.0
-  '@smartgraph/core': 0.1.94
+  '@smartgraph/core': 0.1.95
   '@smartgraph/plugins': 0.2.2
   '@tanstack/react-table': ^8.2.6
   '@trpc/client': ^9.20.3
@@ -105,8 +105,8 @@ dependencies:
   '@mantine/prism': 4.2.12_7e5kgvtxhgbmwlaie64d25ybnm
   '@mantine/spotlight': 4.2.12_7e5kgvtxhgbmwlaie64d25ybnm
   '@metamask/jazzicon': 2.0.0
-  '@smartgraph/core': 0.1.94_@graphql-yoga+node@2.13.13
-  '@smartgraph/plugins': 0.2.2_wshc5xx5kdwftederxtesmtvzi
+  '@smartgraph/core': 0.1.95_@graphql-yoga+node@2.13.13
+  '@smartgraph/plugins': 0.2.2_cdrxb3yadgzbzvc7h3q7dqswlu
   '@tanstack/react-table': 8.7.0_sfoxds7t5ydpegc3knd667wn6m
   '@trpc/client': 9.27.4_@trpc+server@9.27.4
   '@trpc/next': 9.27.4_hse5xyrvyglyl4tpvjxecowbj4
@@ -2609,8 +2609,8 @@ packages:
       - zenObservable
     dev: true
 
-  /@smartgraph/core/0.1.94_@graphql-yoga+node@2.13.13:
-    resolution: {integrity: sha512-t9SyPkLuJUgqyNdb8Cv+xvWaM40jJtFkELLvUhlGKjwFFiz23alSlm+DlP3LilpBHNeUVFAXWpQxcPCgcLD8FA==}
+  /@smartgraph/core/0.1.95_@graphql-yoga+node@2.13.13:
+    resolution: {integrity: sha512-FidJk5lCdX7uDpGlgbZmoIrjUIYYGs08p0zci6qh9EaDuLkd8xUt5NARTKLwwT6Lwamih+wYtkNKT6lZM2Nq1Q==}
     peerDependencies:
       '@graphql-yoga/node': ^2.2.1
       ioredis: ^5.1.0
@@ -2640,7 +2640,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@smartgraph/plugins/0.2.2_wshc5xx5kdwftederxtesmtvzi:
+  /@smartgraph/plugins/0.2.2_cdrxb3yadgzbzvc7h3q7dqswlu:
     resolution: {integrity: sha512-hWQM/qZWoicBkmfl7bRx7JglJilf3b1acFXBxdbM5UTY2Wy+56UXvr3LhJy5wsyCIVeXiXWltHy4AYCxU4P9/g==}
     peerDependencies:
       '@graphql-yoga/node': ^2.1.0
@@ -2653,7 +2653,7 @@ packages:
       tslib: ^2.0.0
     dependencies:
       '@graphql-yoga/node': 2.13.13_graphql@16.6.0
-      '@smartgraph/core': 0.1.94_@graphql-yoga+node@2.13.13
+      '@smartgraph/core': 0.1.95_@graphql-yoga+node@2.13.13
       bignumber.js: 9.1.0
       ethers: 5.7.2
       graphql: 16.6.0

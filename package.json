@@ -36,7 +36,7 @@
     "@mantine/prism": "^4.1.4",
     "@mantine/spotlight": "^4.1.4",
     "@metamask/jazzicon": "^2.0.0",
-    "@smartgraph/core": "0.1.94",
+    "@smartgraph/core": "0.1.95",
     "@smartgraph/plugins": "0.2.2",
     "@tanstack/react-table": "^8.2.6",
     "@trpc/client": "^9.20.3",
