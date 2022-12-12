@@ -13,6 +13,8 @@ class MyEmitter extends EventEmitter {
 interface MessageEvents {
   '*': (agrgs: { type: string; args: [] }) => void;
   'wallet.onAccount': () => void;
+  'wallet.login': () => Promise<void>;
+  'wallet.onToken': () => void;
   'wallet.logout': () => void;
   'chain.switch': () => void;
   'global.cacheData': () => void;

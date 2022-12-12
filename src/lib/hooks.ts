@@ -18,5 +18,22 @@ export const hooks = {
         }
       }
     });
+  },
+  async waitJWT(timeout?) {
+    return new Promise<void>((res, rej) => {
+      if (rootStore.user.token.value) {
+        res();
+      } else {
+        eventBus.emit('wallet.login');
+        eventBus.once('wallet.onToken', () => {
+          res();
+        });
+        if (timeout) {
+          setTimeout(() => {
+            rej();
+          }, timeout);
+        }
+      }
+    });
   }
 };

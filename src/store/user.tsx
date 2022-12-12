@@ -8,6 +8,8 @@ import { BooleanState } from './standard/base';
 
 export class UserStore {
   rootStore: RootStore;
+  token = new StorageState<string>({ key: 'token' });
+  tokenAddress = new StorageState<string>({ key: 'token-address' });
   theme = new StorageState<'light' | 'dark'>({
     key: 'theme',
     default: 'light'

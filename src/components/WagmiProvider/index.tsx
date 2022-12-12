@@ -1,4 +1,4 @@
-import { WagmiConfig, createClient, useProvider, configureChains, useSigner, chain, Chain, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useNetwork } from 'wagmi';
+import { WagmiConfig, createClient, useProvider, configureChains, useSigner, chain, Chain, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useNetwork, useSignMessage } from 'wagmi';
 
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -8,6 +8,22 @@ import { useStore } from '@/store/index';
 import { useEffect } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { eventBus } from '../../lib/event';
+import axios from 'axios';
+import { SiweMessage } from 'siwe';
+
+const createSiweMessage = async (address: string, chainId: number) => {
+  const res = await axios.get(`/api/auth/nonce`);
+  const message = new SiweMessage({
+    address,
+    chainId,
+    statement: 'Sign in with Ethereum to the app.',
+    domain: window.location.host,
+    uri: window.location.origin,
+    version: '1',
+    nonce: res.data.nonce
+  });
+  return message.prepareMessage();
+};
 
 export const WagmiProvider = observer(({ children }) => {
   const { god } = useStore();
@@ -68,7 +84,7 @@ export const WagmiProvider = observer(({ children }) => {
 });
 
 const Wallet = observer(() => {
-  const { god } = useStore();
+  const { god, user } = useStore();
   const { chain } = useNetwork();
   const { address, connector, isConnected } = useAccount();
   // const provider = useProvider();
@@ -77,6 +93,7 @@ const Wallet = observer(() => {
   // const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
+  const { signMessageAsync } = useSignMessage();
 
   const store = useLocalStore(() => ({
     logout() {
@@ -84,6 +101,39 @@ const Wallet = observer(() => {
       disconnect();
       god.currentNetwork.set({ account: '' });
       god.eth.connector.latestProvider.clear();
+      store.clearToken();
+    },
+    async login() {
+      try {
+        const address = god.currentNetwork.account;
+        const chainId = god.currentNetwork.currentChain.chainId;
+        const message = await createSiweMessage(address, chainId);
+        const signature = await signMessageAsync({
+          message
+        });
+        const tokenRes = await axios.post(`/api/auth/jwt`, { message, signature });
+        if (tokenRes.data) {
+          user.token.save(tokenRes.data.token);
+          user.tokenAddress.save(address);
+          eventBus.emit('wallet.onToken');
+        }
+      } catch (error) {
+        console.error('[handleLogin]', error);
+      }
+    },
+    onAccount() {
+      const account = god.currentNetwork.account.toLowerCase();
+      const tokenAddress = user.tokenAddress.value ? user.tokenAddress.value.toLowerCase() : '';
+      if (tokenAddress !== account) {
+        store.clearToken();
+        eventBus.emit('wallet.login');
+      }
+    },
+    clearToken() {
+      user.token.clear();
+      user.token.value = undefined;
+      user.tokenAddress.clear();
+      user.tokenAddress.value = undefined;
     }
   }));
 
@@ -124,14 +174,23 @@ const Wallet = observer(() => {
         connect({ connector: connectors[0] });
         god.currentNetwork.loadBalance();
       };
+      const handleAccountsChanged = (accounts: string[]) => {
+        if (accounts.length > 0) {
+          god.currentNetwork.set({
+            account: accounts[0]
+          });
+        }
+      };
       ethereum.on('networkChanged', handleChainChanged);
       ethereum.on('close', handleChainChanged);
       ethereum.on('chainChanged', handleChainChanged);
+      ethereum.on('accountsChanged', handleAccountsChanged);
       return () => {
         if (ethereum.removeListener) {
           ethereum.removeListener('networkChanged', handleChainChanged);
           ethereum.removeListener('close', handleChainChanged);
           ethereum.removeListener('chainChanged', handleChainChanged);
+          ethereum.removeListener('accountsChanged', handleAccountsChanged);
         }
       };
     }
@@ -140,8 +199,12 @@ const Wallet = observer(() => {
   //logout
   useEffect(() => {
     eventBus.addListener('wallet.logout', store.logout);
+    eventBus.addListener('wallet.login', store.login);
+    eventBus.addListener('wallet.onAccount', store.onAccount);
     return () => {
       eventBus.removeListener('wallet.logout', store.logout);
+      eventBus.removeListener('wallet.login', store.login);
+      eventBus.removeListener('wallet.onAccount', store.onAccount);
     };
   }, []);
 
