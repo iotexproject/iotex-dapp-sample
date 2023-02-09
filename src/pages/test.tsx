@@ -20,8 +20,13 @@ const json: JSONSchemaRenderData = {
     {
       key: 'c1',
       component: 'div',
-      props: {},
-      children: [{ key: 'c1-1', component: 'div', props: {}, children: '1', $children: 'count' }]
+      props: {
+        style: { display: 'flex' }
+      },
+      children: [
+        { key: 'c1-1', component: 'div', props: {}, children: '1', $children: 'count.value' },
+        { key: 'c1-1', component: 'div', props: {}, children: '1', $children: 'count1.value' }
+      ]
     },
     {
       key: 'c2',
@@ -40,15 +45,11 @@ const json: JSONSchemaRenderData = {
 
 export default observer((props: Props) => {
   const { test } = useStore();
-  const store = useLocalObservable(() => ({
-    get count() {
-      return test.count.value;
-    }
-  }));
+
   return (
     <Container>
-      <JSONRender json={json} data={store} eventBus={eventBus} componentMaps={vanillaRender.componentMaps} />
-      <JSONRender json={json} data={store} eventBus={eventBus} componentMaps={MatineRender.componentMaps} />
+      <JSONRender json={json} data={test} eventBus={eventBus} componentMaps={vanillaRender.componentMaps} />
+      <JSONRender json={json} data={test} eventBus={eventBus} componentMaps={MatineRender.componentMaps} />
     </Container>
   );
 });
