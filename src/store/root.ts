@@ -3,6 +3,7 @@ import { GodStore } from './god';
 import { UserStore } from './user';
 import { TransactionHistoryStore } from './history';
 import { Ledger } from './ledger';
+import { TestStore } from './test';
 
 export default class RootStore {
   lang = new LangStore();
@@ -10,4 +11,5 @@ export default class RootStore {
   user = new UserStore(this);
   ledger = new Ledger(this);
   history = new TransactionHistoryStore(this);
+  test = new TestStore(this);
 }

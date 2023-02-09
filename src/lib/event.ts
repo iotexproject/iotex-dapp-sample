@@ -23,12 +23,13 @@ interface MessageEvents {
   'history.delete': (transactionItem: Pick<TransactionItem, 'uuid'>) => void;
   signer: (signer: any) => void;
   provider: (signer: any) => void;
+  [key: string]: any;
 }
 
 export const eventBus = new MyEmitter() as TypedEmitter<MessageEvents>;
 
 if (!publicConfig.isProd) {
   eventBus.on('*', ({ type, args }) => {
-    console.log(type, args);
+    console.log('*', type, args);
   });
 }
