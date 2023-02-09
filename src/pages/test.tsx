@@ -8,6 +8,7 @@ import { useStore } from '../store/index';
 import { Container } from '@mantine/core';
 import { observable } from 'mobx';
 import { NumberState } from '../store/standard/base';
+import { JSONRender } from '@/components/JSONRender/jsonrender';
 
 interface Props {}
 
@@ -27,25 +28,27 @@ const json: JSONSchemaRenderData = {
       component: 'button',
       props: {},
       children: 'add'
+    },
+    {
+      key: 'c3',
+      component: 'button',
+      props: {},
+      children: 'add'
     }
   ]
 };
 
-const store = observable({
-  count: new NumberState()
-});
-
-eventBus.on('c2.onClick', () => {
-  store.count.setValue(store.count.value + 1);
-});
-
 export default observer((props: Props) => {
-  const data = { count: store.count.value };
-
+  const { test } = useStore();
+  const store = useLocalObservable(() => ({
+    get count() {
+      return test.count.value;
+    }
+  }));
   return (
     <Container>
-      {vanillaRender.render({ json, data, eventBus })}
-      {MatineRender.render({ json, data, eventBus })}
+      <JSONRender json={json} data={store} eventBus={eventBus} componentMaps={vanillaRender.componentMaps} />
+      <JSONRender json={json} data={store} eventBus={eventBus} componentMaps={MatineRender.componentMaps} />
     </Container>
   );
 });
