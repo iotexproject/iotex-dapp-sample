@@ -7,6 +7,7 @@ export interface JSONSchemaRenderData {
   key: string;
   props?: AllHTMLAttributes<any> & { [key: string]: any };
   $props?: AllHTMLAttributes<any> & { [key: string]: any };
+  $events?: Record<string, any>;
   extra?: {
     props: Record<string, any>;
   };

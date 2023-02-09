@@ -14,24 +14,27 @@ interface Props {
 //@ts-ignore
 export const JSONRender = observer((props: Props) => {
   const { json, data = {}, eventBus, componentMaps } = props;
+  if (!json.props) json.props = {};
+
   console.log('render');
   if (json.$children) {
     json.children = _.get(data, json.$children, '');
   }
-  if (['button'].includes(json.component)) {
-    json.props.onClick = () => {
-      eventBus.emit(`${json.key}.onClick`);
-    };
+  if (json.$events) {
+    Object.keys(json.$events).forEach((key) => {
+      json.props[key] = (e) => {
+        eventBus.emit(json.$events[key], e);
+      };
+    });
   }
+
   if (json.$props) {
-    if (!json.props) json.props = {};
     const p = Object.keys(json.$props).reduce((acc, key) => {
       acc[key] = _.get(data, json.$props[key], '');
       return acc;
     }, {});
     Object.assign(json.props, p);
   }
-  console.log(json.component, json.props);
 
   const Comp = componentMaps[json.component];
 
@@ -44,6 +47,5 @@ export const JSONRender = observer((props: Props) => {
       </Comp>
     );
   }
-  console.log(123, componentMaps, json.component);
   return <></>;
 });

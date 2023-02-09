@@ -6,13 +6,13 @@ import { eventBus } from '../lib/event';
 import { useStore } from '../store/index';
 import { Container } from '@mantine/core';
 import { JSONRender } from '@/components/JSONRender/jsonrender';
+import { actions } from '../store/test';
 
 interface Props {}
 
 const json: JSONSchemaRenderData = {
   key: 'c0',
   component: 'div',
-  props: {},
   children: [
     {
       key: 'c1',
@@ -21,20 +21,24 @@ const json: JSONSchemaRenderData = {
         style: { display: 'flex' }
       },
       children: [
-        { key: 'c1-1', component: 'div', props: {}, children: '1', $children: 'count.value' },
-        { key: 'c1-2', component: 'div', props: {}, children: '1', $children: 'count1.value' }
+        { key: 'c1-1', component: 'div', children: '1', $children: 'count.value' },
+        { key: 'c1-2', component: 'div', children: '1', $children: 'count1.value' }
       ]
     },
     {
       key: 'c2',
       component: 'button',
-      props: {},
+      $events: {
+        onClick: 'action1'
+      },
       children: 'add'
     },
     {
       key: 'c3',
       component: 'button',
-      props: {},
+      $events: {
+        onClick: 'action2'
+      },
       children: 'add'
     },
     {
@@ -54,6 +58,7 @@ export default observer((props: Props) => {
   return (
     <Container>
       <JSONRender json={json} data={test} eventBus={eventBus} componentMaps={vanillaRender.componentMaps} />
+      <div style={{ marginTop: '40px' }}></div>
       <JSONRender json={json} data={test} eventBus={eventBus} componentMaps={MatineRender.componentMaps} />
     </Container>
   );
