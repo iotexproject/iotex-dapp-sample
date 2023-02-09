@@ -5,7 +5,8 @@ import { Observer, observer } from 'mobx-react-lite';
 export interface JSONSchemaRenderData {
   component: string;
   key: string;
-  props: AllHTMLAttributes<any> & { [key: string]: any };
+  props?: AllHTMLAttributes<any> & { [key: string]: any };
+  $props?: AllHTMLAttributes<any> & { [key: string]: any };
   extra?: {
     props: Record<string, any>;
   };

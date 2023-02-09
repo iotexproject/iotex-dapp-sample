@@ -23,8 +23,19 @@ export const JSONRender = observer((props: Props) => {
       eventBus.emit(`${json.key}.onClick`);
     };
   }
-  if (typeof componentMaps[json.component] !== 'undefined') {
-    const Comp = componentMaps[json.component];
+  if (json.$props) {
+    if (!json.props) json.props = {};
+    const p = Object.keys(json.$props).reduce((acc, key) => {
+      acc[key] = _.get(data, json.$props[key], '');
+      return acc;
+    }, {});
+    Object.assign(json.props, p);
+  }
+  console.log(json.component, json.props);
+
+  const Comp = componentMaps[json.component];
+
+  if (typeof Comp !== 'undefined') {
     return (
       <Comp {...json.props}>
         {['string', 'number', 'boolean'].includes(typeof json.children)
@@ -33,4 +44,6 @@ export const JSONRender = observer((props: Props) => {
       </Comp>
     );
   }
+  console.log(123, componentMaps, json.component);
+  return <></>;
 });

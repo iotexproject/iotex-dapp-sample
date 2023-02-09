@@ -8,6 +8,8 @@ export class TestStore {
   count = new NumberState();
   count1 = new NumberState();
 
+  datas = [{ title: '1' }, { title: '2' }, { title: '3' }];
+
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     makeAutoObservable(this);
@@ -18,5 +20,10 @@ export class TestStore {
     eventBus.on('c3.onClick', () => {
       this.count1.setValue(this.count1.value + 1);
     });
+
+    setInterval(() => {
+      this.datas = [...this.datas, { title: Object.keys(this.datas).length + 1 + '' }];
+      console.log(123, this.datas);
+    }, 1000);
   }
 }

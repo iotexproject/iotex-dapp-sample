@@ -2,12 +2,9 @@ import React from 'react';
 import { useLocalObservable, observer } from 'mobx-react-lite';
 import { MatineRender, vanillaRender } from '../components/JSONRender/index';
 import { JSONSchemaRenderData } from '@/components/JSONRender/json-render';
-import { EventEmitter } from 'events';
 import { eventBus } from '../lib/event';
 import { useStore } from '../store/index';
 import { Container } from '@mantine/core';
-import { observable } from 'mobx';
-import { NumberState } from '../store/standard/base';
 import { JSONRender } from '@/components/JSONRender/jsonrender';
 
 interface Props {}
@@ -25,7 +22,7 @@ const json: JSONSchemaRenderData = {
       },
       children: [
         { key: 'c1-1', component: 'div', props: {}, children: '1', $children: 'count.value' },
-        { key: 'c1-1', component: 'div', props: {}, children: '1', $children: 'count1.value' }
+        { key: 'c1-2', component: 'div', props: {}, children: '1', $children: 'count1.value' }
       ]
     },
     {
@@ -39,6 +36,14 @@ const json: JSONSchemaRenderData = {
       component: 'button',
       props: {},
       children: 'add'
+    },
+    {
+      key: 'c4',
+      component: 'test',
+      $props: {
+        datas: 'datas'
+      },
+      children: ''
     }
   ]
 };
