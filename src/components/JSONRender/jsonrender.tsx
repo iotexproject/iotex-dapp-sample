@@ -39,8 +39,7 @@ export const JSONRender = observer((props: Props) => {
   }
 
   if (!store[json.key]) {
-    // store[json.key] = json.props;
-    extendObservable(store, { [json.key]: json.props });
+    store[json.key] = json.props;
   }
 
   const Comp = componentMaps[json.component];
