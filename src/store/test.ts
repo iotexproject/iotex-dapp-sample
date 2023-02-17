@@ -5,18 +5,18 @@ import { eventBus } from '../lib/event';
 
 export class TestStore {
   rootStore: RootStore;
-  count = new NumberState();
-  count1 = new NumberState();
+
+  store = {};
 
   events = {
     action1: {
       handle() {
-        this.count.setValue(this.count.value + 1);
+        this.store['c1-1'].text += this.store['c1-1'].text;
       }
     },
     action2: {
       handle() {
-        this.count.setValue(this.count.value + 1);
+        this.store['c1-2'].text += this.store['c1-2'].text;
       }
     }
   };

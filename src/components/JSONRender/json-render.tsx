@@ -16,7 +16,7 @@ export interface JSONSchemaRenderData {
 }
 
 export class JSONRender {
-  componentMaps: { [key: string]: React.ComponentType<any> | string } = {};
+  componentMaps: { [key: string]: React.ComponentType<any> | any } = {};
   caches = new Map<string, any>();
 
   constructor(props: Partial<JSONRender>) {
