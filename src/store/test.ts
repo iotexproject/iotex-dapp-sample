@@ -13,6 +13,12 @@ export class TestStore {
 
   store = {};
 
+  datas = {
+    query1: {
+      value: 123
+    }
+  };
+
   constructor(rootStore: RootStore) {
     // this.rootStore = rootStore;
     makeAutoObservable(this, { rootStore: false });
