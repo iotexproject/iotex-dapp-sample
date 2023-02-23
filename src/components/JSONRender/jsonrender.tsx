@@ -4,6 +4,7 @@ import { Box, Button } from '@mantine/core';
 import { JSONSchemaRenderData } from './json-render';
 import { _ } from '@/lib/lodash';
 import { computed, extendObservable, reaction, toJS } from 'mobx';
+import { computedFn } from 'mobx-utils';
 
 interface Props {
   json: JSONSchemaRenderData;
@@ -45,14 +46,23 @@ export const JSONRender = observer((props: Props) => {
 
   if (_json.$props) {
     Object.keys(_json.$props).forEach((key) => {
+      // if (_json.props[key]) return;
       const val = _json.$props[key];
-      reaction(
-        () => _.get(datas, val),
-        (val) => {
-          _json.props[key] = val;
-        },
-        { fireImmediately: true }
+      const fn = new Function(
+        'ctx',
+        `
+      const {datas} = ctx
+      return ${val}`
       );
+      //@ts-ignore
+      _json.props[key] = computedFn(fn)({ datas });
+      // reaction(
+      //   () => _.get(datas, val),
+      //   (val) => {
+      //     _json.props[key] = val;
+      //   },
+      //   { fireImmediately: true }
+      // );
     }, {});
   }
 

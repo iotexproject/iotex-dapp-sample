@@ -25,7 +25,7 @@ const json: JSONSchemaRenderData = {
         style: { display: 'flex' }
       },
       children: [
-        { id: 'c1-1', component: 'textarea', $props: { text: 'query1.value' } },
+        { id: 'c1-1', component: 'textarea', $props: { text: 'datas.query1.value + 1' } },
         { id: 'c1-2', component: 'text', props: { text: 1 } }
       ]
     },
