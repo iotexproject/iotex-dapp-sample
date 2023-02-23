@@ -15,33 +15,33 @@ const ReactJson = loadable(() => import('react-json-view'));
 interface Props {}
 
 const json: JSONSchemaRenderData = {
-  key: 'c0',
+  id: 'c0',
   component: 'div',
   children: [
     {
-      key: 'c1',
+      id: 'c1',
       component: 'div',
       props: {
         style: { display: 'flex' }
       },
       children: [
-        { key: 'c1-1', component: 'text', props: { text: 1 } },
-        { key: 'c1-2', component: 'text', props: { text: 1 } }
+        { id: 'c1-1', component: 'textarea', props: { text: 1 } },
+        { id: 'c1-2', component: 'text', props: { text: 1 } }
       ]
     },
     {
-      key: 'c2',
+      id: 'c2',
       component: 'button',
       events: {
-        onClick: "$['c1-1'].props.text += $['c1-1'].props.text"
+        onClick: "$['c1-1'].props.text += Number($['c1-1'].props.text)"
       },
       children: 'add'
     },
     {
-      key: 'c3',
+      id: 'c3',
       component: 'button',
       events: {
-        onClick: "$['c1-2'].props.text += $['c1-2'].props.text"
+        onClick: "$['c1-2'].props.text += Number($['c1-2'].props.text)"
       },
       children: 'add'
     }

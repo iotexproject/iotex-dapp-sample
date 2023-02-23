@@ -25,7 +25,7 @@ export const JSONRender = observer((props: Props) => {
   if (json.events) {
     Object.keys(json.events).forEach((key) => {
       json.props[key] = () => {
-        const eventScript = store[json.key].events[key];
+        const eventScript = store[json.id].events[key];
         return new Function(
           'ctx',
           `
@@ -38,23 +38,25 @@ export const JSONRender = observer((props: Props) => {
     });
   }
 
-  if (json.$props) {
-    const p = Object.keys(json.$props).reduce((acc, key) => {
-      acc[key] = _.get(data, json.$props[key], '');
-      return acc;
-    }, {});
-    Object.assign(json.props, p);
-  }
+  // if (json.$props) {
+  //   const p = Object.keys(json.$props).reduce((acc, key) => {
+  //     acc[key] = _.get(data, json.$props[key], '');
+  //     return acc;
+  //   }, {});
+  //   Object.assign(json.props, p);
+  // }
 
-  if (!store[json.key]) {
-    store[json.key] = { props: json.props, ...(json.events ? { events: json.events } : {}) };
+  if (!store[json.id]) {
+    const { children, ...others } = json;
+    store[json.id] = others;
   }
+  const _json = store[json.id];
 
-  const Comp = componentMaps[json.component];
+  const Comp = componentMaps[_json.component];
 
   if (typeof Comp !== 'undefined') {
     return (
-      <Comp {...toJS(store[json.key].props)}>
+      <Comp {...toJS(_json.props)} store={store} id={json.id}>
         {['string', 'number', 'boolean', 'undefined'].includes(typeof json.children)
           ? json.children
           : (json.children as any[]).map((c) => <JSONRender json={c} data={data} eventBus={eventBus} componentMaps={componentMaps} store={store} />)}

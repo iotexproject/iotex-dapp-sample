@@ -7,6 +7,15 @@ export const vanillaRender = new JSONRender({
   componentMaps: {
     div: 'div',
     text: ({ text }) => <text>{text}</text>,
+    textarea: ({ text, id, store }) => (
+      <textarea
+        onChange={(e) => {
+          console.log({ store, id });
+          store[id].props.text = e.target.value;
+        }}
+        value={text}
+      ></textarea>
+    ),
     button: 'button',
     test: Template
   }

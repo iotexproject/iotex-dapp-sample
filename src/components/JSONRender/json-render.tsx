@@ -4,7 +4,7 @@ import { Observer, observer } from 'mobx-react-lite';
 
 export interface JSONSchemaRenderData {
   component: string;
-  key: string;
+  id: string;
   props?: AllHTMLAttributes<any> & { [key: string]: any };
   $props?: AllHTMLAttributes<any> & { [key: string]: any };
   events?: Record<string, any>;
@@ -31,7 +31,7 @@ export class JSONRender {
     }
     if (['button'].includes(json.component)) {
       json.props.onClick = () => {
-        eventBus.emit(`${json.key}.onClick`);
+        eventBus.emit(`${json.id}.onClick`);
       };
     }
 
