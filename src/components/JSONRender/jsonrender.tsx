@@ -3,7 +3,7 @@ import { useLocalObservable, observer } from 'mobx-react-lite';
 import { Box, Button } from '@mantine/core';
 import { JSONSchemaRenderData } from './json-render';
 import { _ } from '@/lib/lodash';
-import { computed, extendObservable, toJS } from 'mobx';
+import { computed, extendObservable, reaction, toJS } from 'mobx';
 
 interface Props {
   json: JSONSchemaRenderData;
@@ -18,7 +18,7 @@ export const JSONRender = observer((props: Props) => {
   const { json, datas = {}, eventBus, componentMaps, store } = props;
   if (!json.props) json.props = {};
 
-  console.log('render');
+  console.log('render', json.id);
   if (json.$children) {
     json.children = _.get(datas, json.$children, '');
   }
@@ -29,7 +29,6 @@ export const JSONRender = observer((props: Props) => {
         return new Function(
           'ctx',
           `
-        console.log(123)
       const {$} = ctx
       ${eventScript}
       `
@@ -38,24 +37,24 @@ export const JSONRender = observer((props: Props) => {
     });
   }
 
-  if (json.$props) {
-    const p = Object.keys(json.$props).reduce((acc, key) => {
-      // acc[key] = _.get(datas, json.$props[key].value, '');
-      extendObservable(acc, {
-        [key]: computed(() => {
-          return _.get(datas, json.$props[key], '');
-        })
-      });
-      return acc;
-    }, {});
-    Object.assign(json.props, p);
-  }
-
   if (!store[json.id]) {
     const { children, ...others } = json;
     store[json.id] = others;
   }
   const _json = store[json.id];
+
+  if (_json.$props) {
+    Object.keys(_json.$props).forEach((key) => {
+      const val = _json.$props[key];
+      reaction(
+        () => _.get(datas, val),
+        (val) => {
+          _json.props[key] = val;
+        },
+        { fireImmediately: true }
+      );
+    }, {});
+  }
 
   const Comp = componentMaps[_json.component];
 

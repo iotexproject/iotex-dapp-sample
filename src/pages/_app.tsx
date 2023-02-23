@@ -36,12 +36,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     // setInterval(() => {
     //   god.pollingData();
     // }, 15000);
-    smartGraph.event.on('provider.newBlock', (chainId, blockNumber) => {
-      console.log('new block', chainId, blockNumber);
-      if (chainId == god.currentChain.chainId) {
-        god.pollingData();
-      }
-    });
+    // smartGraph.event.on('provider.newBlock', (chainId, blockNumber) => {
+    //   console.log('new block', chainId, blockNumber);
+    //   if (chainId == god.currentChain.chainId) {
+    //     god.pollingData();
+    //   }
+    // });
   }, []);
 
   if (!helper.env.isBrower) {

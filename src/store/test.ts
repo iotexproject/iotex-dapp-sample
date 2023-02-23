@@ -16,6 +16,9 @@ export class TestStore {
   datas = {
     query1: {
       value: 123
+    },
+    query2: {
+      value: 456
     }
   };
 
