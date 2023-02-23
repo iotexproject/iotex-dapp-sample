@@ -22,10 +22,18 @@ export const JSONRender = observer((props: Props) => {
   if (json.$children) {
     json.children = _.get(data, json.$children, '');
   }
-  if (json.$events) {
-    Object.keys(json.$events).forEach((key) => {
-      json.props[key] = (e) => {
-        eventBus.emit(json.$events[key], e);
+  if (json.events) {
+    Object.keys(json.events).forEach((key) => {
+      json.props[key] = () => {
+        const eventScript = store[json.key].events[key];
+        return new Function(
+          'ctx',
+          `
+        console.log(123)
+      const {$} = ctx
+      ${eventScript}
+      `
+        )({ $: store });
       };
     });
   }
@@ -39,14 +47,14 @@ export const JSONRender = observer((props: Props) => {
   }
 
   if (!store[json.key]) {
-    store[json.key] = json.props;
+    store[json.key] = { props: json.props, ...(json.events ? { events: json.events } : {}) };
   }
 
   const Comp = componentMaps[json.component];
 
   if (typeof Comp !== 'undefined') {
     return (
-      <Comp {...toJS(store[json.key])}>
+      <Comp {...toJS(store[json.key].props)}>
         {['string', 'number', 'boolean', 'undefined'].includes(typeof json.children)
           ? json.children
           : (json.children as any[]).map((c) => <JSONRender json={c} data={data} eventBus={eventBus} componentMaps={componentMaps} store={store} />)}
