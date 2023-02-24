@@ -30,10 +30,10 @@ export const JSONRender = observer((props: Props) => {
         return new Function(
           'ctx',
           `
-      const {$} = ctx
+      const {$, datas} = ctx
       ${eventScript}
       `
-        )({ $: store });
+        )({ $: store, datas });
       };
     });
   }

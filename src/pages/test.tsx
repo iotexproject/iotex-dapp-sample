@@ -33,7 +33,7 @@ const json: JSONSchemaRenderData = {
       id: 'c2',
       component: 'button',
       events: {
-        onClick: "$['c1-1'].props.text += Number($['c1-1'].props.text)"
+        onClick: 'datas.query1.value += datas.query1.value'
       },
       children: 'add'
     },
