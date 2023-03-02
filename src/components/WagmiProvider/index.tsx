@@ -1,4 +1,19 @@
-import { WagmiConfig, createClient, useProvider, configureChains, useSigner, chain, Chain, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useNetwork, useSignMessage } from 'wagmi';
+import {
+  WagmiConfig,
+  createClient,
+  useProvider,
+  configureChains,
+  useSigner,
+  chain,
+  Chain,
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+  useNetwork,
+  useSignMessage,
+} from 'wagmi';
 
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -6,10 +21,12 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { observer, useLocalObservable, useLocalStore } from 'mobx-react-lite';
 import { useStore } from '@/store/index';
 import { useEffect } from 'react';
-import { showNotification } from '@mantine/notifications';
+import { showNotification, updateNotification } from '@mantine/notifications';
 import { eventBus } from '../../lib/event';
 import axios from 'axios';
 import { SiweMessage } from 'siwe';
+import { hooks } from '@/lib/hooks';
+import { helper } from '@/lib/helper';
 
 const createSiweMessage = async (address: string, chainId: number) => {
   const res = await axios.get(`/api/auth/nonce`);
@@ -20,7 +37,7 @@ const createSiweMessage = async (address: string, chainId: number) => {
     domain: window.location.host,
     uri: window.location.origin,
     version: '1',
-    nonce: res.data.nonce
+    nonce: res.data.nonce,
   });
   return message.prepareMessage();
 };
@@ -35,14 +52,16 @@ export const WagmiProvider = observer(({ children }) => {
       id: god.network.chain.map[key].chainId,
       name: god.network.chain.map[key].name,
       rpcUrls: {
-        default: god.network.chain.map[key].rpcUrl
+        default: god.network.chain.map[key].rpcUrl,
       },
-      network: god.network.chain.map[key].name
+      network: god.network.chain.map[key].name,
     };
     godChains.push(chain);
   }
 
-  const { chains, provider, webSocketProvider } = configureChains(godChains, [publicProvider()]);
+  const { chains, provider, webSocketProvider } = configureChains(godChains, [
+    publicProvider(),
+  ]);
   console.log('chains', chains);
 
   const client = createClient({
@@ -53,9 +72,9 @@ export const WagmiProvider = observer(({ children }) => {
         options: {
           name: 'Injected',
           //auto choose other account = false
-          shimDisconnect: false
-        }
-      })
+          shimDisconnect: false,
+        },
+      }),
 
       // new MetaMaskConnector({ chains }),
       // new CoinbaseWalletConnector({
@@ -72,7 +91,7 @@ export const WagmiProvider = observer(({ children }) => {
       // }),
     ],
     provider,
-    webSocketProvider
+    webSocketProvider,
   });
 
   return (
@@ -91,7 +110,8 @@ const Wallet = observer(() => {
   // const { data: signer } = useSigner();
   // const { data: ensAvatar } = useEnsAvatar({ address });
   // const { data: ensName } = useEnsName({ address });
-  const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect();
   const { disconnect } = useDisconnect();
   const { signMessageAsync } = useSignMessage();
 
@@ -104,26 +124,57 @@ const Wallet = observer(() => {
       store.clearToken();
     },
     async login() {
+      showNotification({
+        id: 'login',
+        title: 'Login',
+        loading: true,
+        message: 'Please confirm the login request in your wallet.',
+        color: 'yellow',
+        autoClose: false,
+      });
       try {
         const address = god.currentNetwork.account;
         const chainId = god.currentNetwork.currentChain.chainId;
         const message = await createSiweMessage(address, chainId);
         const signature = await signMessageAsync({
-          message
+          message,
         });
-        const tokenRes = await axios.post(`/api/auth/jwt`, { message, signature });
-        if (tokenRes.data) {
-          user.token.save(tokenRes.data.token);
-          user.tokenAddress.save(address);
-          eventBus.emit('wallet.onToken');
+        updateNotification({
+          id: 'login',
+          title: 'Login',
+          loading: false,
+          message: 'Login successful.',
+          color: 'green',
+          autoClose: 1000,
+        });
+        if (!user.token.value) {
+          const tokenRes = await axios.post(`/api/auth/jwt`, {
+            message,
+            signature,
+          });
+          if (tokenRes.data) {
+            user.token.save(tokenRes.data.token);
+            user.tokenAddress.save(address);
+            eventBus.emit('wallet.onToken');
+          }
         }
       } catch (error) {
+        updateNotification({
+          id: 'login',
+          title: 'Login',
+          loading: false,
+          message: 'Login failed',
+          color: 'red',
+          autoClose: 1000,
+        });
         console.error('[handleLogin]', error);
       }
     },
     onAccount() {
       const account = god.currentNetwork.account.toLowerCase();
-      const tokenAddress = user.tokenAddress.value ? user.tokenAddress.value.toLowerCase() : '';
+      const tokenAddress = user.tokenAddress.value
+        ? user.tokenAddress.value.toLowerCase()
+        : '';
       if (tokenAddress !== account) {
         store.clearToken();
         eventBus.emit('wallet.login');
@@ -134,7 +185,7 @@ const Wallet = observer(() => {
       user.token.value = undefined;
       user.tokenAddress.clear();
       user.tokenAddress.value = undefined;
-    }
+    },
   }));
 
   useEffect(() => {
@@ -143,20 +194,26 @@ const Wallet = observer(() => {
       showNotification({
         title: 'Error',
         message: error.message,
-        color: 'red'
+        color: 'red',
       });
     }
     if (connector) {
       connector.getChainId().then((chainId) => {
-        console.log('chain.switch', chainId);
+        // console.log('chain.switch', chainId);
         if (god.currentNetwork.allowChains.includes(chainId)) {
           god.setChainId(chainId);
-
           connector.getSigner().then((signer) => {
-            console.log('connected!', address);
-            god.currentNetwork.set({ account: address, signer });
+            if (
+              !god.currentNetwork.account ||
+              god.currentNetwork.account == address
+            ) {
+              god.currentNetwork.set({
+                account: address,
+                signer,
+              });
+              eventBus.emit('wallet.onAccount');
+            }
             god.currentNetwork.loadBalance();
-            eventBus.emit('wallet.onAccount');
           });
         }
       });
@@ -164,7 +221,7 @@ const Wallet = observer(() => {
     if (isConnected) {
       god.setShowConnecter(false);
     }
-  }, [isConnected, error, connector, address, chain]);
+  }, [isConnected, error, connector, chain]);
 
   useEffect(() => {
     //@ts-ignore
@@ -177,9 +234,11 @@ const Wallet = observer(() => {
       const handleAccountsChanged = (accounts: string[]) => {
         if (accounts.length > 0) {
           god.currentNetwork.set({
-            account: accounts[0]
+            account: helper.address.toUppercase(accounts[0]),
           });
+          god.currentNetwork.loadBalance();
         }
+        eventBus.emit('wallet.onAccount');
       };
       ethereum.on('networkChanged', handleChainChanged);
       ethereum.on('close', handleChainChanged);

@@ -15,7 +15,7 @@ import { _ } from './lodash';
 import { showNotification } from '@mantine/notifications';
 import { eventBus } from './event';
 import { TransactionModule, TransctionCoin } from '@/store/history';
-
+import { keccak256 } from 'js-sha3';
 export interface RouterParsed {
   pathname: string;
   hash: string;
@@ -234,6 +234,24 @@ export const helper = {
     },
     validateAddress(address: string) {
       return helper.address.validateEthAddress(address) || helper.address.validateIoAddress(address);
+    },
+    toUppercase(address: string) {
+      address = address.slice(2);
+      let hash = keccak256(address);
+      let result = '';
+      for (let i = 0; i < address.length; i++) {
+        if (/[0-9]/.test(address[i])) {
+          result += address[i];
+        } else if (/[a-f]/.test(address[i])) {
+          if (parseInt(hash[i], 16) > 7) {
+            result += address[i].toUpperCase();
+          } else {
+            result += address[i];
+          }
+        }
+      }
+      result = '0x' + result;
+      return result;
     }
   },
   state: {

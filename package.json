@@ -64,6 +64,7 @@
     "graphql-request": "^4.2.0",
     "i18next": "^21.8.4",
     "iotex-antenna": "^0.31.6",
+    "js-sha3": "^0.8.0",
     "jsonwebtoken": "^8.5.1",
     "localforage": "^1.10.0",
     "localforage-driver-memory": "^1.0.5",
